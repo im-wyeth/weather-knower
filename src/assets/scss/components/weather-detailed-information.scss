@@ -1,0 +1,151 @@
+.weather-details {
+  width: 100%;
+  height: 325px;
+  max-width: 476px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(58, 58, 106, 0.6) 0%,
+    rgba(37, 36, 76, 0.6) 100%
+  );
+
+  backdrop-filter: blur(25px);
+
+  border-top: 2px solid rgba(180, 180, 240, 0.6);
+  border-radius: 44px 44px 0 0;
+
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+
+  transform: translate(-50%, 0);
+
+  &__ellipse-1 {
+    width: 220px;
+    height: 220px;
+
+    position: fixed;
+    right: -15px;
+    bottom: 70px;
+    z-index: 999999;
+
+    background: conic-gradient(
+      from 180deg at 50% 50%,
+      rgba(97, 47, 171, 0) 50deg,
+      #612fab 129deg,
+      rgba(97, 47, 171, 0) 226deg,
+      #612fab 312deg
+    );
+
+    filter: blur(70px);
+
+    pointer-events: none;
+  }
+
+  &__ellipse-2 {
+    width: 286px;
+    height: 32px;
+
+    position: fixed;
+    top: 0;
+    left: 50%;
+    z-index: 99999999;
+
+    transform: translate(-50%, 0);
+
+    border-radius: 286px;
+
+    background: rgba(196, 39, 251, 0.5);
+
+    filter: blur(30px);
+
+    pointer-events: none;
+  }
+
+  &__ellipse-3 {
+    width: 80%;
+    height: 3px;
+
+    position: fixed;
+    top: -4px;
+    left: 50%;
+    z-index: 9999999;
+
+    background: #e0d9ff;
+
+    transform: translate(-50%, 0);
+
+    border-radius: 286px;
+
+    filter: blur(10px);
+
+    pointer-events: none;
+  }
+
+  &__main-button {
+    width: 48px;
+    height: 7px;
+
+    border-radius: 30px;
+
+    position: absolute;
+    top: 6px;
+    left: 50%;
+
+    transform: translate(-50%, 0);
+
+    background: none;
+    background-color: rgb(27, 27, 27);
+
+    border: none;
+    outline: none;
+
+    cursor: pointer;
+  }
+
+  &__movable-line {
+    width: 25%;
+    height: 3px;
+
+    background: linear-gradient(
+      270deg,
+      rgba(255, 255, 255, 0) 10%,
+      rgba(255, 255, 255, 0.6) 50%,
+      rgba(255, 255, 255, 0) 90%
+    );
+
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 9999;
+
+    transform: translate(0, 40px);
+
+    transition: transform ease-in 0.2s;
+  }
+
+  &__top-bar {
+    height: 47px;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+
+    border-bottom: 1px solid rgba(180, 180, 240, 0.6);
+  }
+
+  &__forecast-button {
+    color: #ebebf599;
+
+    text-decoration: none;
+
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: -0.5px;
+
+    margin-bottom: 6px;
+
+    cursor: pointer;
+  }
+}

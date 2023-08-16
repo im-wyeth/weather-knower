@@ -1,4 +1,5 @@
 @import "./vars.scss";
+@import "./fonts/sf-pro-display.scss";
 
 * {
   margin: 0;
@@ -14,9 +15,9 @@ body {
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
@@ -25,7 +26,12 @@ body {
 }
 
 .wrapper {
-  max-width: 576px;
+  max-width: 476px;
 
   margin: 0 auto;
+}
+
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
 }
