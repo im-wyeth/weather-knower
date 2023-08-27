@@ -1,6 +1,53 @@
 .main {
+  background: url("../../images/night-mountain.png") top/cover;
+
+  overflow: hidden;
+
+  &_fullscreen {
+    background: none;
+
+    .main__degree-limits {
+      display: none;
+    }
+
+    .main__fullscreen-wrapper {
+      display: flex;
+      justify-content: center;
+
+      transform: translate3d(0, -12px, 0);
+
+      transition: transform ease-out 0.6s;
+    }
+
+    .main__weather-degrees {
+      color: #ebebf599;
+
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 24px;
+      letter-spacing: 0.38px;
+
+      &::after {
+        content: "|";
+
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 24px;
+        letter-spacing: 0.38px;
+
+        margin-left: 2px;
+      }
+    }
+
+    .main__weather-state {
+      margin-left: 4px;
+    }
+  }
+
   &__important-info {
-    padding-top: 70px;
+    margin-top: 70px;
 
     letter-spacing: 0.37px;
     text-align: center;
@@ -10,6 +57,10 @@
     font-size: 34px;
     font-weight: 400;
     line-height: 41px;
+  }
+
+  &__fullscreen-wrapper {
+    transform: translate3d(0, 0, 0);
   }
 
   &__weather-degrees {

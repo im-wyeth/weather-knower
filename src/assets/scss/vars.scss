@@ -1,4 +1,15 @@
-$main-background-color-dark: #1f1d47;
-$main-background-color-light: #362a84;
+$bottom-navigation-z-index: 1050;
 
-$main-text-color-dark: #fff;
+$weather-details-z-index: 1000;
+$weather-details-1-ellipse-z-index: 1010;
+$weather-details-2-ellipse-z-index: $weather-details-1-ellipse-z-index;
+$weather-details-3-ellipse-z-index: $weather-details-1-ellipse-z-index;
+$weather-details-forecast-button-z-index: 1060;
+$weather-details-movable-line-z-index: 1060;
+
+$forecast-item-z-index: 1020;
+
+$weather-details-default-height: 100%;
+
+$bottom-navigation-height: 88px;
+$bottom-navigation-center-height: 100px;

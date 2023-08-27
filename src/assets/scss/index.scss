@@ -10,7 +10,7 @@
 
 html,
 body {
-  min-height: 100%;
+  height: 100%;
 }
 
 body {
@@ -21,8 +21,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  color: $main-text-color-dark;
-  background-color: $main-background-color-dark;
+  color: #fff;
+  background-color: #1f1d47;
 }
 
 .wrapper {
