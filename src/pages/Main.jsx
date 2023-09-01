@@ -3,7 +3,7 @@ import "../assets/scss/pages/main.scss";
 import MainBottomNavigation from "../components/MainBottomNavigation";
 import MainWeatherDetails from "../components/MainWeatherDetails";
 
-export default function Main() {
+export default function Main(props) {
   const [weatherDetailsIsFullScreen, setWeatherDetailsIsFullScreen] =
     useState(false);
 
@@ -36,6 +36,7 @@ export default function Main() {
         isFullScreen={weatherDetailsIsFullScreen}
         setFullScreen={setWeatherDetailsIsFullScreen}
         mainBottomNavigationRef={mainBottomNavigationRef}
+        animationIsEnd={props.animationIsEnd}
       />
 
       <MainBottomNavigation

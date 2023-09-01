@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import "../assets/scss/components/bottom-navigation.scss";
 import MainBottomNavigationCentralShape from "./MainBottomNavigationCentralShape";
 
@@ -44,7 +46,7 @@ export default function MainBottomNavigation(props) {
           </button>
         </div>
       </div>
-      <button className="bottom-navigation__button">
+      <Link to="/search" className="bottom-navigation__button">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 44 44"
@@ -57,7 +59,7 @@ export default function MainBottomNavigation(props) {
             fill="white"
           />
         </svg>
-      </button>
+      </Link>
     </nav>
   );
 }

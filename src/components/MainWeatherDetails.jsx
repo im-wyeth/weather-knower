@@ -8,7 +8,7 @@ const HEIGHT_AND_TOP_MARGIN = 70 + 77;
 
 const TOP_MARGIN = 240;
 
-export default function WeatherDetails(props) {
+export default function MainWeatherDetails(props) {
   const thisRef = useRef(null);
   const forecastFirstButtonRef = useRef(null);
   const forecastSecondButtonRef = useRef(null);
@@ -20,16 +20,19 @@ export default function WeatherDetails(props) {
   const [touchStartPosition, setTouchStartPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    window.addEventListener("resize", onWindowResize);
-
-    moveLineToTarget(movableLineRef.current, forecastFirstButtonRef.current);
-
+    // ToDo: Firstly, set transition none, and then add the transition
     const mainBottomNavigationRect =
       props.mainBottomNavigationRef.current.getBoundingClientRect();
 
     thisRef.current.style.transform = `translate3d(-50%, ${
       mainBottomNavigationRect.top - TOP_MARGIN
     }px, 0)`;
+  }, [props.animationIsEnd]);
+
+  useEffect(() => {
+    window.addEventListener("resize", onWindowResize);
+
+    moveLineToTarget(movableLineRef.current, forecastFirstButtonRef.current);
 
     return () => {
       window.removeEventListener("resize", onWindowResize);
@@ -95,6 +98,7 @@ export default function WeatherDetails(props) {
           onTouchMove={onTouchMove}
           className="weather-details__main-button"
         ></button>
+        {/* ToDo: Use button instead of a:href */}
         <a
           ref={forecastFirstButtonRef}
           onClick={(event) => onForecastButtonClick(event, "hourly")}

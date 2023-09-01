@@ -17,7 +17,7 @@
     rgba(58, 58, 106, 0.26) 0%,
     rgba(37, 36, 76, 0.26) 100%
   );
-  backdrop-filter: blur(25px);
+  backdrop-filter: blur(14px);
 
   border-top: 0.5px solid #7582f480;
 
@@ -33,10 +33,6 @@
     transform: translate3d(-50%, $bottom-navigation-center-height, 0);
   }
 
-  button {
-    cursor: pointer;
-  }
-
   &__button {
     width: 44px;
     height: 44px;
@@ -48,6 +44,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    cursor: pointer;
   }
 
   &__center {

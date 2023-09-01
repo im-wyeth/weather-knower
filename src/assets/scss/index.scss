@@ -14,7 +14,6 @@ body {
 }
 
 body {
-  margin: 0;
   font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI",
     "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
     "Helvetica Neue", sans-serif;
@@ -23,6 +22,8 @@ body {
 
   color: #fff;
   background-color: #1f1d47;
+
+  overflow: hidden;
 }
 
 .wrapper {
@@ -34,4 +35,40 @@ body {
 a,
 button {
   -webkit-tap-highlight-color: transparent;
+}
+
+.route-transition-wrapper {
+  will-change: opacity, left;
+}
+
+.fadeIn {
+  animation: 0.5s fadeIn;
+
+  position: relative;
+}
+
+.fadeOut {
+  animation: 0.1s fadeOut;
+
+  position: relative;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    left: 100%;
+  }
+  to {
+    opacity: 1;
+    left: 0;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
