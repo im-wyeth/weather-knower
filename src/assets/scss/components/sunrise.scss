@@ -1,4 +1,10 @@
 .sunrise {
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
   &__time {
     font-size: 32px;
     font-weight: 400;

@@ -1,0 +1,25 @@
+.rainfall {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  height: 100%;
+
+  &__last-hour {
+    font-size: 23px;
+  }
+
+  &__last-hour-text {
+    font-size: 19px;
+  }
+
+  &__expect {
+    display: flex;
+    align-items: flex-end;
+
+    height: 100%;
+
+    font-size: 14px;
+    font-weight: 200;
+  }
+}

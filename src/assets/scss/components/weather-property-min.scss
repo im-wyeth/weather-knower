@@ -1,4 +1,4 @@
-.sunrise {
+.weather-property-min {
   width: 164px;
   height: 164px;
 
@@ -10,18 +10,23 @@
   border-radius: 22px;
   border: 1px solid rgba(255, 255, 255, 0.5);
 
+  &:nth-child(even) {
+    margin-left: 16px;
+  }
+
   &__top {
     display: flex;
     justify-content: flex-start;
-    align-items: center;
   }
 
   &__icon {
-    width: 22px;
+    width: 18px;
 
-    path {
-      stroke: #9493ab;
-      fill: #9493ab;
+    svg {
+      path {
+        stroke: #9493ab;
+        fill: #9493ab;
+      }
     }
   }
 

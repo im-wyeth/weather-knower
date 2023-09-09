@@ -1,4 +1,11 @@
 .wind {
+  width: 100%;
+
+  margin-top: 6px;
+
+  display: flex;
+  justify-content: center;
+
   &__compass {
     width: 100px;
     height: 100px;
