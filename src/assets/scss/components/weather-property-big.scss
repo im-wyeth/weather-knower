@@ -1,0 +1,41 @@
+.weather-property-big {
+  width: 100%;
+  height: 158px;
+
+  margin-top: 19px;
+
+  background-color: #2b2157;
+
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+
+  padding: 20px;
+
+  &__top {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  &__icon {
+    width: 18px;
+
+    svg {
+      path {
+        fill: #9493ab;
+      }
+    }
+  }
+
+  &__name {
+    color: #9493ab;
+
+    text-transform: uppercase;
+
+    margin-left: 4px;
+  }
+
+  &__bottom {
+    margin-top: 20px;
+  }
+}

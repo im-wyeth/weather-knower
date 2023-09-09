@@ -1,8 +1,20 @@
 import { Link } from "react-router-dom";
 
 import "../assets/scss/pages/search.scss";
+import SearchCityWeather from "../components/SearchCityWeather";
+import { useEffect, useRef } from "react";
 
 export default function Search() {
+  const citiesRef = useRef(null);
+
+  useEffect(() => {
+    const citiesRect = citiesRef.current.getBoundingClientRect();
+
+    const height = document.documentElement.clientHeight - citiesRect.top;
+
+    citiesRef.current.style.height = height + "px";
+  }, []);
+
   return (
     <main className="search">
       <section className="search__top">
@@ -36,7 +48,16 @@ export default function Search() {
           <input type="text" placeholder="Search for a city or airport" />
         </div>
       </section>
-      <section className="search__cities"></section>
+      <section ref={citiesRef} className="search__cities">
+        <SearchCityWeather />
+        <SearchCityWeather />
+        <SearchCityWeather />
+        <SearchCityWeather />
+        <SearchCityWeather />
+        <SearchCityWeather />
+        <SearchCityWeather />
+        <SearchCityWeather />
+      </section>
 
       <div className="search__ellipse-1"></div>
       <div className="search__ellipse-2"></div>

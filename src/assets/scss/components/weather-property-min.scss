@@ -1,0 +1,46 @@
+.sunrise {
+  width: 164px;
+  height: 164px;
+
+  background-color: #2b2157;
+
+  padding: 20px;
+  margin-top: 10px;
+
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+
+  &__top {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  &__icon {
+    width: 22px;
+
+    path {
+      stroke: #9493ab;
+      fill: #9493ab;
+    }
+  }
+
+  &__name {
+    color: #9493ab;
+
+    text-transform: uppercase;
+
+    margin-left: 4px;
+  }
+
+  &__bottom {
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    padding-bottom: 20px;
+  }
+}

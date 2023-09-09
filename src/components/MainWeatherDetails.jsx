@@ -3,6 +3,9 @@ import { useEffect, useRef, useState } from "react";
 import "../assets/scss/components/weather-detailes.scss";
 import moveLineToTarget from "../utils/moveLineToTarget";
 import MainWeatherDetailsForecastItem from "./MainWeatherDetailsForecastItem";
+import UVIndex from "./UVIndex";
+import Sunrise from "./Sunrise";
+import Wind from "./Wind";
 
 const HEIGHT_AND_TOP_MARGIN = 70 + 77;
 
@@ -145,17 +148,11 @@ export default function MainWeatherDetails(props) {
         </div>
 
         <div className="weather-details__container">
-          <div className="weather-details__air-quality"></div>
+          <UVIndex />
 
           <div className="weather-details__container-inner">
-            <div className="weather-details__min-block weather-details__uv-index"></div>
-            <div className="weather-details__min-block weather-details__sunrise"></div>
-            <div className="weather-details__min-block weather-details__wind"></div>
-            <div className="weather-details__min-block weather-details__rain-fall"></div>
-            <div className="weather-details__min-block weather-details__feels-like"></div>
-            <div className="weather-details__min-block weather-details__humidity"></div>
-            <div className="weather-details__min-block weather-details__visibility"></div>
-            <div className="weather-details__min-block weather-details__pressure"></div>
+            <Sunrise />
+            <Wind />
           </div>
         </div>
       </div>

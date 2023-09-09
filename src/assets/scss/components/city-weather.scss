@@ -1,0 +1,90 @@
+.city-weather {
+  width: 100%;
+  max-width: 344px;
+
+  margin: 14px auto;
+
+  position: relative;
+
+  &__background-shape {
+    height: 100%;
+  }
+
+  &__wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1050;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    padding: 20px;
+    padding-top: 0;
+    padding-right: 24px;
+  }
+
+  &__left-side {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+  }
+
+  &__degrees {
+    font-size: 64px;
+    font-weight: 400;
+    line-height: 41px;
+    letter-spacing: 0.37px;
+  }
+
+  &__degree-limits {
+    margin-top: 24px;
+
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: -0.07px;
+    text-align: left;
+
+    color: #ebebf599;
+  }
+
+  &__place {
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: -0.4px;
+  }
+
+  &__right-side {
+    flex: 1;
+
+    position: relative;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+
+  &__state {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: -0.07px;
+  }
+
+  &__image {
+    width: 134px;
+    height: 134px;
+
+    position: absolute;
+    top: 0;
+    right: -10px;
+  }
+}
