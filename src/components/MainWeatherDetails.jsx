@@ -93,6 +93,12 @@ export default function MainWeatherDetails(props) {
     }
   }
 
+  function onClick() {
+    props.setFullScreen(false);
+
+    thisRef.current.style.transform = `translate3d(-50%, 508px, 0)`;
+  }
+
   return (
     <div
       ref={thisRef}
@@ -105,25 +111,23 @@ export default function MainWeatherDetails(props) {
         <button
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
+          onClick={onClick}
           className="weather-details__main-button"
         ></button>
-        {/* ToDo: Use button instead of a:href */}
-        <a
+        <button
           ref={forecastFirstButtonRef}
           onClick={(event) => onForecastButtonClick(event, "hourly")}
-          href="#"
           className="weather-details__forecast-button"
         >
           Hourly forecast
-        </a>
-        <a
+        </button>
+        <button
           ref={forecastSecondButtonRef}
           onClick={(event) => onForecastButtonClick(event, "weekly")}
-          href="#"
           className="weather-details__forecast-button"
         >
           Weekly forecast
-        </a>
+        </button>
         <div
           ref={movableLineRef}
           className="weather-details__movable-line"

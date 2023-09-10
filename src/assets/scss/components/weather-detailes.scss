@@ -73,6 +73,11 @@
 
     position: relative;
     z-index: $weather-details-forecast-button-z-index;
+
+    background: none;
+
+    border: none;
+    outline: none;
   }
 
   &__movable-line {
@@ -101,6 +106,8 @@
 
     position: relative;
     z-index: 1050;
+
+    padding-bottom: 18px;
   }
 
   &__forecast-items {
