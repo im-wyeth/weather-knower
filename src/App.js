@@ -4,6 +4,9 @@ import Main from "./pages/Main";
 import Search from "./pages/Search";
 import { useEffect, useState } from "react";
 import RouteTransitionWrapper from "./components/RouteTransitionWrapper";
+import { useDispatch } from "react-redux";
+import * as locationSlice from "./features/location/locationSlice";
+import * as currentWeatherDataSlice from "./features/currentWeatherData/currentWeatherDataSlice";
 
 export default function App() {
   const location = useLocation();
@@ -16,6 +19,19 @@ export default function App() {
   useEffect(() => {
     if (location !== displayLocation) setTransitionStage("fadeOut");
   }, [location, displayLocation]);
+
+  const [apiAnswer, setApiAnswer] = useState(
+    JSON.parse(localStorage.getItem("res"))
+  );
+
+  console.log(apiAnswer);
+
+  const dispatch = useDispatch();
+  dispatch(locationSlice.setName(apiAnswer.location.name));
+  dispatch(currentWeatherDataSlice.setTemperatureC(apiAnswer.current.temp_c));
+  dispatch(
+    currentWeatherDataSlice.setCondition(apiAnswer.current.condition.text)
+  );
 
   return (
     <div className="wrapper">

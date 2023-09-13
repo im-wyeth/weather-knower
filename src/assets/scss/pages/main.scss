@@ -6,7 +6,7 @@
   &_fullscreen {
     background: none;
 
-    .main__degree-limits {
+    .main__temperature-limits {
       display: none;
     }
 
@@ -19,7 +19,7 @@
       transition: transform ease-out 0.6s;
     }
 
-    .main__weather-degrees {
+    .main__weather-temperature {
       color: #ebebf599;
 
       font-size: 20px;
@@ -63,7 +63,7 @@
     transform: translate3d(0, 0, 0);
   }
 
-  &__weather-degrees {
+  &__weather-temperature {
     font-size: 96px;
     font-weight: 200;
     line-height: 70px;
@@ -81,7 +81,7 @@
     line-height: 24px;
   }
 
-  &__degree-limits {
+  &__temperature-limits {
     font-size: 20px;
     font-weight: 600;
     line-height: 24px;

@@ -29,8 +29,8 @@ export default function SearchCityWeather() {
       <div className="city-weather__wrapper">
         <div className="city-weather__left-side">
           {/* ToDo: Заменить теги по семантике (не только здесь, везде) */}
-          <div className="city-weather__degrees">19°</div>
-          <div className="city-weather__degree-limits">H:24° L:18°</div>
+          <div className="city-weather__temperature">19°</div>
+          <div className="city-weather__temperature-limits">H:24° L:18°</div>
           <div className="city-weather__place">Montreal, Canada</div>
         </div>
         <div className="city-weather__right-side">

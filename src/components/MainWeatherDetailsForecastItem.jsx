@@ -13,7 +13,7 @@ export default function MainWeatherDetailsForecastItem() {
       </div>
       <div className="forecast-item__air-humidity">30%</div>
 
-      <div className="forecast-item__degrees">19°</div>
+      <div className="forecast-item__temperature">19°</div>
     </div>
   );
 }
