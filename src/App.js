@@ -4,9 +4,13 @@ import Main from "./pages/Main";
 import Search from "./pages/Search";
 import { useEffect, useState } from "react";
 import RouteTransitionWrapper from "./components/RouteTransitionWrapper";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as locationSlice from "./features/location/locationSlice";
 import * as currentWeatherDataSlice from "./features/currentWeatherData/currentWeatherDataSlice";
+import * as forecastSlice from "./features/forecast/forecastSlice";
+import * as imagesOfWeatherConditionsSlice from "./features/imagesOfWeatherConditions/imagesOfWeatherConditionsSlice";
+
+import imagesOfWeatherConditionsJSON from "./assets/json/imagesOfWeatherConditions.json";
 
 export default function App() {
   const location = useLocation();
@@ -20,17 +24,19 @@ export default function App() {
     if (location !== displayLocation) setTransitionStage("fadeOut");
   }, [location, displayLocation]);
 
-  const [apiAnswer, setApiAnswer] = useState(
-    JSON.parse(localStorage.getItem("res"))
-  );
-
-  console.log(apiAnswer);
+  const [apiAnswer] = useState(JSON.parse(localStorage.getItem("res")));
 
   const dispatch = useDispatch();
   dispatch(locationSlice.setName(apiAnswer.location.name));
   dispatch(currentWeatherDataSlice.setTemperatureC(apiAnswer.current.temp_c));
   dispatch(
     currentWeatherDataSlice.setCondition(apiAnswer.current.condition.text)
+  );
+  dispatch(
+    forecastSlice.setDaysForecast(Array.from(apiAnswer.forecast.forecastday))
+  );
+  dispatch(
+    imagesOfWeatherConditionsSlice.setCodes(imagesOfWeatherConditionsJSON)
   );
 
   return (

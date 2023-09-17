@@ -19,6 +19,9 @@ export default function Main(props) {
   const condition = useSelector(
     (state) => state.currentWeatherData.condition.payload
   );
+  const currentDayWeatherData = useSelector(
+    (state) => state.forecast.days.payload[0]
+  );
 
   return (
     <main
@@ -32,7 +35,13 @@ export default function Main(props) {
           <div className="main__weather-temperature">{temperatureC + "°"}</div>
           <div className="main__weather-state">{condition}</div>
         </div>
-        <div className="main__temperature-limits">H:24° L:18°</div>
+        <div className="main__temperature-limits">
+          {"H:" +
+            Math.floor(currentDayWeatherData.day.maxtemp_c) +
+            "° L:" +
+            Math.floor(currentDayWeatherData.day.mintemp_c) +
+            "°"}
+        </div>
       </section>
 
       <section className="main__image">

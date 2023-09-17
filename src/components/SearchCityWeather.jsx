@@ -36,7 +36,7 @@ export default function SearchCityWeather() {
         <div className="city-weather__right-side">
           <img
             className="city-weather__image"
-            src={require("../assets/images/weather/sun rain.png")}
+            src={require("../assets/images/weather/day/rain.svg").default}
             alt="rain"
           />
           <div className="city-weather__state">Mid Rain</div>

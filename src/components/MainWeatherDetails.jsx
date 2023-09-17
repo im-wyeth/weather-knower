@@ -12,6 +12,7 @@ import MainWeatherDetailsRainfall from "./MainWeatherDetailsRainfall";
 import MainWeatherDetailsFeelsLike from "./MainWeatherDetailsFeelsLike";
 import MainWeatherDetailsHumidity from "./MainWeatherDetailsHumidity";
 import MainWeatherDetailsPressure from "./MainWeatherDetailsPressure";
+import { useSelector } from "react-redux";
 
 const HEIGHT_AND_TOP_MARGIN = 70 + 77;
 
@@ -27,6 +28,10 @@ export default function MainWeatherDetails(props) {
 
   const [currentForecastType, setCurrentForecastType] = useState("hourly");
   const [touchStartPosition, setTouchStartPosition] = useState({ x: 0, y: 0 });
+
+  const currentDayWeatherData = useSelector(
+    (state) => state.forecast.days.payload[0]
+  );
 
   useEffect(() => {
     // ToDo: Firstly, set transition none, and then add the transition
@@ -140,21 +145,15 @@ export default function MainWeatherDetails(props) {
           onWheel={onForecastItemsWheel}
           className="weather-details__forecast-items"
         >
-          <MainWeatherDetailsForecastItem />
-          <MainWeatherDetailsForecastItem />
-          <MainWeatherDetailsForecastItem />
-          <MainWeatherDetailsForecastItem />
-          <MainWeatherDetailsForecastItem />
-          <MainWeatherDetailsForecastItem />
-          <MainWeatherDetailsForecastItem />
-          <MainWeatherDetailsForecastItem />
-          <MainWeatherDetailsForecastItem />
-          <MainWeatherDetailsForecastItem />
-          <MainWeatherDetailsForecastItem />
-          <MainWeatherDetailsForecastItem />
-          <MainWeatherDetailsForecastItem />
-          <MainWeatherDetailsForecastItem />
-          <MainWeatherDetailsForecastItem />
+          {currentDayWeatherData.hour.map((hour, idx) => (
+            <MainWeatherDetailsForecastItem
+              key={idx}
+              time={hour.time.split(" ")[1]}
+              conditionCode={hour.condition.code}
+              isDay={hour.is_day}
+              temperature={Math.floor(hour.temp_c)}
+            />
+          ))}
         </div>
 
         <div className="weather-details__container">
