@@ -48,6 +48,15 @@
     letter-spacing: -0.5px;
   }
 
+  &__day-of-the-week {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: -0.5px;
+
+    text-transform: uppercase;
+  }
+
   &__weather-image {
     width: 36px;
     height: 36px;

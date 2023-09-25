@@ -59,15 +59,17 @@ export default function MainWeatherDetailsForecastItem(props) {
         (timeForDisplay === "Now" ? " forecast-item_current" : "")
       }
     >
-      {/* <div className="forecast-item__top"> */}
-      <div className="forecast-item__time">{timeForDisplay}</div>
+      {props.forecastType === "hourly" ? (
+        <div className="forecast-item__time">{timeForDisplay}</div>
+      ) : (
+        <div className="forecast-item__day-of-the-week">{timeForDisplay}</div>
+      )}
 
       <img
         className="forecast-item__weather-image"
         src={newSrcOfConditionImage}
         alt="condition"
       />
-      {/* </div> */}
 
       <div className="forecast-item__temperature">
         {props.temperature + "°"}

@@ -29,8 +29,12 @@ export default function MainWeatherDetails(props) {
   const [currentForecastType, setCurrentForecastType] = useState("hourly");
   const [touchStartPosition, setTouchStartPosition] = useState({ x: 0, y: 0 });
 
+  const currentDate = new Date(Date.now());
+
   const daysWeatherData = useSelector((state) => state.forecast.days.payload);
   const currentDayWeatherData = daysWeatherData[0];
+  const currentHourWeatherData =
+    currentDayWeatherData.hour[currentDate.getHours()];
 
   useEffect(() => {
     // ToDo: Firstly, set transition none, and then add the transition
@@ -179,7 +183,7 @@ export default function MainWeatherDetails(props) {
             }
             name="Uv index"
           >
-            <MainWeatherDetailsUVIndex />
+            <MainWeatherDetailsUVIndex uvIndex={currentHourWeatherData.uv} />
           </MainWeatherDetailsPropertyBig>
 
           <div className="weather-details__container-inner">

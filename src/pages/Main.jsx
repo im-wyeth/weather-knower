@@ -11,14 +11,18 @@ export default function Main(props) {
   const mainBottomNavigationRef = useRef(null);
 
   const locationName = useSelector((state) => state.location.name.payload);
+  // We need current hour temperature
   const temperatureC = Math.floor(
     Number(
       useSelector((state) => state.currentWeatherData.temperatureC.payload)
     )
   );
+  //
+  // Its the same here
   const condition = useSelector(
     (state) => state.currentWeatherData.condition.payload
   );
+  //
   const currentDayWeatherData = useSelector(
     (state) => state.forecast.days.payload[0]
   );

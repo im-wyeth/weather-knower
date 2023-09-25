@@ -1,9 +1,13 @@
 import "../assets/scss/components/uv-index.scss";
 
-export default function MainWeatherDetailsUVIndex() {
+import getUVLevelWord from "../utils/getUVLevelWord";
+
+export default function MainWeatherDetailsUVIndex(props) {
   return (
     <div className="uv-index">
-      <span className="uv-index__quantity">9 Moderate</span>
+      <span className="uv-index__quantity">
+        {props.uvIndex} {getUVLevelWord(props.uvIndex, "en")}
+      </span>
       <div className="uv-index__bar">
         <div className="uv-index__bar-point"></div>
       </div>
