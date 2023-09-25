@@ -3,13 +3,17 @@ import "../assets/scss/components/forecast-item.scss";
 import { useSelector } from "react-redux";
 
 export default function MainWeatherDetailsForecastItem(props) {
-  const [time, setTime] = useState(props.time);
+  const dateFromMilliseconds = new Date(props.timeInMilliseconds);
+  const currentDate = new Date(Date.now());
 
-  let d = new Date().toLocaleTimeString().split(":")[0];
+  const splittedTimeInString = dateFromMilliseconds
+    .toLocaleTimeString()
+    .split(":");
 
-  if (time.split(":")[0] === d) {
-    setTime("Now");
-  }
+  const [timeForDisplay, setTimeForDisplay] = useState(
+    splittedTimeInString[0] + ":" + splittedTimeInString[1]
+  );
+  let [newSrcOfConditionImage, setNewSrcOfConditionImage] = useState("");
 
   const conditionIcons = useSelector(
     (state) => state.imagesOfWeatherConditions.codes.payload
@@ -18,7 +22,23 @@ export default function MainWeatherDetailsForecastItem(props) {
     ? conditionIcons[props.conditionCode].day
     : conditionIcons[props.conditionCode].night;
 
-  let [newSrcOfConditionImage, setNewSrcOfConditionImage] = useState("");
+  useEffect(() => {
+    if (props.forecastType === "weekly") {
+      const dateName = dateFromMilliseconds.toLocaleDateString("en-US", {
+        weekday: "short",
+      });
+
+      setTimeForDisplay(dateName);
+    } else if (
+      currentDate.toLocaleTimeString().split(":")[0] === splittedTimeInString[0]
+    ) {
+      setTimeForDisplay("Now");
+    } else {
+      setTimeForDisplay(
+        splittedTimeInString[0] + ":" + splittedTimeInString[1]
+      );
+    }
+  }, [props.forecastType]);
 
   useEffect(() => {
     async function fetchSvg() {
@@ -35,11 +55,12 @@ export default function MainWeatherDetailsForecastItem(props) {
   return (
     <div
       className={
-        "forecast-item" + (time === "Now" ? " forecast-item_current" : "")
+        "forecast-item" +
+        (timeForDisplay === "Now" ? " forecast-item_current" : "")
       }
     >
       {/* <div className="forecast-item__top"> */}
-      <div className="forecast-item__time">{time}</div>
+      <div className="forecast-item__time">{timeForDisplay}</div>
 
       <img
         className="forecast-item__weather-image"

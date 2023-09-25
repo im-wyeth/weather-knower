@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-import "../assets/scss/components/weather-detailes.scss";
+import "../assets/scss/components/weather-details.scss";
 import moveLineToTarget from "../utils/moveLineToTarget";
 import MainWeatherDetailsForecastItem from "./MainWeatherDetailsForecastItem";
 import MainWeatherDetailsPropertyBig from "./MainWeatherDetailsPropertyBig";
@@ -29,9 +29,8 @@ export default function MainWeatherDetails(props) {
   const [currentForecastType, setCurrentForecastType] = useState("hourly");
   const [touchStartPosition, setTouchStartPosition] = useState({ x: 0, y: 0 });
 
-  const currentDayWeatherData = useSelector(
-    (state) => state.forecast.days.payload[0]
-  );
+  const daysWeatherData = useSelector((state) => state.forecast.days.payload);
+  const currentDayWeatherData = daysWeatherData[0];
 
   useEffect(() => {
     // ToDo: Firstly, set transition none, and then add the transition
@@ -47,6 +46,10 @@ export default function MainWeatherDetails(props) {
     window.addEventListener("resize", onWindowResize);
 
     moveLineToTarget(movableLineRef.current, forecastFirstButtonRef.current);
+
+    setTimeout(() => {
+      thisRef.current.classList.add("weather-details_transition");
+    }, 1000);
 
     return () => {
       window.removeEventListener("resize", onWindowResize);
@@ -105,13 +108,7 @@ export default function MainWeatherDetails(props) {
   }
 
   return (
-    <div
-      ref={thisRef}
-      className={
-        "weather-details" +
-        (props.isFullScreen ? " weather-details_fullscreen" : "")
-      }
-    >
+    <div ref={thisRef} className="weather-details">
       <div className="weather-details__top-bar">
         <button
           onTouchStart={onTouchStart}
@@ -145,15 +142,27 @@ export default function MainWeatherDetails(props) {
           onWheel={onForecastItemsWheel}
           className="weather-details__forecast-items"
         >
-          {currentDayWeatherData.hour.map((hour, idx) => (
-            <MainWeatherDetailsForecastItem
-              key={idx}
-              time={hour.time.split(" ")[1]}
-              conditionCode={hour.condition.code}
-              isDay={hour.is_day}
-              temperature={Math.floor(hour.temp_c)}
-            />
-          ))}
+          {currentForecastType === "hourly"
+            ? currentDayWeatherData.hour.map((hour, idx) => (
+                <MainWeatherDetailsForecastItem
+                  key={idx}
+                  forecastType={currentForecastType}
+                  timeInMilliseconds={hour.time_epoch * 1000}
+                  conditionCode={hour.condition.code}
+                  isDay={hour.is_day}
+                  temperature={Math.floor(hour.temp_c)}
+                />
+              ))
+            : daysWeatherData.map((day, idx) => (
+                <MainWeatherDetailsForecastItem
+                  key={idx}
+                  forecastType={currentForecastType}
+                  timeInMilliseconds={day.date_epoch * 1000}
+                  conditionCode={day.day.condition.code}
+                  isDay={true}
+                  temperature={Math.floor(day.day.avgtemp_c)}
+                />
+              ))}
         </div>
 
         <div className="weather-details__container">

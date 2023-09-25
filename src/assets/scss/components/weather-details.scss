@@ -20,11 +20,13 @@
   top: 0;
   z-index: $weather-details-z-index;
 
-  transition: transform cubic-bezier(0, 0.02, 0.28, 1.19) 0.6s;
-
   transform: translate3d(-50%, 0, 0);
 
   will-change: transform;
+
+  &_transition {
+    transition: transform cubic-bezier(0, 0.02, 0.28, 1.19) 0.6s;
+  }
 
   &__top-bar {
     height: 47px;
