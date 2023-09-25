@@ -28,6 +28,7 @@ export default function MainWeatherDetails(props) {
 
   const [currentForecastType, setCurrentForecastType] = useState("hourly");
   const [touchStartPosition, setTouchStartPosition] = useState({ x: 0, y: 0 });
+  const [precipitationInNext24Hour, setPrecipitationInNext24Hour] = useState(0);
 
   const currentDate = new Date(Date.now());
 
@@ -54,6 +55,12 @@ export default function MainWeatherDetails(props) {
     setTimeout(() => {
       thisRef.current.classList.add("weather-details_transition");
     }, 1000);
+
+    for (let i = currentDate.getHours(); i < 23 - currentDate.getHours(); ++i) {
+      setPrecipitationInNext24Hour(
+        precipitationInNext24Hour + currentDayWeatherData.hour[i].precip_mm
+      );
+    }
 
     return () => {
       window.removeEventListener("resize", onWindowResize);
@@ -200,7 +207,10 @@ export default function MainWeatherDetails(props) {
               }
               name="Sunrise"
             >
-              <MainWeatherDetailsSunrise />
+              <MainWeatherDetailsSunrise
+                sunrise={currentDayWeatherData.astro.sunrise}
+                sunset={currentDayWeatherData.astro.sunset}
+              />
             </MainWeatherDetailsPropertyMin>
             <MainWeatherDetailsPropertyMin
               icon={
@@ -214,7 +224,10 @@ export default function MainWeatherDetails(props) {
               }
               name="Wind"
             >
-              <MainWeatherDetailsWind />
+              <MainWeatherDetailsWind
+                windDirection={currentDayWeatherData.hour[0].wind_dir}
+                windSpeed={currentDayWeatherData.hour[0].wind_kph}
+              />
             </MainWeatherDetailsPropertyMin>
             <MainWeatherDetailsPropertyMin
               icon={
@@ -224,7 +237,12 @@ export default function MainWeatherDetails(props) {
               }
               name="Rainfall"
             >
-              <MainWeatherDetailsRainfall />
+              <MainWeatherDetailsRainfall
+                precipitationInLastHour={
+                  currentDayWeatherData.hour[0].precip_mm
+                }
+                precipitationInNext24Hour={precipitationInNext24Hour}
+              />
             </MainWeatherDetailsPropertyMin>
             <MainWeatherDetailsPropertyMin
               icon={
@@ -239,7 +257,9 @@ export default function MainWeatherDetails(props) {
               }
               name="Feels Like"
             >
-              <MainWeatherDetailsFeelsLike />
+              <MainWeatherDetailsFeelsLike
+                temperature={Math.floor(currentHourWeatherData.feelslike_c)}
+              />
             </MainWeatherDetailsPropertyMin>
             <MainWeatherDetailsPropertyMin
               icon={
@@ -256,7 +276,9 @@ export default function MainWeatherDetails(props) {
               }
               name="Humidity"
             >
-              <MainWeatherDetailsHumidity />
+              <MainWeatherDetailsHumidity
+                percent={currentHourWeatherData.humidity}
+              />
             </MainWeatherDetailsPropertyMin>
             <MainWeatherDetailsPropertyMin
               icon={
@@ -276,7 +298,9 @@ export default function MainWeatherDetails(props) {
               }
               name="Pressure"
             >
-              <MainWeatherDetailsPressure />
+              <MainWeatherDetailsPressure
+                pressure={currentHourWeatherData.pressure_mb}
+              />
             </MainWeatherDetailsPropertyMin>
           </div>
         </div>

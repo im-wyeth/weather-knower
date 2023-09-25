@@ -1,10 +1,10 @@
 import "../assets/scss/components/sunrise.scss";
 
-export default function MainWeatherDetailsSunrise() {
+export default function MainWeatherDetailsSunrise(props) {
   return (
     <div className="sunrise">
-      <h2 className="sunrise__time">5:28 AM</h2>
-      <span className="sunrise__sunset-time">Sunset 7:25PM</span>
+      <h2 className="sunrise__time">{props.sunrise}</h2>
+      <span className="sunrise__sunset-time">Sunset {props.sunset}</span>
     </div>
   );
 }

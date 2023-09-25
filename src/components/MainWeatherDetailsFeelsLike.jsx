@@ -1,9 +1,9 @@
 import "../assets/scss/components/feels-like.scss";
 
-export default function MainWeatherDetailsFeelsLike() {
+export default function MainWeatherDetailsFeelsLike(props) {
   return (
     <div className="feels-like">
-      <div className="feels-like__temperature">19°</div>
+      <div className="feels-like__temperature">{props.temperature}°</div>
     </div>
   );
 }

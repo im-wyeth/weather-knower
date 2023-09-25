@@ -37,6 +37,10 @@ export default function MainWeatherDetailsForecastItem(props) {
       setTimeForDisplay(
         splittedTimeInString[0] + ":" + splittedTimeInString[1]
       );
+
+      if (timeForDisplay[0] === "0") {
+        setTimeForDisplay(timeForDisplay.slice(1, timeForDisplay.length));
+      }
     }
   }, [props.forecastType]);
 

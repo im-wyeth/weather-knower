@@ -1,6 +1,35 @@
+import { useEffect, useRef } from "react";
 import "../assets/scss/components/wind.scss";
 
-export default function MainWeatherDetailsWind() {
+const COMPASS_16_DIRECTION_DEGREES = {
+  W: 0,
+  WNW: 22.5,
+  NW: 45,
+  NNW: 67.5,
+  N: 90,
+  NNE: 112.5,
+  NE: 135,
+  ENE: 157.5,
+  E: 180,
+  ESE: 202.5,
+  SE: 225,
+  SSE: 247.5,
+  S: 270,
+  SSW: 292.5,
+  SW: 315,
+  WSW: 337.5,
+  W: 360,
+};
+
+export default function MainWeatherDetailsWind(props) {
+  const compassArrowRef = useRef(null);
+
+  useEffect(() => {
+    compassArrowRef.current.style.transform = `translate(-50%, -50%) rotate(${
+      COMPASS_16_DIRECTION_DEGREES[props.windDirection]
+    }deg)`;
+  });
+
   return (
     <div className="wind">
       <div className="wind__compass">
@@ -15,7 +44,7 @@ export default function MainWeatherDetailsWind() {
           <path d="M3.5 83L0 72H2.83126L4.43064 78.5527H4.51863L6.34576 72H8.65424L10.4814 78.5673H10.5694L12.1739 72H15L11.5 83L9.5 83L7.54141 75.9355H7.45859L5 83H3.5Z" />
           <path d="M149.5 84L149.852 73H158V75.3418H152.278V77.2873H156.494V78.4973V79.5796H152.278V81.6615H158L157.964 84H149.5Z" />
         </svg>
-        <div className="wind__compass-arrow">
+        <div ref={compassArrowRef} className="wind__compass-arrow">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 22">
             <path d="M7 4H94L93.0926 11L94 18H7V4Z" />
             <path d="M0 11L10 0V22L0 11Z" />
@@ -26,7 +55,7 @@ export default function MainWeatherDetailsWind() {
           </svg>
         </div>
         <div className="wind__speed">
-          <span className="wind__speed-digits">9.7</span>
+          <span className="wind__speed-digits">{props.windSpeed}</span>
           <span className="wind__speed-type">km/h</span>
         </div>
       </div>

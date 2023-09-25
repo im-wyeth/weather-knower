@@ -36,7 +36,7 @@
 
     transform: translate(-50%, -50%) rotate(360deg);
 
-    transition: transform linear 5s;
+    transition: transform cubic-bezier(0, 1.07, 0.7, 1.12) 5s;
 
     svg {
       path {

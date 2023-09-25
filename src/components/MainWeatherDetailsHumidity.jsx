@@ -1,9 +1,9 @@
 import "../assets/scss/components/humidity.scss";
 
-export default function MainWeatherDetailsHumidity() {
+export default function MainWeatherDetailsHumidity(props) {
   return (
     <div className="humidity">
-      <div className="humidity__percent">90%</div>
+      <div className="humidity__percent">{props.percent}%</div>
     </div>
   );
 }
