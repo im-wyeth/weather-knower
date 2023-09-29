@@ -45,13 +45,19 @@
   &__temperature-limits {
     margin-top: 24px;
 
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 400;
     line-height: 18px;
     letter-spacing: -0.07px;
     text-align: left;
 
     color: #ebebf599;
+
+    span {
+      &:last-child {
+        margin-left: 8px;
+      }
+    }
   }
 
   &__place {

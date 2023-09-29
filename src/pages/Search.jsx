@@ -2,18 +2,53 @@ import { Link } from "react-router-dom";
 
 import "../assets/scss/pages/search.scss";
 import SearchCityWeather from "../components/SearchCityWeather";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import * as citiesWeatherDataSlice from "../features/citiesWeatherData/citiesWeatherDataSlice";
+
+const LOCATIONS = ["London", "Japan", "Paris"];
 
 export default function Search() {
   const citiesRef = useRef(null);
 
+  const [citiesWeatherDataFromApi, setCitiesWeatherDataFromApi] = useState([]);
+
+  const dispatch = useDispatch();
+  let citiesWeatherData = dispatch(
+    citiesWeatherDataSlice.setCitiesWeatherDataList(
+      JSON.parse(localStorage.getItem("citiesWeatherData"))
+    )
+  ).payload;
+
   useEffect(() => {
     const citiesRect = citiesRef.current.getBoundingClientRect();
-
     const height = document.documentElement.clientHeight - citiesRect.top;
-
     citiesRef.current.style.height = height + "px";
+
+    // const citiesWeatherDataTemp = [];
+
+    // const fetchCities = async () => {
+    //   for (const location of LOCATIONS) {
+    //     const fetchRes = await fetch(
+    //       `http://api.weatherapi.com/v1/forecast.json?key=104b303882e44cb497094324231009&q=${location}&aqi=no`
+    //     );
+    //     const res = await fetchRes.json();
+
+    //     citiesWeatherDataTemp.push(res);
+    //   }
+
+    //   setCitiesWeatherDataFromApi(citiesWeatherDataTemp);
+    // };
+
+    // fetchCities();
   }, []);
+
+  // useEffect(() => {
+  //   localStorage.setItem(
+  //     "citiesWeatherData",
+  //     JSON.stringify(citiesWeatherDataFromApi)
+  //   );
+  // }, [citiesWeatherDataFromApi]);
 
   return (
     <main className="search">
@@ -49,14 +84,25 @@ export default function Search() {
         </div>
       </section>
       <section ref={citiesRef} className="search__cities">
-        <SearchCityWeather />
-        <SearchCityWeather />
-        <SearchCityWeather />
-        <SearchCityWeather />
-        <SearchCityWeather />
-        <SearchCityWeather />
-        <SearchCityWeather />
-        <SearchCityWeather />
+        {citiesWeatherData.map((cityWeatherData, idx) => {
+          return (
+            <SearchCityWeather
+              key={idx}
+              temperature={cityWeatherData.current.temp_c}
+              highTemperature={
+                cityWeatherData.forecast.forecastday[0].day.maxtemp_c
+              }
+              lowestTemperature={
+                cityWeatherData.forecast.forecastday[0].day.mintemp_c
+              }
+              conditionCode={cityWeatherData.current.condition.code}
+              isDay={cityWeatherData.is_day}
+              weatherCondition={cityWeatherData.current.condition.text}
+              city={cityWeatherData.location.name}
+              country={cityWeatherData.location.country}
+            />
+          );
+        })}
       </section>
 
       <div className="search__ellipse-1"></div>

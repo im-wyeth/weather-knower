@@ -1,6 +1,30 @@
+import { useSelector } from "react-redux";
 import "../assets/scss/components/city-weather.scss";
+import { useEffect, useState } from "react";
 
-export default function SearchCityWeather() {
+export default function SearchCityWeather(props) {
+  const conditionIcons = useSelector(
+    (state) => state.imagesOfWeatherConditions.codes.payload
+  );
+
+  const imageSrcOfCondition = props.isDay
+    ? conditionIcons[props.conditionCode].day
+    : conditionIcons[props.conditionCode].night;
+
+  let [newSrcOfConditionImage, setNewSrcOfConditionImage] = useState("");
+
+  useEffect(() => {
+    async function fetchSvg() {
+      const svg = await import(
+        "../assets/images/weather/" + imageSrcOfCondition.split("weather/")[1]
+      );
+
+      setNewSrcOfConditionImage(svg.default);
+    }
+
+    fetchSvg();
+  }, []);
+
   return (
     <div className="city-weather">
       <svg
@@ -29,17 +53,22 @@ export default function SearchCityWeather() {
       <div className="city-weather__wrapper">
         <div className="city-weather__left-side">
           {/* ToDo: Заменить теги по семантике (не только здесь, везде) */}
-          <div className="city-weather__temperature">19°</div>
-          <div className="city-weather__temperature-limits">H:24° L:18°</div>
-          <div className="city-weather__place">Montreal, Canada</div>
+          <div className="city-weather__temperature">{props.temperature}°</div>
+          <div className="city-weather__temperature-limits">
+            <span>H:{props.highTemperature}°</span>{" "}
+            <span>L:{props.lowestTemperature}°</span>
+          </div>
+          <div className="city-weather__place">
+            {props.city}, {props.country}
+          </div>
         </div>
         <div className="city-weather__right-side">
           <img
             className="city-weather__image"
-            src={require("../assets/images/weather/day/rain.svg").default}
+            src={newSrcOfConditionImage}
             alt="rain"
           />
-          <div className="city-weather__state">Mid Rain</div>
+          <div className="city-weather__state">{props.weatherCondition}</div>
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@ import Main from "./pages/Main";
 import Search from "./pages/Search";
 import { useEffect, useState } from "react";
 import RouteTransitionWrapper from "./components/RouteTransitionWrapper";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import * as locationSlice from "./features/location/locationSlice";
 import * as currentWeatherDataSlice from "./features/currentWeatherData/currentWeatherDataSlice";
 import * as forecastSlice from "./features/forecast/forecastSlice";
