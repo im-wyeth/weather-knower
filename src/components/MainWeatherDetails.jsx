@@ -29,23 +29,17 @@ export default function MainWeatherDetails(props) {
   const [currentForecastType, setCurrentForecastType] = useState("hourly");
   const [touchStartPosition, setTouchStartPosition] = useState({ x: 0, y: 0 });
   const [precipitationInNext24Hour, setPrecipitationInNext24Hour] = useState(0);
-
   const currentDate = new Date(Date.now());
-
-  const daysWeatherData = useSelector((state) => state.forecast.days.payload);
-  const currentDayWeatherData = daysWeatherData[0];
+  const locationName = useSelector((state) => state.location.name);
+  const citiesWeatherData = useSelector(
+    (state) => state.citiesWeatherData.list.payload
+  );
+  const currentCityWeatherData = citiesWeatherData.find(
+    (cityWeatherData) => cityWeatherData.location.name === locationName
+  );
+  const currentDayWeatherData = currentCityWeatherData.forecast.forecastday[0];
   const currentHourWeatherData =
     currentDayWeatherData.hour[currentDate.getHours()];
-
-  useEffect(() => {
-    // ToDo: Firstly, set transition none, and then add the transition
-    const mainBottomNavigationRect =
-      props.mainBottomNavigationRef.current.getBoundingClientRect();
-
-    thisRef.current.style.transform = `translate3d(-50%, ${
-      mainBottomNavigationRect.top - TOP_MARGIN
-    }px, 0)`;
-  }, [props.animationIsEnd]);
 
   useEffect(() => {
     window.addEventListener("resize", onWindowResize);
@@ -66,6 +60,16 @@ export default function MainWeatherDetails(props) {
       window.removeEventListener("resize", onWindowResize);
     };
   }, []);
+
+  useEffect(() => {
+    // ToDo: Firstly, set transition none, and then add the transition
+    const mainBottomNavigationRect =
+      props.mainBottomNavigationRef.current.getBoundingClientRect();
+
+    thisRef.current.style.transform = `translate3d(-50%, ${
+      mainBottomNavigationRect.top - TOP_MARGIN
+    }px, 0)`;
+  }, [props.animationIsEnd]);
 
   function onForecastButtonClick(event, forecastType) {
     moveLineToTarget(movableLineRef.current, event.target);
@@ -164,7 +168,7 @@ export default function MainWeatherDetails(props) {
                   temperature={Math.floor(hour.temp_c)}
                 />
               ))
-            : daysWeatherData.map((day, idx) => (
+            : currentCityWeatherData.forecast.forecastday.map((day, idx) => (
                 <MainWeatherDetailsForecastItem
                   key={idx}
                   forecastType={currentForecastType}
