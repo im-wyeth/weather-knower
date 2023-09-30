@@ -9,13 +9,9 @@ const citiesWeatherDataSlice = createSlice({
     setCitiesWeatherDataList: (state, list) => {
       state.list = list;
     },
-    addCityWeatherData: (state, cityWeatherData) => {
-      state.list.push(cityWeatherData);
-    },
   },
 });
 
-export const { setCitiesWeatherDataList, addCityWeatherData } =
-  citiesWeatherDataSlice.actions;
+export const { setCitiesWeatherDataList } = citiesWeatherDataSlice.actions;
 
 export default citiesWeatherDataSlice.reducer;

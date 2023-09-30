@@ -6,8 +6,22 @@
 
   position: relative;
 
+  &:hover {
+    cursor: pointer;
+
+    .city-weather__background-shape {
+      transform: skew(6deg, 0deg);
+    }
+
+    .city-weather__image {
+      transform: skew(6deg, 6deg);
+    }
+  }
+
   &__background-shape {
     height: 100%;
+
+    transition: transform linear 0.3s;
   }
 
   &__wrapper {
@@ -92,5 +106,7 @@
     position: absolute;
     top: 0;
     right: -10px;
+
+    transition: transform linear 0.3s;
   }
 }
