@@ -2,53 +2,21 @@ import { Link } from "react-router-dom";
 
 import "../assets/scss/pages/search.scss";
 import SearchCityWeather from "../components/SearchCityWeather";
-import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import * as citiesWeatherDataSlice from "../features/citiesWeatherData/citiesWeatherDataSlice";
-
-const LOCATIONS = ["London", "Japan", "Paris"];
+import { useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 
 export default function Search() {
   const citiesRef = useRef(null);
 
-  const [citiesWeatherDataFromApi, setCitiesWeatherDataFromApi] = useState([]);
-
-  const dispatch = useDispatch();
-  let citiesWeatherData = dispatch(
-    citiesWeatherDataSlice.setCitiesWeatherDataList(
-      JSON.parse(localStorage.getItem("citiesWeatherData"))
-    )
-  ).payload;
+  const citiesWeatherData = useSelector(
+    (state) => state.citiesWeatherData.list.payload
+  );
 
   useEffect(() => {
     const citiesRect = citiesRef.current.getBoundingClientRect();
     const height = document.documentElement.clientHeight - citiesRect.top;
     citiesRef.current.style.height = height + "px";
-
-    // const citiesWeatherDataTemp = [];
-
-    // const fetchCities = async () => {
-    //   for (const location of LOCATIONS) {
-    //     const fetchRes = await fetch(
-    //       `http://api.weatherapi.com/v1/forecast.json?key=104b303882e44cb497094324231009&q=${location}&aqi=no`
-    //     );
-    //     const res = await fetchRes.json();
-
-    //     citiesWeatherDataTemp.push(res);
-    //   }
-
-    //   setCitiesWeatherDataFromApi(citiesWeatherDataTemp);
-    // };
-
-    // fetchCities();
   }, []);
-
-  // useEffect(() => {
-  //   localStorage.setItem(
-  //     "citiesWeatherData",
-  //     JSON.stringify(citiesWeatherDataFromApi)
-  //   );
-  // }, [citiesWeatherDataFromApi]);
 
   return (
     <main className="search">

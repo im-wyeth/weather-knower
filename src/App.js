@@ -12,6 +12,11 @@ import * as imagesOfWeatherConditionsSlice from "./features/imagesOfWeatherCondi
 
 import imagesOfWeatherConditionsJSON from "./assets/json/imagesOfWeatherConditions.json";
 
+import { useSelector } from "react-redux";
+import * as citiesWeatherDataSlice from "./features/citiesWeatherData/citiesWeatherDataSlice";
+
+const LOCATIONS = ["London", "Japan", "Paris"];
+
 export default function App() {
   const location = useLocation();
 
@@ -19,6 +24,29 @@ export default function App() {
   const [animationIsEnd, setAnimationState] = useState(false);
   const [displayLocation, setDisplayLocation] = useState(location);
   const [transitionStage, setTransitionStage] = useState("fadeIn");
+  const [citiesWeatherDataFromApi, setCitiesWeatherDataFromApi] = useState([]);
+
+  useEffect(() => {
+    // const citiesWeatherDataTemp = [];
+    // const fetchCities = async () => {
+    //   for (const location of LOCATIONS) {
+    //     const fetchRes = await fetch(
+    //       `http://api.weatherapi.com/v1/forecast.json?key=104b303882e44cb497094324231009&q=${location}&aqi=no`
+    //     );
+    //     const res = await fetchRes.json();
+    //     citiesWeatherDataTemp.push(res);
+    //   }
+    //   setCitiesWeatherDataFromApi(citiesWeatherDataTemp);
+    // };
+    // fetchCities();
+  }, []);
+
+  // useEffect(() => {
+  //   localStorage.setItem(
+  //     "citiesWeatherData",
+  //     JSON.stringify(citiesWeatherDataFromApi)
+  //   );
+  // }, [citiesWeatherDataFromApi]);
 
   useEffect(() => {
     if (location !== displayLocation) setTransitionStage("fadeOut");
@@ -27,7 +55,11 @@ export default function App() {
   const [apiAnswer] = useState(JSON.parse(localStorage.getItem("res")));
 
   const dispatch = useDispatch();
-  dispatch(locationSlice.setName(apiAnswer.location.name));
+  dispatch(
+    citiesWeatherDataSlice.setCitiesWeatherDataList(
+      JSON.parse(localStorage.getItem("citiesWeatherData"))
+    )
+  );
   dispatch(currentWeatherDataSlice.setTemperatureC(apiAnswer.current.temp_c));
   dispatch(
     currentWeatherDataSlice.setCondition(apiAnswer.current.condition.text)

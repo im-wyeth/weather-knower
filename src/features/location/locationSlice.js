@@ -5,16 +5,23 @@ export const locationSlice = createSlice({
   initialState: {
     latitude: undefined,
     longitude: undefined,
-    country: "Russia",
-    name: "Moscow",
+    country: "Japan",
+    name: "Tokyo",
   },
   reducers: {
+    setLocationData: (state, latitude, longitude) => {
+      state.latitude = latitude;
+      state.longitude = longitude;
+    },
     setName: (state, name) => {
       state.name = name;
+    },
+    setCountry: (state, country) => {
+      state.country = country;
     },
   },
 });
 
-export const { setName } = locationSlice.actions;
+export const { setLocationData, setName, setContry } = locationSlice.actions;
 
 export default locationSlice.reducer;
