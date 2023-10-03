@@ -10,14 +10,14 @@ export const locationSlice = createSlice({
   },
   reducers: {
     setLocationData: (state, latitude, longitude) => {
-      state.latitude = latitude;
-      state.longitude = longitude;
+      state.latitude = latitude.payload;
+      state.longitude = longitude.payload;
     },
     setName: (state, name) => {
-      state.name = name;
+      state.name = name.payload;
     },
     setCountry: (state, country) => {
-      state.country = country;
+      state.country = country.payload;
     },
   },
 });

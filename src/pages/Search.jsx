@@ -1,19 +1,23 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import "../assets/scss/pages/search.scss";
 import SearchCityWeather from "../components/SearchCityWeather";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as citiesWeatherDataSlice from "../features/citiesWeatherData/citiesWeatherDataSlice";
+import * as locationSlice from "../features/location/locationSlice";
 
 export default function Search() {
   const citiesRef = useRef(null);
 
   const citiesWeatherData = useSelector(
-    (state) => state.citiesWeatherData.list.payload
+    (state) => state.citiesWeatherData.list
   );
 
+  const [citiesList, setCitiesList] = useState(citiesWeatherData.concat());
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const citiesRect = citiesRef.current.getBoundingClientRect();
@@ -37,6 +41,8 @@ export default function Search() {
         if (fetchResult.status === 200) {
           const json = await fetchResult.json();
 
+          setCitiesList([json]);
+
           dispatch(
             citiesWeatherDataSlice.setCitiesWeatherDataList([
               ...citiesWeatherData,
@@ -46,6 +52,12 @@ export default function Search() {
         }
       }, 2000);
     }
+  }
+
+  function onClick(event, name) {
+    dispatch(locationSlice.setName(name));
+
+    navigate("/");
   }
 
   return (
@@ -86,9 +98,10 @@ export default function Search() {
         </div>
       </section>
       <section ref={citiesRef} className="search__cities">
-        {citiesWeatherData.map((cityWeatherData, idx) => {
+        {citiesList.map((cityWeatherData, idx) => {
           return (
             <SearchCityWeather
+              onClick={onClick}
               key={idx}
               temperature={Math.floor(cityWeatherData.current.temp_c)}
               highTemperature={Math.floor(

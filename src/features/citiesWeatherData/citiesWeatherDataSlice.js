@@ -3,11 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 const citiesWeatherDataSlice = createSlice({
   name: "citiesWeatherData",
   initialState: {
-    list: [],
+    list: JSON.parse(localStorage.getItem("citiesWeatherData")),
   },
   reducers: {
     setCitiesWeatherDataList: (state, list) => {
-      state.list = list;
+      state.list = list.payload;
     },
   },
 });

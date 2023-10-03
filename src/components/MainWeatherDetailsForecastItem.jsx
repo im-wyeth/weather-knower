@@ -16,7 +16,7 @@ export default function MainWeatherDetailsForecastItem(props) {
   let [newSrcOfConditionImage, setNewSrcOfConditionImage] = useState("");
 
   const conditionIcons = useSelector(
-    (state) => state.imagesOfWeatherConditions.codes.payload
+    (state) => state.imagesOfWeatherConditions.codes
   );
   const imageSrcOfCondition = props.isDay
     ? conditionIcons[props.conditionCode].day

@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import RouteTransitionWrapper from "./components/RouteTransitionWrapper";
 import { useDispatch } from "react-redux";
 import * as imagesOfWeatherConditionsSlice from "./features/imagesOfWeatherConditions/imagesOfWeatherConditionsSlice";
-import imagesOfWeatherConditionsJSON from "./assets/json/imagesOfWeatherConditions.json";
 import { useSelector } from "react-redux";
 import * as citiesWeatherDataSlice from "./features/citiesWeatherData/citiesWeatherDataSlice";
 
@@ -46,16 +45,6 @@ export default function App() {
   useEffect(() => {
     if (location !== displayLocation) setTransitionStage("fadeOut");
   }, [location, displayLocation]);
-
-  const dispatch = useDispatch();
-  dispatch(
-    citiesWeatherDataSlice.setCitiesWeatherDataList(
-      JSON.parse(localStorage.getItem("citiesWeatherData"))
-    )
-  );
-  dispatch(
-    imagesOfWeatherConditionsSlice.setCodes(imagesOfWeatherConditionsJSON)
-  );
 
   return (
     <div className="wrapper">

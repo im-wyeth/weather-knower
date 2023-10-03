@@ -32,7 +32,7 @@ export default function MainWeatherDetails(props) {
   const currentDate = new Date(Date.now());
   const locationName = useSelector((state) => state.location.name);
   const citiesWeatherData = useSelector(
-    (state) => state.citiesWeatherData.list.payload
+    (state) => state.citiesWeatherData.list
   );
   const currentCityWeatherData = citiesWeatherData.find(
     (cityWeatherData) => cityWeatherData.location.name === locationName

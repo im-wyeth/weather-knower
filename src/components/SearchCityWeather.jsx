@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 export default function SearchCityWeather(props) {
   const conditionIcons = useSelector(
-    (state) => state.imagesOfWeatherConditions.codes.payload
+    (state) => state.imagesOfWeatherConditions.codes
   );
 
   const imageSrcOfCondition = props.isDay
@@ -26,7 +26,10 @@ export default function SearchCityWeather(props) {
   }, []);
 
   return (
-    <div className="city-weather">
+    <div
+      onClick={(event) => props.onClick(event, props.city)}
+      className="city-weather"
+    >
       <svg
         className="city-weather__background-shape"
         xmlns="http://www.w3.org/2000/svg"

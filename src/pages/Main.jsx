@@ -9,9 +9,10 @@ export default function Main(props) {
 
   const [weatherDetailsIsFullScreen, setWeatherDetailsIsFullScreen] =
     useState(false);
+
   const locationName = useSelector((state) => state.location.name);
   const citiesWeatherData = useSelector(
-    (state) => state.citiesWeatherData.list.payload
+    (state) => state.citiesWeatherData.list
   );
 
   const currentCityWeatherData = citiesWeatherData.find(

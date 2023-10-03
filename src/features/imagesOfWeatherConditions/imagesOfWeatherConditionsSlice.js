@@ -1,13 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import imagesOfWeatherConditionsJSON from "../../assets/json/imagesOfWeatherConditions.json";
+
 export const imagesOfWeatherConditionsSlice = createSlice({
   name: "imagesOfWeatherConditions",
   initialState: {
-    codes: {},
+    codes: imagesOfWeatherConditionsJSON,
   },
   reducers: {
     setCodes: (state, codes) => {
-      state.codes = codes;
+      state.codes = codes.payload;
     },
   },
 });
