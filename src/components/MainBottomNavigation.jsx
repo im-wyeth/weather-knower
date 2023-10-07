@@ -2,8 +2,49 @@ import { Link } from "react-router-dom";
 
 import "../assets/scss/components/bottom-navigation.scss";
 import MainBottomNavigationCentralShape from "./MainBottomNavigationCentralShape";
+import { useDispatch, useSelector } from "react-redux";
+import * as locationSlice from "../features/location/locationSlice";
+import * as citiesWeatherDataSlice from "../features/citiesWeatherData/citiesWeatherDataSlice.js";
 
 export default function MainBottomNavigation(props) {
+  const dispatch = useDispatch();
+
+  const coordinates = useSelector((state) => state.location.coordinates);
+  const citiesWeatherDataList = useSelector(
+    (state) => state.citiesWeatherData.list
+  );
+
+  function onClick(event) {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        dispatch(
+          locationSlice.setLocationData({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          })
+        );
+
+        const fetchResult = await fetch(
+          `http://api.weatherapi.com/v1/forecast.json?key=104b303882e44cb497094324231009&q=${
+            position.coords.latitude + "," + position.coords.longitude
+          }&aqi=no`
+        );
+
+        if (fetchResult.status === 200) {
+          const json = await fetchResult.json();
+
+          dispatch(locationSlice.setName(json.location.name));
+          dispatch(
+            citiesWeatherDataSlice.setCitiesWeatherDataList([
+              ...citiesWeatherDataList,
+              json,
+            ])
+          );
+        }
+      });
+    }
+  }
+
   return (
     <nav
       ref={props.mainBottomNavigationRef}
@@ -12,7 +53,15 @@ export default function MainBottomNavigation(props) {
         (props.isHidden ? " bottom-navigation_hidden" : "")
       }
     >
-      <button className="bottom-navigation__button">
+      <button
+        onClick={onClick}
+        className={
+          "bottom-navigation__button" +
+          (coordinates.longitude != null
+            ? " bottom-navigation__button_active"
+            : "")
+        }
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 44 44"

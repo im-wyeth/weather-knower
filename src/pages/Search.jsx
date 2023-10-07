@@ -43,12 +43,30 @@ export default function Search() {
 
           setCitiesList([json]);
 
-          dispatch(
-            citiesWeatherDataSlice.setCitiesWeatherDataList([
-              ...citiesWeatherData,
-              json,
-            ])
+          const isExist = citiesWeatherData.findIndex(
+            (cityWeatherData) =>
+              cityWeatherData.location.name === json.location.name &&
+              cityWeatherData.location.country === json.location.country
           );
+
+          if (isExist) {
+            //
+            // Solve this !!!
+            //
+            // dispatch(
+            //   citiesWeatherDataSlice.setCitiesWeatherDataList([
+            //     ...[...citiesWeatherData].splice(isExist, 1),
+            //     json,
+            //   ])
+            // );
+          } else {
+            dispatch(
+              citiesWeatherDataSlice.setCitiesWeatherDataList([
+                ...citiesWeatherData,
+                json,
+              ])
+            );
+          }
         }
       }, 2000);
     }

@@ -31,7 +31,7 @@ export default function Main(props) {
         </div>
         <div className="main__fullscreen-wrapper">
           <div className="main__weather-temperature">
-            {currentCityWeatherData.current.temp_c + "°"}
+            {Math.floor(currentCityWeatherData.current.temp_c) + "°"}
           </div>
           <div className="main__weather-state">
             {currentCityWeatherData.current.condition.text}

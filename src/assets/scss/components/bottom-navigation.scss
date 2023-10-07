@@ -46,6 +46,14 @@
     align-items: center;
 
     cursor: pointer;
+
+    &_active {
+      svg {
+        path {
+          fill: #e64396;
+        }
+      }
+    }
   }
 
   &__center {
