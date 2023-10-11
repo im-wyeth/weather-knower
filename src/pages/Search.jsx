@@ -50,15 +50,12 @@ export default function Search() {
           );
 
           if (isExist) {
-            //
-            // Solve this !!!
-            //
-            // dispatch(
-            //   citiesWeatherDataSlice.setCitiesWeatherDataList([
-            //     ...[...citiesWeatherData].splice(isExist, 1),
-            //     json,
-            //   ])
-            // );
+            dispatch(
+              citiesWeatherDataSlice.setCitiesWeatherDataList([
+                ...citiesWeatherData.filter((a, i) => isExist !== i),
+                json,
+              ])
+            );
           } else {
             dispatch(
               citiesWeatherDataSlice.setCitiesWeatherDataList([

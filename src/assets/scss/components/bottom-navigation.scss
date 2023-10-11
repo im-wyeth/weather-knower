@@ -47,6 +47,12 @@
 
     cursor: pointer;
 
+    svg {
+      path {
+        fill: white;
+      }
+    }
+
     &_active {
       svg {
         path {
@@ -101,6 +107,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    background-color: white;
 
     &:active {
       border: 3px solid white;

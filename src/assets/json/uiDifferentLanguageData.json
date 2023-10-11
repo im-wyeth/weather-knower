@@ -1,4 +1,24 @@
 {
-  "ru": {},
+  "ru": {
+    "pages": {
+      "main": {
+        "low_temperature": "н",
+        "high_temperature": "в"
+      }
+    },
+    "components": {
+      "main_weather_details": {
+        "hourly_forecast": "почасовой прогноз",
+        "weekly_forecast": "еженедельный прогноз",
+        "uv_index": "уф индекс",
+        "sunrise": "восход",
+        "wind": "ветер",
+        "rainfall": "ливень",
+        "feels_like": "ощущается как",
+        "humidity": "влажность",
+        "pressure": "давление"
+      }
+    }
+  },
   "en": {}
 }
