@@ -1,0 +1,42 @@
+.custom-select {
+  width: 200px;
+  height: 40px;
+
+  border-radius: 4px;
+
+  position: relative;
+
+  background-color: #2b268d;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  padding-left: 8px;
+
+  cursor: pointer;
+
+  &_active {
+    .custom-select__drop {
+      display: block;
+    }
+  }
+
+  &__drop {
+    position: absolute;
+    top: 100%;
+    left: 0;
+
+    width: 100%;
+
+    display: none;
+  }
+
+  &__item {
+    background-color: black;
+
+    padding: 8px;
+
+    border-bottom: 1px solid rgb(68, 68, 68);
+  }
+}

@@ -2,12 +2,14 @@ import { Route, Routes, useLocation } from "react-router-dom";
 
 import Main from "./pages/Main";
 import Search from "./pages/Search";
+import Settings from "./pages/Settings";
 import { useEffect, useState } from "react";
 import RouteTransitionWrapper from "./components/RouteTransitionWrapper";
 import { useDispatch } from "react-redux";
 import * as imagesOfWeatherConditionsSlice from "./features/imagesOfWeatherConditions/imagesOfWeatherConditionsSlice";
 import { useSelector } from "react-redux";
 import * as citiesWeatherDataSlice from "./features/citiesWeatherData/citiesWeatherDataSlice";
+import CustomLayout from "./layouts/CustomLayout";
 
 const LOCATIONS = ["London", "Japan", "Paris"];
 
@@ -67,15 +69,33 @@ export default function App() {
         <Route
           path="/search"
           element={
-            <RouteTransitionWrapper
-              location={location}
-              transitionStage={transitionStage}
-              setTransitionStage={setTransitionStage}
-              setDisplayLocation={setDisplayLocation}
-              setAnimationState={setAnimationState}
-            >
-              <Search />
-            </RouteTransitionWrapper>
+            <CustomLayout>
+              <RouteTransitionWrapper
+                location={location}
+                transitionStage={transitionStage}
+                setTransitionStage={setTransitionStage}
+                setDisplayLocation={setDisplayLocation}
+                setAnimationState={setAnimationState}
+              >
+                <Search />
+              </RouteTransitionWrapper>
+            </CustomLayout>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <CustomLayout>
+              <RouteTransitionWrapper
+                location={location}
+                transitionStage={transitionStage}
+                setTransitionStage={setTransitionStage}
+                setDisplayLocation={setDisplayLocation}
+                setAnimationState={setAnimationState}
+              >
+                <Settings />
+              </RouteTransitionWrapper>
+            </CustomLayout>
           }
         />
       </Routes>

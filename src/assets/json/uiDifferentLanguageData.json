@@ -1,9 +1,17 @@
 {
   "ru": {
+    "layouts": {
+      "custom_layout": {
+        "cancel_text": "погода"
+      }
+    },
     "pages": {
       "main": {
         "low_temperature": "н",
         "high_temperature": "в"
+      },
+      "search": {
+        "search_input_text": "поиск города или аэропорта"
       }
     },
     "components": {
@@ -17,8 +25,40 @@
         "feels_like": "ощущается как",
         "humidity": "влажность",
         "pressure": "давление"
+      },
+      "search_city_weather": {
+        "low_temperature": "н",
+        "high_temperature": "в"
       }
     }
   },
-  "en": {}
+  "en": {
+    "pages": {
+      "main": {
+        "low_temperature": "l",
+        "high_temperature": "h"
+      },
+      "search": {
+        "cancel_text": "weather",
+        "search_input_text": "search for a city or airport"
+      }
+    },
+    "components": {
+      "main_weather_details": {
+        "hourly_forecast": "hourly forecast",
+        "weekly_forecast": "weekly forecast",
+        "uv_index": "uv index",
+        "sunrise": "sunrise",
+        "wind": "wind",
+        "rainfall": "rainfall",
+        "feels_like": "feels like",
+        "humidity": "humidity",
+        "pressure": "pressure"
+      },
+      "search_city_weather": {
+        "low_temperature": "н",
+        "high_temperature": "в"
+      }
+    }
+  }
 }
