@@ -17,16 +17,16 @@
   cursor: pointer;
 
   &_active {
-    .custom-selection__values {
+    .custom-selection__options {
       display: block;
     }
   }
 
-  &__current-value {
+  &__selected-option-text {
     text-transform: capitalize;
   }
 
-  &__values {
+  &__options {
     position: absolute;
     top: 100%;
     left: 0;
@@ -36,7 +36,7 @@
     display: none;
   }
 
-  &__value {
+  &__option {
     text-transform: capitalize;
 
     background-color: black;

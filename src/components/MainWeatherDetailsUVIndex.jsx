@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import "../assets/scss/components/uv-index.scss";
-
 import getUVLevelWord from "../utils/getUVLevelWord";
 import getPercentOfOneNumberFromAnother from "../utils/getPercentOfOneNumberFromAnother";
 

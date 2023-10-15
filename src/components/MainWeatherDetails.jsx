@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-
 import "../assets/scss/components/weather-details.scss";
 import moveLineToTarget from "../utils/moveLineToTarget";
 import MainWeatherDetailsForecastItem from "./MainWeatherDetailsForecastItem";
@@ -15,7 +14,6 @@ import MainWeatherDetailsPressure from "./MainWeatherDetailsPressure";
 import { useSelector } from "react-redux";
 
 const HEIGHT_AND_TOP_MARGIN = 70 + 77;
-
 const TOP_MARGIN = 240;
 
 export default function MainWeatherDetails(props) {

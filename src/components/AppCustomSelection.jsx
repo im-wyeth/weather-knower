@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-
 import "../assets/scss/components/custom-selection.scss";
+import PropTypes from "prop-types";
 
-export default function AppCustomSelection(props) {
+const AppCustomSelection = function (props) {
   const [dropActive, setDropActive] = useState(false);
-  const [currentValueText, setCurrentValueText] = useState(
-    props.values[props.currentValue].text
+  const [selectedOptionText] = useState(
+    props.options[props.selectedOptionIndex].text
   );
 
   const cb = () => setDropActive(false);
@@ -24,8 +24,8 @@ export default function AppCustomSelection(props) {
     setDropActive(!dropActive);
   }
 
-  function valueOnClick(valueData) {
-    console.log(valueData);
+  function optionOnClick(event, option) {
+    props.onSelect(event, option);
   }
 
   return (
@@ -35,18 +35,34 @@ export default function AppCustomSelection(props) {
         "custom-selection" + (dropActive ? " custom-selection_active" : "")
       }
     >
-      <div className="custom-selection__current-value">{currentValueText}</div>
-      <div className="custom-selection__values">
-        {props.values.map((value, idx) => (
+      <div className="custom-selection__selected-option-text">
+        {selectedOptionText}
+      </div>
+      <div className="custom-selection__options">
+        {props.options.map((option, idx) => (
           <div
-            onClick={() => valueOnClick(value)}
+            onClick={(event) => optionOnClick(event, option)}
             key={idx}
-            className="custom-selection__value"
+            className="custom-selection__option"
           >
-            {value.text}
+            {option.text ? option.text : "text"}
           </div>
         ))}
       </div>
     </div>
   );
-}
+};
+
+AppCustomSelection.propTypes = {
+  onSelect: PropTypes.func,
+  selectedOptionIndex: PropTypes.number,
+  options: PropTypes.array,
+};
+
+AppCustomSelection.defaultProps = {
+  onSelect: function () {},
+  selectedOptionIndex: 0,
+  options: [{ value: "option1", text: "option 1" }],
+};
+
+export default AppCustomSelection;

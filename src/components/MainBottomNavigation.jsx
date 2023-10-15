@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-
 import "../assets/scss/components/bottom-navigation.scss";
 import MainBottomNavigationCentralShape from "./MainBottomNavigationCentralShape";
 import { useDispatch, useSelector } from "react-redux";

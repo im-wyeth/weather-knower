@@ -1,11 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-
 import locationReducer from "./features/location/locationSlice";
 import imagesOfWeatherConditionsSlice from "./features/imagesOfWeatherConditions/imagesOfWeatherConditionsSlice";
 import citiesWeatherDataSlice from "./features/citiesWeatherData/citiesWeatherDataSlice";
+import appSlice from "./features/app/appSlice";
 
 const store = configureStore({
   reducer: {
+    app: appSlice,
     location: locationReducer,
     citiesWeatherData: citiesWeatherDataSlice,
     imagesOfWeatherConditions: imagesOfWeatherConditionsSlice,
@@ -24,6 +25,14 @@ function selectLocationName(state) {
   return state.location.name;
 }
 
+function selectAppSettingsLanguage(state) {
+  return state.app.settings.language;
+}
+
+function selectAppSettingsTheme(state) {
+  return state.app.settings.theme;
+}
+
 function citiesWeatherDataSaver() {
   const citiesWeatherDataListNewValue = selectCitiesWeatherDataList(
     store.getState()
@@ -36,7 +45,6 @@ function citiesWeatherDataSaver() {
   const locationCoordinatesNewValue = selectLocationCoordinates(
     store.getState()
   );
-
   localStorage.setItem(
     "coordinates",
     JSON.stringify(locationCoordinatesNewValue)
@@ -44,6 +52,14 @@ function citiesWeatherDataSaver() {
 
   const locationNameNewValue = selectLocationName(store.getState());
   localStorage.setItem("locationName", locationNameNewValue);
+
+  const appSettingsLanguageNewValue = selectAppSettingsLanguage(
+    store.getState()
+  );
+  localStorage.setItem("language", appSettingsLanguageNewValue);
+
+  const appSettingsThemeNewValue = selectAppSettingsTheme(store.getState());
+  localStorage.setItem("theme", appSettingsThemeNewValue);
 }
 
 store.subscribe(citiesWeatherDataSaver);
