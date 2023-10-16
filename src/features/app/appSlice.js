@@ -10,10 +10,10 @@ const appSlice = createSlice({
   },
   reducers: {
     setLanguage: (state, language) => {
-      state.list = language.payload;
+      state.settings.language = language.payload;
     },
     setTheme: (state, theme) => {
-      state.theme = theme.payload;
+      state.settings.theme = theme.payload;
     },
   },
 });

@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 
 const AppCustomSelection = function (props) {
   const [dropActive, setDropActive] = useState(false);
-  const [selectedOptionText] = useState(
-    props.options[props.selectedOptionIndex].text
+  const [selectedOptionIndex, setSelectedOptionIndex] = useState(
+    props.selectedOptionIndex
   );
 
   const cb = () => setDropActive(false);
@@ -24,7 +24,9 @@ const AppCustomSelection = function (props) {
     setDropActive(!dropActive);
   }
 
-  function optionOnClick(event, option) {
+  function optionOnClick(event, idx, option) {
+    setSelectedOptionIndex(idx);
+
     props.onSelect(event, option);
   }
 
@@ -36,12 +38,12 @@ const AppCustomSelection = function (props) {
       }
     >
       <div className="custom-selection__selected-option-text">
-        {selectedOptionText}
+        {props.options[selectedOptionIndex].text}
       </div>
       <div className="custom-selection__options">
         {props.options.map((option, idx) => (
           <div
-            onClick={(event) => optionOnClick(event, option)}
+            onClick={(event) => optionOnClick(event, idx, option)}
             key={idx}
             className="custom-selection__option"
           >
