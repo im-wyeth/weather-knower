@@ -12,6 +12,7 @@ import MainWeatherDetailsFeelsLike from "./MainWeatherDetailsFeelsLike";
 import MainWeatherDetailsHumidity from "./MainWeatherDetailsHumidity";
 import MainWeatherDetailsPressure from "./MainWeatherDetailsPressure";
 import { useSelector } from "react-redux";
+import uiDifferentLanguageData from "../assets/json/uiDifferentLanguageData.json";
 
 const HEIGHT_AND_TOP_MARGIN = 70 + 77;
 const TOP_MARGIN = 240;
@@ -23,6 +24,8 @@ export default function MainWeatherDetails(props) {
   const movableLineRef = useRef(null);
   const scrollWrapperRef = useRef(null);
   const forecastItemsRef = useRef(null);
+
+  const language = useSelector((state) => state.app.settings.language);
 
   const [currentForecastType, setCurrentForecastType] = useState("hourly");
   const [touchStartPosition, setTouchStartPosition] = useState({ x: 0, y: 0 });
@@ -134,14 +137,20 @@ export default function MainWeatherDetails(props) {
           onClick={(event) => onForecastButtonClick(event, "hourly")}
           className="weather-details__forecast-button"
         >
-          Hourly forecast
+          {
+            uiDifferentLanguageData[language].components.main_weather_details
+              .hourly_forecast
+          }
         </button>
         <button
           ref={forecastSecondButtonRef}
           onClick={(event) => onForecastButtonClick(event, "weekly")}
           className="weather-details__forecast-button"
         >
-          Weekly forecast
+          {
+            uiDifferentLanguageData[language].components.main_weather_details
+              .weekly_forecast
+          }
         </button>
         <div
           ref={movableLineRef}
@@ -190,7 +199,10 @@ export default function MainWeatherDetails(props) {
                 />
               </svg>
             }
-            name="Uv index"
+            name={
+              uiDifferentLanguageData[language].components.main_weather_details
+                .uv_index
+            }
           >
             <MainWeatherDetailsUVIndex uvIndex={currentHourWeatherData.uv} />
           </MainWeatherDetailsPropertyBig>
@@ -207,7 +219,10 @@ export default function MainWeatherDetails(props) {
                   />
                 </svg>
               }
-              name="Sunrise"
+              name={
+                uiDifferentLanguageData[language].components
+                  .main_weather_details.sunrise
+              }
             >
               <MainWeatherDetailsSunrise
                 sunrise={currentDayWeatherData.astro.sunrise}
@@ -224,7 +239,10 @@ export default function MainWeatherDetails(props) {
                   />
                 </svg>
               }
-              name="Wind"
+              name={
+                uiDifferentLanguageData[language].components
+                  .main_weather_details.wind
+              }
             >
               <MainWeatherDetailsWind
                 windDirection={currentDayWeatherData.hour[0].wind_dir}
@@ -237,7 +255,10 @@ export default function MainWeatherDetails(props) {
                   <path d="M12,20a6,6,0,0,1-6-6c0-4,6-10.8,6-10.8S18,10,18,14A6,6,0,0,1,12,20Z" />
                 </svg>
               }
-              name="Rainfall"
+              name={
+                uiDifferentLanguageData[language].components
+                  .main_weather_details.rainfall
+              }
             >
               <MainWeatherDetailsRainfall
                 precipitationInLastHour={
@@ -248,16 +269,18 @@ export default function MainWeatherDetails(props) {
             </MainWeatherDetailsPropertyMin>
             <MainWeatherDetailsPropertyMin
               icon={
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                  <path
-                    d="M12 15.9998C11.4477 15.9998 11 16.4475 11 16.9998C11 17.5521 11.4477 17.9998 12 17.9998C12.5523 17.9998 13 17.5521 13 16.9998C13 16.4475 12.5523 15.9998 12 15.9998ZM12 15.9998V12M12 16.9998L12.0071 17.0069M16 16.9998C16 19.209 14.2091 20.9998 12 20.9998C9.79086 20.9998 8 19.209 8 16.9998C8 15.9854 8.37764 15.0591 9 14.354L9 6C9 4.34315 10.3431 3 12 3C13.6569 3 15 4.34315 15 6V14.354C15.6224 15.0591 16 15.9854 16 16.9998Z"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 32 32"
+                  version="1.1"
+                >
+                  <path d="M21.25 6.008c0-6.904-10.5-6.904-10.5 0v13.048c-1.238 1.298-2.001 3.061-2.001 5.001 0 4.004 3.246 7.25 7.25 7.25s7.25-3.246 7.25-7.25c0-1.94-0.762-3.702-2.003-5.003l0.003 0.003zM16 28.75c-2.623 0-4.75-2.127-4.75-4.75 0-1.405 0.61-2.667 1.58-3.537l0.004-0.004c0.009-0.008 0.013-0.020 0.022-0.029 0.059-0.063 0.112-0.133 0.157-0.208l0.003-0.006c0.043-0.053 0.084-0.113 0.119-0.175l0.003-0.006c0.020-0.055 0.037-0.122 0.049-0.19l0.001-0.007c0.027-0.081 0.047-0.175 0.056-0.272l0-0.005 0.007-0.033v-13.52c-0.001-0.031-0.002-0.068-0.002-0.105 0-1.52 1.232-2.752 2.752-2.752s2.752 1.232 2.752 2.752c0 0.037-0.001 0.074-0.002 0.11l0-0.005v13.52c0 0.012 0.007 0.023 0.007 0.035 0.009 0.098 0.028 0.188 0.056 0.274l-0.002-0.009c0.013 0.079 0.031 0.149 0.055 0.217l-0.003-0.009c0.038 0.068 0.079 0.127 0.123 0.182l-0.002-0.002c0.048 0.081 0.101 0.151 0.16 0.215l-0.001-0.001c0.009 0.009 0.012 0.021 0.022 0.029 0.974 0.874 1.584 2.136 1.584 3.541 0 2.623-2.127 4.75-4.75 4.75v0zM26.5 1.75c-2.071 0-3.75 1.679-3.75 3.75s1.679 3.75 3.75 3.75c2.071 0 3.75-1.679 3.75-3.75v0c-0.002-2.070-1.68-3.748-3.75-3.75h-0zM26.5 6.75c-0.69 0-1.25-0.56-1.25-1.25s0.56-1.25 1.25-1.25c0.69 0 1.25 0.56 1.25 1.25v0c-0.001 0.69-0.56 1.249-1.25 1.25h-0z" />
                 </svg>
               }
-              name="Feels Like"
+              name={
+                uiDifferentLanguageData[language].components
+                  .main_weather_details.feels_like
+              }
             >
               <MainWeatherDetailsFeelsLike
                 temperature={Math.floor(currentHourWeatherData.feelslike_c)}
@@ -276,7 +299,10 @@ export default function MainWeatherDetails(props) {
                   <path d="M14.1296 11.5308C14.8899 11.2847 15.4728 12.076 15.1153 12.7892C14.952 13.1151 14.7683 13.3924 14.4031 13.5214C13.426 13.8666 12.6166 14.3527 11.7715 14.8679L11.6874 14.9192C10.6044 15.5799 9.40516 16.3115 7.82074 16.5749C6.17735 16.8481 4.23604 16.6066 1.62884 15.5661C1.11608 15.3615 0.866688 14.7809 1.07181 14.2694C1.27694 13.7578 1.8589 13.509 2.37167 13.7137C4.76436 14.6685 6.32297 14.8012 7.49201 14.6069C8.67889 14.4096 9.58374 13.8634 10.7286 13.1654C11.8166 12.5021 12.9363 11.9171 14.1296 11.5308Z" />
                 </svg>
               }
-              name="Humidity"
+              name={
+                uiDifferentLanguageData[language].components
+                  .main_weather_details.humidity
+              }
             >
               <MainWeatherDetailsHumidity
                 percent={currentHourWeatherData.humidity}
@@ -298,7 +324,10 @@ export default function MainWeatherDetails(props) {
                   />
                 </svg>
               }
-              name="Pressure"
+              name={
+                uiDifferentLanguageData[language].components
+                  .main_weather_details.pressure
+              }
             >
               <MainWeatherDetailsPressure
                 pressure={currentHourWeatherData.pressure_mb}

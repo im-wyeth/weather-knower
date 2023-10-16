@@ -2,24 +2,40 @@ import AppCustomSelection from "../components/AppCustomSelection";
 import SettingsPropertyItem from "../components/SettingsPropertyItem";
 import { useDispatch, useSelector } from "react-redux";
 import * as appSlice from "../features/app/appSlice";
-import { useEffect } from "react";
+import uiDifferentLanguageData from "../assets/json/uiDifferentLanguageData.json";
 
 const PROPERTY_DATA = {
   ru: {
-    text: "Язык",
+    text: "язык",
     selection: {
       options: [
-        { value: "ru", text: "русский" },
-        { value: "en", text: "english" },
+        {
+          value: "ru",
+          text: uiDifferentLanguageData.ru.components.settings_language_property
+            .options[0].text,
+        },
+        {
+          value: "en",
+          text: uiDifferentLanguageData.ru.components.settings_language_property
+            .options[1].text,
+        },
       ],
     },
   },
   en: {
-    text: "Language",
+    text: "language",
     selection: {
       options: [
-        { value: "ru", text: "русский" },
-        { value: "en", text: "english" },
+        {
+          value: "ru",
+          text: uiDifferentLanguageData.en.components.settings_language_property
+            .options[0].text,
+        },
+        {
+          value: "en",
+          text: uiDifferentLanguageData.en.components.settings_language_property
+            .options[1].text,
+        },
       ],
     },
   },
@@ -35,7 +51,12 @@ export default function SettingsLanguageProperty() {
   }
 
   return (
-    <SettingsPropertyItem text={PROPERTY_DATA.ru.text}>
+    <SettingsPropertyItem
+      text={
+        uiDifferentLanguageData[language].components.settings_language_property
+          .text
+      }
+    >
       <AppCustomSelection
         onSelect={onSelect}
         selectedOptionIndex={

@@ -2,23 +2,40 @@ import AppCustomSelection from "../components/AppCustomSelection";
 import SettingsPropertyItem from "../components/SettingsPropertyItem";
 import { useDispatch, useSelector } from "react-redux";
 import * as appSlice from "../features/app/appSlice";
+import uiDifferentLanguageData from "../assets/json/uiDifferentLanguageData.json";
 
 const PROPERTY_DATA = {
   ru: {
-    text: "Тема",
+    text: "тема",
     selection: {
       options: [
-        { value: "dark", text: "Тёмная" },
-        { value: "light", text: "Светлая" },
+        {
+          value: "dark",
+          text: uiDifferentLanguageData.ru.components.settings_theme_property
+            .options[0].text,
+        },
+        {
+          value: "light",
+          text: uiDifferentLanguageData.ru.components.settings_theme_property
+            .options[1].text,
+        },
       ],
     },
   },
   en: {
-    text: "Theme",
+    text: "theme",
     selection: {
       options: [
-        { value: "dark", text: "Dark" },
-        { value: "light", text: "Light" },
+        {
+          value: "dark",
+          text: uiDifferentLanguageData.ru.components.settings_theme_property
+            .options[0].text,
+        },
+        {
+          value: "light",
+          text: uiDifferentLanguageData.ru.components.settings_theme_property
+            .options[1].text,
+        },
       ],
     },
   },
@@ -27,6 +44,7 @@ const PROPERTY_DATA = {
 export default function SettingsThemeProperty() {
   const dispatch = useDispatch();
 
+  const language = useSelector((state) => state.app.settings.language);
   const theme = useSelector((state) => state.app.settings.theme);
 
   function onSelect(event, option) {
@@ -34,7 +52,12 @@ export default function SettingsThemeProperty() {
   }
 
   return (
-    <SettingsPropertyItem text={PROPERTY_DATA.ru.text}>
+    <SettingsPropertyItem
+      text={
+        uiDifferentLanguageData[language].components.settings_theme_property
+          .text
+      }
+    >
       <AppCustomSelection
         onSelect={onSelect}
         selectedOptionIndex={

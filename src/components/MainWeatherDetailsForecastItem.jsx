@@ -1,8 +1,16 @@
 import { useEffect, useState } from "react";
 import "../assets/scss/components/forecast-item.scss";
 import { useSelector } from "react-redux";
+import uiDifferentLanguageData from "../assets/json/uiDifferentLanguageData.json";
+
+const DATE_LOCALES = {
+  ru: "ru-RU",
+  en: "en-US",
+};
 
 export default function MainWeatherDetailsForecastItem(props) {
+  const language = useSelector((state) => state.app.settings.language);
+
   const dateFromMilliseconds = new Date(props.timeInMilliseconds);
   const currentDate = new Date(Date.now());
 
@@ -14,6 +22,7 @@ export default function MainWeatherDetailsForecastItem(props) {
     splittedTimeInString[0] + ":" + splittedTimeInString[1]
   );
   let [newSrcOfConditionImage, setNewSrcOfConditionImage] = useState("");
+  const [isCurrentHour, setIsCurrentHour] = useState(false);
 
   const conditionIcons = useSelector(
     (state) => state.imagesOfWeatherConditions.codes
@@ -24,15 +33,23 @@ export default function MainWeatherDetailsForecastItem(props) {
 
   useEffect(() => {
     if (props.forecastType === "weekly") {
-      const dateName = dateFromMilliseconds.toLocaleDateString("en-US", {
-        weekday: "short",
-      });
+      const dateName = dateFromMilliseconds.toLocaleDateString(
+        DATE_LOCALES[language],
+        {
+          weekday: "short",
+        }
+      );
 
       setTimeForDisplay(dateName);
     } else if (
       currentDate.toLocaleTimeString().split(":")[0] === splittedTimeInString[0]
     ) {
-      setTimeForDisplay("Now");
+      setIsCurrentHour(true);
+
+      setTimeForDisplay(
+        uiDifferentLanguageData[language].components
+          .main_weather_details_forecast_item.now
+      );
     } else {
       setTimeForDisplay(
         splittedTimeInString[0] + ":" + splittedTimeInString[1]
@@ -59,8 +76,7 @@ export default function MainWeatherDetailsForecastItem(props) {
   return (
     <div
       className={
-        "forecast-item" +
-        (timeForDisplay === "Now" ? " forecast-item_current" : "")
+        "forecast-item" + (isCurrentHour ? " forecast-item_current" : "")
       }
     >
       {props.forecastType === "hourly" ? (

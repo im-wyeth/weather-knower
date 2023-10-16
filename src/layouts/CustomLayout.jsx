@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
-
 import "../assets/scss/layouts/custom-layout.scss";
+import { useSelector } from "react-redux";
+import uiDifferentLanguageData from "../assets/json/uiDifferentLanguageData.json";
 
 export default function CustomLayout(props) {
+  const language = useSelector((state) => state.app.settings.language);
+
   return (
     <div className="custom-layout">
       <section className="custom-layout__top">
@@ -20,7 +23,12 @@ export default function CustomLayout(props) {
                 fill="black"
               />
             </svg>
-            <span className="custom-layout__cancel-text">Weather</span>
+            <span className="custom-layout__cancel-text">
+              {
+                uiDifferentLanguageData[language].layouts.custom_layout
+                  .cancel_text
+              }
+            </span>
           </div>
         </Link>
       </section>

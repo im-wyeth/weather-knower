@@ -1,14 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
-
 import "../assets/scss/pages/search.scss";
 import SearchCityWeather from "../components/SearchCityWeather";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as citiesWeatherDataSlice from "../features/citiesWeatherData/citiesWeatherDataSlice";
 import * as locationSlice from "../features/location/locationSlice";
+import uiDifferentLanguageData from "../assets/json/uiDifferentLanguageData.json";
 
 export default function Search() {
   const citiesRef = useRef(null);
+
+  const language = useSelector((state) => state.app.settings.language);
 
   const citiesWeatherData = useSelector(
     (state) => state.citiesWeatherData.list
@@ -91,7 +93,9 @@ export default function Search() {
           <input
             onChange={onInputChange}
             type="text"
-            placeholder="Search for a city or airport"
+            placeholder={
+              uiDifferentLanguageData[language].pages.search.search_input_text
+            }
           />
         </div>
       </section>

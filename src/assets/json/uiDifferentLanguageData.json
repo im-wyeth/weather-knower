@@ -7,8 +7,8 @@
     },
     "pages": {
       "main": {
-        "low_temperature": "н",
-        "high_temperature": "в"
+        "high_temperature": "в",
+        "low_temperature": "н"
       },
       "search": {
         "search_input_text": "поиск города или аэропорта"
@@ -22,17 +22,40 @@
         "sunrise": "восход",
         "wind": "ветер",
         "rainfall": "ливень",
-        "feels_like": "ощущается как",
+        "feels_like": "ощущ. как",
         "humidity": "влажность",
         "pressure": "давление"
+      },
+      "main_weather_details_forecast_item": {
+        "now": "сейчас"
+      },
+      "main_weather_details_sunrise": {
+        "sunset": "закат"
+      },
+      "main_weather_details_rainfall": {
+        "mm_in_last_hour": "мм сейчас",
+        "mm_expected_in_next_24": "мм ожидается в следующие 24 часа"
       },
       "search_city_weather": {
         "low_temperature": "н",
         "high_temperature": "в"
+      },
+      "settings_language_property": {
+        "text": "язык",
+        "options": [{ "text": "русский" }, { "text": "english" }]
+      },
+      "settings_theme_property": {
+        "text": "тема",
+        "options": [{ "text": "тёмная" }, { "text": "светлая" }]
       }
     }
   },
   "en": {
+    "layouts": {
+      "custom_layout": {
+        "cancel_text": "weather"
+      }
+    },
     "pages": {
       "main": {
         "low_temperature": "l",
@@ -55,9 +78,27 @@
         "humidity": "humidity",
         "pressure": "pressure"
       },
+      "main_weather_details_forecast_item": {
+        "now": "now"
+      },
+      "main_weather_details_sunrise": {
+        "sunset": "sunset"
+      },
+      "main_weather_details_rainfall": {
+        "mm_in_last_hour": "mm in last hour",
+        "mm_expected_in_next_24": "mm expected in next 24h"
+      },
       "search_city_weather": {
         "low_temperature": "н",
         "high_temperature": "в"
+      },
+      "settings_language_property": {
+        "text": "language",
+        "options": [{ "text": "русский" }, { "text": "english" }]
+      },
+      "settings_theme_property": {
+        "text": "theme",
+        "options": [{ "text": "dark" }, { "text": "light" }]
       }
     }
   }

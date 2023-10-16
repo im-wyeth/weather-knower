@@ -3,9 +3,12 @@ import "../assets/scss/pages/main.scss";
 import MainBottomNavigation from "../components/MainBottomNavigation";
 import MainWeatherDetails from "../components/MainWeatherDetails";
 import { useSelector } from "react-redux";
+import uiDifferentLanguageData from "../assets/json/uiDifferentLanguageData.json";
 
 export default function Main(props) {
   const mainBottomNavigationRef = useRef(null);
+
+  const language = useSelector((state) => state.app.settings.language);
 
   const [weatherDetailsIsFullScreen, setWeatherDetailsIsFullScreen] =
     useState(false);
@@ -38,11 +41,14 @@ export default function Main(props) {
           </div>
         </div>
         <div className="main__temperature-limits">
-          {"H:" +
+          {uiDifferentLanguageData[language].pages.main.high_temperature +
+            ":" +
             Math.floor(
               currentCityWeatherData.forecast.forecastday[0].day.maxtemp_c
             ) +
-            "° L:" +
+            "° " +
+            uiDifferentLanguageData[language].pages.main.low_temperature +
+            ":" +
             Math.floor(
               currentCityWeatherData.forecast.forecastday[0].day.mintemp_c
             ) +
