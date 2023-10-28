@@ -1,3 +1,5 @@
+@import "../vars.scss";
+
 .search {
   overflow: hidden;
 
@@ -12,11 +14,11 @@
   &__input {
     margin-top: 8px;
 
-    color: #ebebf599;
+    color: $text-color-1-dark;
     background: linear-gradient(
       168.44deg,
-      rgba(46, 51, 90, 0.26) 1%,
-      rgba(28, 27, 51, 0.26) 95%
+      $search-input_background_color-1_dark 1%,
+      $search-input_background_color-2_dark 95%
     );
 
     box-shadow: 0px 4px 4px 0px #00000040 inset;
@@ -32,7 +34,7 @@
       margin-left: 8px;
 
       path {
-        fill: #ebebf599;
+        fill: $text-color-1-dark;
       }
     }
 
@@ -46,7 +48,7 @@
       border: none;
       outline: none;
 
-      color: #ebebf599;
+      color: $text-color-1-dark;
       background: none;
 
       font-size: 17px;

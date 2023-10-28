@@ -7,12 +7,16 @@ export const locationSlice = createSlice({
       longitude: null,
       latitude: null,
     },
+    coordinatesUpdatedTimeStamp:
+      localStorage.getItem("coordinatesUpdatedTimeStamp") || Date.now(),
     name: localStorage.getItem("locationName") || "Tokyo",
   },
   reducers: {
-    setLocationData: (state, coordinates) => {
+    setCoordinates: (state, coordinates) => {
       state.coordinates.latitude = coordinates.payload.latitude;
       state.coordinates.longitude = coordinates.payload.longitude;
+
+      state.coordinatesUpdatedTimeStamp = Date.now();
     },
     setName: (state, name) => {
       state.name = name.payload;
@@ -20,6 +24,6 @@ export const locationSlice = createSlice({
   },
 });
 
-export const { setLocationData, setName } = locationSlice.actions;
+export const { setCoordinates, setName } = locationSlice.actions;
 
 export default locationSlice.reducer;

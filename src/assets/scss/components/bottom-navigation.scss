@@ -14,12 +14,12 @@
 
   background: linear-gradient(
     180deg,
-    rgba(58, 58, 106, 0.26) 0%,
-    rgba(37, 36, 76, 0.26) 100%
+    $bottom-navigation_background_color-1_dark 0%,
+    $bottom-navigation_background_color-2_dark 100%
   );
   backdrop-filter: blur(14px);
 
-  border-top: 0.5px solid #7582f480;
+  border-top: 0.5px solid $color-4-dark;
 
   display: flex;
   justify-content: center;
@@ -49,14 +49,14 @@
 
     svg {
       path {
-        fill: white;
+        fill: $text-color-2-dark;
       }
     }
 
     &_active {
       svg {
         path {
-          fill: #e64396;
+          fill: $color-9-dark;
         }
       }
     }
@@ -78,8 +78,8 @@
 
     background: linear-gradient(
       140deg,
-      rgba(0, 0, 0, 0.4) 19%,
-      rgba(255, 255, 255, 0.3) 86%
+      $bottom-navigation_central-button-wrapper_background_color-1_dark 19%,
+      $bottom-navigation_central-button-wrapper_background_color-2_dark 86%
     );
 
     position: absolute;
@@ -92,7 +92,9 @@
     justify-content: center;
     align-items: center;
 
-    box-shadow: -4px -4px 16px #828ef7c1, 4px 4px 12px #212549;
+    box-shadow: -4px -4px 16px $bottom-navigation_central-button-wrapper_box-shadow_color-1_dark,
+      4px 4px 12px
+        $bottom-navigation_central-button-wrapper_box-shadow_color-2_dark;
   }
 
   &__central-button {
@@ -108,12 +110,16 @@
     justify-content: center;
     align-items: center;
 
-    background-color: white;
+    background-color: $text-color-2-dark;
 
     &:active {
-      border: 3px solid white;
+      border: 3px solid $text-color-2-dark;
 
-      background: linear-gradient(153deg, #a8adb9 0%, #fff 80%);
+      background: linear-gradient(
+        153deg,
+        $bottom-navigation_central-button_background_color-1_dark 0%,
+        $bottom-navigation_central-button_background_color-2_dark 80%
+      );
     }
   }
 }

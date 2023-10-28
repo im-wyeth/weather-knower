@@ -13,53 +13,34 @@ const store = configureStore({
   },
 });
 
-function selectCitiesWeatherDataList(state) {
-  return state.citiesWeatherData.list;
-}
-
-function selectLocationCoordinates(state) {
-  return state.location.coordinates;
-}
-
-function selectLocationName(state) {
-  return state.location.name;
-}
-
-function selectAppSettingsLanguage(state) {
-  return state.app.settings.language;
-}
-
-function selectAppSettingsTheme(state) {
-  return state.app.settings.theme;
-}
-
 function citiesWeatherDataSaver() {
-  const citiesWeatherDataListNewValue = selectCitiesWeatherDataList(
-    store.getState()
-  );
+  const citiesWeatherDataListNewValue = store.getState().citiesWeatherData.list;
   localStorage.setItem(
     "citiesWeatherData",
     JSON.stringify(citiesWeatherDataListNewValue)
   );
 
-  const locationCoordinatesNewValue = selectLocationCoordinates(
-    store.getState()
-  );
+  const locationCoordinatesNewValue = store.getState().location.coordinates;
   localStorage.setItem(
     "coordinates",
     JSON.stringify(locationCoordinatesNewValue)
   );
 
-  const locationNameNewValue = selectLocationName(store.getState());
+  const locationNameNewValue = store.getState().location.name;
   localStorage.setItem("locationName", locationNameNewValue);
 
-  const appSettingsLanguageNewValue = selectAppSettingsLanguage(
-    store.getState()
-  );
+  const appSettingsLanguageNewValue = store.getState().app.settings.language;
   localStorage.setItem("language", appSettingsLanguageNewValue);
 
-  const appSettingsThemeNewValue = selectAppSettingsTheme(store.getState());
+  const appSettingsThemeNewValue = store.getState().app.settings.theme;
   localStorage.setItem("theme", appSettingsThemeNewValue);
+
+  const locationCoordinatesUpdatedTimeStampNewValue =
+    store.getState().location.coordinatesUpdatedTimeStamp;
+  localStorage.setItem(
+    "coordinatesUpdatedTimeStamp",
+    locationCoordinatesUpdatedTimeStampNewValue
+  );
 }
 
 store.subscribe(citiesWeatherDataSaver);

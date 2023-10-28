@@ -45,16 +45,16 @@ export default function Search() {
 
           setCitiesList([json]);
 
-          const isExist = citiesWeatherData.findIndex(
+          const indexOfExistCity = citiesWeatherData.findIndex(
             (cityWeatherData) =>
               cityWeatherData.location.name === json.location.name &&
               cityWeatherData.location.country === json.location.country
           );
 
-          if (isExist) {
+          if (indexOfExistCity >= 0) {
             dispatch(
               citiesWeatherDataSlice.setCitiesWeatherDataList([
-                ...citiesWeatherData.filter((a, i) => isExist !== i),
+                ...citiesWeatherData.filter((a, i) => indexOfExistCity !== i),
                 json,
               ])
             );

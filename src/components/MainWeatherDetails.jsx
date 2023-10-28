@@ -49,7 +49,7 @@ export default function MainWeatherDetails(props) {
 
     setTimeout(() => {
       thisRef.current.classList.add("weather-details_transition");
-    }, 1000);
+    });
 
     for (let i = currentDate.getHours(); i < 23 - currentDate.getHours(); ++i) {
       setPrecipitationInNext24Hour(
@@ -79,6 +79,13 @@ export default function MainWeatherDetails(props) {
   }
 
   function onWindowResize() {
+    const mainBottomNavigationRect =
+      props.mainBottomNavigationRef.current.getBoundingClientRect();
+
+    thisRef.current.style.transform = `translate3d(-50%, ${
+      mainBottomNavigationRect.top - TOP_MARGIN
+    }px, 0)`;
+
     if (currentForecastType === "hourly") {
       moveLineToTarget(movableLineRef.current, forecastFirstButtonRef.current);
     } else {
@@ -98,7 +105,11 @@ export default function MainWeatherDetails(props) {
   }
 
   function onTouchMove(event) {
-    if (touchStartPosition.y - event.touches[0].pageY >= 40) {
+    if (!props.isFullScreen) {
+      thisRef.current.style.transform = `translate3d(-50%, ${event.touches[0].pageY}px, 0)`;
+    }
+
+    if (touchStartPosition.y - event.touches[0].pageY >= 100) {
       if (props.isFullScreen) {
         return;
       }

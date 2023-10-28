@@ -4,20 +4,39 @@ import MainBottomNavigationCentralShape from "./MainBottomNavigationCentralShape
 import { useDispatch, useSelector } from "react-redux";
 import * as locationSlice from "../features/location/locationSlice";
 import * as citiesWeatherDataSlice from "../features/citiesWeatherData/citiesWeatherDataSlice.js";
+import { useEffect, useState } from "react";
+
+const COORDINATES_LIFE_TIME_IN_MS = 7200000;
 
 export default function MainBottomNavigation(props) {
   const dispatch = useDispatch();
 
+  const language = useSelector((state) => state.app.settings.language);
   const coordinates = useSelector((state) => state.location.coordinates);
+  const coordinatesUpdatedTimeStamp = useSelector(
+    (state) => state.location.coordinatesUpdatedTimeStamp
+  );
   const citiesWeatherDataList = useSelector(
     (state) => state.citiesWeatherData.list
   );
+  const [isGeolocationOn, setIsGeolocationOn] = useState(false);
 
-  function onClick(event) {
+  useEffect(() => {
+    if (coordinates.latitude) {
+      if (
+        Date.now() - coordinatesUpdatedTimeStamp <
+        COORDINATES_LIFE_TIME_IN_MS
+      ) {
+        setIsGeolocationOn(true);
+      }
+    }
+  }, []);
+
+  function onClick() {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(async (position) => {
         dispatch(
-          locationSlice.setLocationData({
+          locationSlice.setCoordinates({
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
           })
@@ -26,9 +45,10 @@ export default function MainBottomNavigation(props) {
         const fetchResult = await fetch(
           `http://api.weatherapi.com/v1/forecast.json?key=104b303882e44cb497094324231009&q=${
             position.coords.latitude + "," + position.coords.longitude
-          }&aqi=no`
+          }&aqi=no&lang=` + language
         );
 
+        // Add a check that the city are already exists
         if (fetchResult.status === 200) {
           const json = await fetchResult.json();
 
@@ -56,9 +76,7 @@ export default function MainBottomNavigation(props) {
         onClick={onClick}
         className={
           "bottom-navigation__button" +
-          (coordinates.longitude != null
-            ? " bottom-navigation__button_active"
-            : "")
+          (isGeolocationOn ? " bottom-navigation__button_active" : "")
         }
       >
         <svg

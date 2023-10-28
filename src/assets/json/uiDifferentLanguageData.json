@@ -95,10 +95,6 @@
       "settings_language_property": {
         "text": "language",
         "options": [{ "text": "русский" }, { "text": "english" }]
-      },
-      "settings_theme_property": {
-        "text": "theme",
-        "options": [{ "text": "dark" }, { "text": "light" }]
       }
     }
   }

@@ -1,14 +1,16 @@
+@import "../vars.scss";
+
 .weather-property-min {
   width: 164px;
   height: 164px;
 
-  background-color: #2b2157;
+  background-color: $color-2-dark;
 
   padding: 20px;
   margin-top: 10px;
 
   border-radius: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid $text-color-1-dark;
 
   &:nth-child(even) {
     margin-left: 16px;
@@ -24,14 +26,14 @@
 
     svg {
       path {
-        stroke: #9493ab;
-        fill: #9493ab;
+        stroke: $text-color-1-dark;
+        fill: $text-color-1-dark;
       }
     }
   }
 
   &__name {
-    color: #9493ab;
+    color: $text-color-1-dark;
 
     text-transform: uppercase;
 

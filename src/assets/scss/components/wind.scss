@@ -1,3 +1,5 @@
+@import "../vars.scss";
+
 .wind {
   width: 100%;
 
@@ -16,11 +18,11 @@
       width: 100%;
 
       circle {
-        stroke: #9493ab;
+        stroke: $text-color-1-dark;
       }
 
       path {
-        fill: #9493ab;
+        fill: $text-color-1-dark;
       }
     }
   }
@@ -42,10 +44,10 @@
 
     svg {
       path {
-        fill: #9493ab;
+        fill: $text-color-1-dark;
 
         &:last-child {
-          stroke: #9493ab;
+          stroke: $text-color-1-dark;
           fill: none;
         }
       }

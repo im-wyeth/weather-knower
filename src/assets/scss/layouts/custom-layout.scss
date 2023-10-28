@@ -1,3 +1,5 @@
+@import "../vars.scss";
+
 .custom-layout {
   &__top {
     padding-left: 16px;
@@ -16,7 +18,7 @@
 
     cursor: pointer;
 
-    color: #fff;
+    color: $text-color-2-dark;
 
     text-decoration: none;
 
@@ -25,7 +27,7 @@
       width: 17px;
 
       path {
-        fill: #ebebf599;
+        fill: $text-color-1-dark;
       }
     }
 
@@ -57,12 +59,12 @@
 
     background: conic-gradient(
       from 180deg at 50% 50%,
-      #612fab -90deg,
-      rgba(97, 47, 171, 0) 50deg,
-      #612fab 129deg,
-      rgba(97, 47, 171, 0) 226deg,
-      #612fab 269deg,
-      rgba(97, 47, 171, 0) 410deg
+      $custom-layout_ellipse-1_background_color-1_dark -90deg,
+      $custom-layout_ellipse-1_background_color-1_dark 50deg,
+      $custom-layout_ellipse-1_background_color-1_dark 129deg,
+      $custom-layout_ellipse-1_background_color-2_dark 226deg,
+      $custom-layout_ellipse-1_background_color-1_dark 269deg,
+      $custom-layout_ellipse-1_background_color-2_dark 410deg
     );
   }
 
@@ -81,10 +83,10 @@
 
     background: conic-gradient(
       from 180deg at 50% 50%,
-      rgba(97, 47, 171, 0) 50deg,
-      #612fab 129deg,
-      rgba(97, 47, 171, 0) 226deg,
-      #612fab 269deg
+      $custom-layout_ellipse-1_background_color-1_dark 50deg,
+      $custom-layout_ellipse-1_background_color-2_dark 129deg,
+      $custom-layout_ellipse-1_background_color-2_dark 226deg,
+      $custom-layout_ellipse-1_background_color-1_dark 269deg
     );
 
     filter: blur(101px);

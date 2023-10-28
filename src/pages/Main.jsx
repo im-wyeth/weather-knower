@@ -28,7 +28,12 @@ export default function Main(props) {
         "main" + (weatherDetailsIsFullScreen ? " main_fullscreen" : "")
       }
     >
-      <section className="main__important-info">
+      <section
+        className={
+          "main__important-info" +
+          (weatherDetailsIsFullScreen ? " main__important-info_fullscreen" : "")
+        }
+      >
         <div className="main__place">
           {currentCityWeatherData.location.name}
         </div>

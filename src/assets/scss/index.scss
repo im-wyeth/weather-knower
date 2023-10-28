@@ -20,8 +20,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  color: #fff;
-  background-color: #1f1d47;
+  color: $text-color-2-dark;
+  background-color: $color-1-dark;
 
   overflow: hidden;
 }
