@@ -5,7 +5,7 @@ import MainWeatherDetails from "../components/MainWeatherDetails";
 import { useSelector } from "react-redux";
 import uiDifferentLanguageData from "../assets/json/uiDifferentLanguageData.json";
 
-export default function Main(props) {
+export default function Main() {
   const mainBottomNavigationRef = useRef(null);
 
   const language = useSelector((state) => state.app.settings.language);
@@ -73,7 +73,6 @@ export default function Main(props) {
         isFullScreen={weatherDetailsIsFullScreen}
         setFullScreen={setWeatherDetailsIsFullScreen}
         mainBottomNavigationRef={mainBottomNavigationRef}
-        animationIsEnd={props.animationIsEnd}
       />
 
       <MainBottomNavigation

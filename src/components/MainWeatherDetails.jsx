@@ -26,6 +26,9 @@ export default function MainWeatherDetails(props) {
   const forecastItemsRef = useRef(null);
 
   const language = useSelector((state) => state.app.settings.language);
+  const routeTransitionIsEnd = useSelector(
+    (state) => state.app.route.transitionIsEnd
+  );
 
   const [currentForecastType, setCurrentForecastType] = useState("hourly");
   const [touchStartPosition, setTouchStartPosition] = useState({ x: 0, y: 0 });
@@ -47,10 +50,6 @@ export default function MainWeatherDetails(props) {
 
     moveLineToTarget(movableLineRef.current, forecastFirstButtonRef.current);
 
-    setTimeout(() => {
-      thisRef.current.classList.add("weather-details_transition");
-    });
-
     for (let i = currentDate.getHours(); i < 23 - currentDate.getHours(); ++i) {
       setPrecipitationInNext24Hour(
         precipitationInNext24Hour + currentDayWeatherData.hour[i].precip_mm
@@ -70,7 +69,7 @@ export default function MainWeatherDetails(props) {
     thisRef.current.style.transform = `translate3d(-50%, ${
       mainBottomNavigationRect.top - TOP_MARGIN
     }px, 0)`;
-  }, [props.animationIsEnd]);
+  }, [routeTransitionIsEnd]);
 
   function onForecastButtonClick(event, forecastType) {
     moveLineToTarget(movableLineRef.current, event.target);

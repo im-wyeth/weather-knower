@@ -4,21 +4,15 @@ import Search from "./pages/Search";
 import Settings from "./pages/Settings";
 import { useEffect, useState } from "react";
 import RouteTransitionWrapper from "./components/RouteTransitionWrapper";
-import { useDispatch } from "react-redux";
 import * as imagesOfWeatherConditionsSlice from "./features/imagesOfWeatherConditions/imagesOfWeatherConditionsSlice";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as citiesWeatherDataSlice from "./features/citiesWeatherData/citiesWeatherDataSlice";
 import CustomLayout from "./layouts/CustomLayout";
+import * as appSlice from "./features/app/appSlice";
 
 const LOCATIONS = ["London", "Japan", "Paris"];
 
 export default function App() {
-  const location = useLocation();
-
-  // ToDo: Move this code to RouteTransitionWrapper
-  const [animationIsEnd, setAnimationState] = useState(false);
-  const [displayLocation, setDisplayLocation] = useState(location);
-  const [transitionStage, setTransitionStage] = useState("fadeIn");
   const [citiesWeatherDataFromApi, setCitiesWeatherDataFromApi] = useState([]);
 
   useEffect(() => {
@@ -43,25 +37,15 @@ export default function App() {
   //   );
   // }, [citiesWeatherDataFromApi]);
 
-  useEffect(() => {
-    if (location !== displayLocation) setTransitionStage("fadeOut");
-  }, [location, displayLocation]);
-
   return (
     <div className="wrapper">
-      <Routes location={displayLocation}>
+      <Routes>
         <Route
           path="/"
           exact
           element={
-            <RouteTransitionWrapper
-              location={location}
-              transitionStage={transitionStage}
-              setTransitionStage={setTransitionStage}
-              setDisplayLocation={setDisplayLocation}
-              setAnimationState={setAnimationState}
-            >
-              <Main animationIsEnd={animationIsEnd} />
+            <RouteTransitionWrapper>
+              <Main />
             </RouteTransitionWrapper>
           }
         />
@@ -69,13 +53,7 @@ export default function App() {
           path="/search"
           element={
             <CustomLayout>
-              <RouteTransitionWrapper
-                location={location}
-                transitionStage={transitionStage}
-                setTransitionStage={setTransitionStage}
-                setDisplayLocation={setDisplayLocation}
-                setAnimationState={setAnimationState}
-              >
+              <RouteTransitionWrapper>
                 <Search />
               </RouteTransitionWrapper>
             </CustomLayout>
@@ -85,13 +63,7 @@ export default function App() {
           path="/settings"
           element={
             <CustomLayout>
-              <RouteTransitionWrapper
-                location={location}
-                transitionStage={transitionStage}
-                setTransitionStage={setTransitionStage}
-                setDisplayLocation={setDisplayLocation}
-                setAnimationState={setAnimationState}
-              >
+              <RouteTransitionWrapper>
                 <Settings />
               </RouteTransitionWrapper>
             </CustomLayout>
