@@ -12,25 +12,34 @@
 
   transform: translate3d(-50%, 0, 0);
 
-  background: linear-gradient(
-    180deg,
-    $bottom-navigation_background_color-1_dark 0%,
-    $bottom-navigation_background_color-2_dark 100%
-  );
-  backdrop-filter: blur(14px);
-
-  border-top: 0.5px solid $color-4-dark;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
   will-change: transform;
 
   transition: transform linear 0.3s;
 
   &_hidden {
     transform: translate3d(-50%, $bottom-navigation-center-height, 0);
+  }
+
+  &__background-svg {
+    width: 100%;
+
+    fill: $color-3-dark;
+
+    & path {
+      stroke: $color-4-dark;
+    }
+  }
+
+  &__content {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
   }
 
   &__button {

@@ -1,6 +1,5 @@
-import { useRef, useState, useEffect } from "react";
-import { useLocation } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
+import { useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import * as appSlice from "../features/app/appSlice";
 
 export default function RouteTransitionWrapper(props) {
@@ -12,6 +11,8 @@ export default function RouteTransitionWrapper(props) {
 
   function onAnimationEnd() {
     if (transitionStage === "fadeOut") {
+      dispatch(appSlice.setTransitionIsEnd(false));
+
       setTransitionStage("fadeIn");
 
       thisRef.current.style.opacity = 0;

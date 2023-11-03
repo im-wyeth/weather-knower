@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 import uiDifferentLanguageData from "../assets/json/uiDifferentLanguageData.json";
 
 const HEIGHT_AND_TOP_MARGIN = 70 + 77;
-const TOP_MARGIN = 240;
+const TOP_MARGIN = 230;
 
 export default function MainWeatherDetails(props) {
   const thisRef = useRef(null);
@@ -65,7 +65,6 @@ export default function MainWeatherDetails(props) {
     // ToDo: Firstly, set transition none, and then add the transition
     const mainBottomNavigationRect =
       props.mainBottomNavigationRef.current.getBoundingClientRect();
-
     thisRef.current.style.transform = `translate3d(-50%, ${
       mainBottomNavigationRect.top - TOP_MARGIN
     }px, 0)`;
