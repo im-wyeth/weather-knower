@@ -9,7 +9,7 @@
   border-top: 2px solid $color-4-dark;
   border-radius: 44px 44px 0 0;
 
-  position: fixed;
+  position: absolute;
   left: 50%;
   top: 0;
   z-index: $weather-details-z-index;

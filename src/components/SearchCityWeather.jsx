@@ -71,7 +71,9 @@ export default function SearchCityWeather(props) {
             src={newSrcOfConditionImage}
             alt="rain"
           />
-          <div className="city-weather__state">{props.weatherCondition}</div>
+          <div className="city-weather__condition">
+            {props.weatherCondition}
+          </div>
         </div>
       </div>
     </div>

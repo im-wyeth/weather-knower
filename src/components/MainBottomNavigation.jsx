@@ -3,7 +3,7 @@ import "../assets/scss/components/bottom-navigation.scss";
 import MainBottomNavigationCentralShape from "./MainBottomNavigationCentralShape";
 import { useDispatch, useSelector } from "react-redux";
 import * as locationSlice from "../features/location/locationSlice";
-import * as citiesWeatherDataSlice from "../features/citiesWeatherData/citiesWeatherDataSlice.js";
+import * as appSlice from "../features/app/appSlice";
 import { useEffect, useState } from "react";
 
 const COORDINATES_LIFE_TIME_IN_MS = 7200000;
@@ -16,8 +16,8 @@ export default function MainBottomNavigation(props) {
   const coordinatesUpdatedTimeStamp = useSelector(
     (state) => state.location.coordinatesUpdatedTimeStamp
   );
-  const citiesWeatherDataList = useSelector(
-    (state) => state.citiesWeatherData.list
+  const weatherDataOfCitiesList = useSelector(
+    (state) => state.app.weather.dataOfCities
   );
   const [isGeolocationOn, setIsGeolocationOn] = useState(false);
 
@@ -54,10 +54,7 @@ export default function MainBottomNavigation(props) {
 
           dispatch(locationSlice.setName(json.location.name));
           dispatch(
-            citiesWeatherDataSlice.setCitiesWeatherDataList([
-              ...citiesWeatherDataList,
-              json,
-            ])
+            appSlice.setWeatherDataOfCities([...weatherDataOfCitiesList, json])
           );
         }
       });

@@ -3,7 +3,7 @@ import "../assets/scss/pages/search.scss";
 import SearchCityWeather from "../components/SearchCityWeather";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as citiesWeatherDataSlice from "../features/citiesWeatherData/citiesWeatherDataSlice";
+import * as appSlice from "../features/app/appSlice";
 import * as locationSlice from "../features/location/locationSlice";
 import uiDifferentLanguageData from "../assets/json/uiDifferentLanguageData.json";
 
@@ -12,11 +12,11 @@ export default function Search() {
 
   const language = useSelector((state) => state.app.settings.language);
 
-  const citiesWeatherData = useSelector(
-    (state) => state.citiesWeatherData.list
+  const weatherDataOfCities = useSelector(
+    (state) => state.app.weather.dataOfCities
   );
 
-  const [citiesList, setCitiesList] = useState(citiesWeatherData.concat());
+  const [citiesList, setCitiesList] = useState(weatherDataOfCities.concat());
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ export default function Search() {
 
           setCitiesList([json]);
 
-          const indexOfExistCity = citiesWeatherData.findIndex(
+          const indexOfExistCity = weatherDataOfCities.findIndex(
             (cityWeatherData) =>
               cityWeatherData.location.name === json.location.name &&
               cityWeatherData.location.country === json.location.country
@@ -53,17 +53,14 @@ export default function Search() {
 
           if (indexOfExistCity >= 0) {
             dispatch(
-              citiesWeatherDataSlice.setCitiesWeatherDataList([
-                ...citiesWeatherData.filter((a, i) => indexOfExistCity !== i),
+              appSlice.setWeatherDataOfCities([
+                ...weatherDataOfCities.filter((a, i) => indexOfExistCity !== i),
                 json,
               ])
             );
           } else {
             dispatch(
-              citiesWeatherDataSlice.setCitiesWeatherDataList([
-                ...citiesWeatherData,
-                json,
-              ])
+              appSlice.setWeatherDataOfCities([...weatherDataOfCities, json])
             );
           }
         }

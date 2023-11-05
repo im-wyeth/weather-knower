@@ -16,6 +16,7 @@ import uiDifferentLanguageData from "../assets/json/uiDifferentLanguageData.json
 
 const HEIGHT_AND_TOP_MARGIN = 70 + 77;
 const TOP_MARGIN = 230;
+const FULLSCREEN_ACTIVATE_POINT = 100;
 
 export default function MainWeatherDetails(props) {
   const thisRef = useRef(null);
@@ -26,19 +27,17 @@ export default function MainWeatherDetails(props) {
   const forecastItemsRef = useRef(null);
 
   const language = useSelector((state) => state.app.settings.language);
-  const routeTransitionIsEnd = useSelector(
-    (state) => state.app.route.transitionIsEnd
-  );
 
   const [currentForecastType, setCurrentForecastType] = useState("hourly");
-  const [touchStartPosition, setTouchStartPosition] = useState({ x: 0, y: 0 });
+  const [mainButtonTouchStartPosition, setMainButtonTouchStartPosition] =
+    useState({ x: 0, y: 0 });
   const [precipitationInNext24Hour, setPrecipitationInNext24Hour] = useState(0);
   const currentDate = new Date(Date.now());
   const locationName = useSelector((state) => state.location.name);
-  const citiesWeatherData = useSelector(
-    (state) => state.citiesWeatherData.list
+  const weatherDataOfCities = useSelector(
+    (state) => state.app.weather.dataOfCities
   );
-  const currentCityWeatherData = citiesWeatherData.find(
+  const currentCityWeatherData = weatherDataOfCities.find(
     (cityWeatherData) => cityWeatherData.location.name === locationName
   );
   const currentDayWeatherData = currentCityWeatherData.forecast.forecastday[0];
@@ -61,14 +60,19 @@ export default function MainWeatherDetails(props) {
     };
   }, []);
 
-  useEffect(() => {
-    // ToDo: Firstly, set transition none, and then add the transition
+  function positionAtTheMainBottomNavigation() {
     const mainBottomNavigationRect =
       props.mainBottomNavigationRef.current.getBoundingClientRect();
+
     thisRef.current.style.transform = `translate3d(-50%, ${
       mainBottomNavigationRect.top - TOP_MARGIN
     }px, 0)`;
-  }, [routeTransitionIsEnd]);
+
+    props.mainBottomNavigationRef.current.removeEventListener(
+      "transitionend",
+      positionAtTheMainBottomNavigation
+    );
+  }
 
   function onForecastButtonClick(event, forecastType) {
     moveLineToTarget(movableLineRef.current, event.target);
@@ -95,49 +99,69 @@ export default function MainWeatherDetails(props) {
     forecastItemsRef.current.scrollLeft += event.deltaY;
   }
 
-  function onTouchStart(event) {
-    setTouchStartPosition({
+  function mainButtonOnTouchStart(event) {
+    setMainButtonTouchStartPosition({
       x: event.touches[0].pageX,
       y: event.touches[0].pageY,
     });
   }
 
-  function onTouchMove(event) {
+  function moveThisElemVerticallyWithTranslate(y) {
+    thisRef.current.style.transform = `translate3d(-50%, ${y}px, 0)`;
+  }
+
+  function mainButtonOnTouchMove(event) {
     if (!props.isFullScreen) {
-      thisRef.current.style.transform = `translate3d(-50%, ${event.touches[0].pageY}px, 0)`;
+      moveThisElemVerticallyWithTranslate(event.touches[0].pageY);
     }
 
-    if (touchStartPosition.y - event.touches[0].pageY >= 100) {
+    if (
+      mainButtonTouchStartPosition.y - event.touches[0].pageY >=
+      FULLSCREEN_ACTIVATE_POINT
+    ) {
       if (props.isFullScreen) {
         return;
       }
 
       props.setFullScreen(true);
 
-      thisRef.current.style.transform = `translate3d(-50%, ${HEIGHT_AND_TOP_MARGIN}px, 0)`;
+      moveThisElemVerticallyWithTranslate(HEIGHT_AND_TOP_MARGIN);
 
-      thisRef.current.addEventListener("transitionend", () => {
-        const scrollWrapperRect =
-          scrollWrapperRef.current.getBoundingClientRect();
-
-        scrollWrapperRef.current.style.height =
-          window.innerHeight - scrollWrapperRect.top + "px";
-      });
+      thisRef.current.addEventListener(
+        "transitionend",
+        activateScrollForScrollWrapper
+      );
     }
+  }
+
+  function activateScrollForScrollWrapper() {
+    const scrollWrapperRect = scrollWrapperRef.current.getBoundingClientRect();
+    scrollWrapperRef.current.style.height =
+      window.innerHeight - scrollWrapperRect.top + "px";
+
+    thisRef.current.removeEventListener(
+      "transitionend",
+      activateScrollForScrollWrapper
+    );
   }
 
   function onClick() {
     props.setFullScreen(false);
 
-    thisRef.current.style.transform = `translate3d(-50%, 508px, 0)`;
+    props.mainBottomNavigationRef.current.addEventListener(
+      "transitionend",
+      positionAtTheMainBottomNavigation
+    );
+
+    scrollWrapperRef.current.style.height = "auto";
   }
 
   return (
     <div ref={thisRef} className="weather-details">
       <div className="weather-details__top-bar">
         <button
-          onTouchStart={onTouchStart}
-          onTouchMove={onTouchMove}
+          onTouchStart={mainButtonOnTouchStart}
+          onTouchMove={mainButtonOnTouchMove}
           onClick={onClick}
           className="weather-details__main-button"
         ></button>

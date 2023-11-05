@@ -5,6 +5,29 @@ import MainWeatherDetails from "../components/MainWeatherDetails";
 import { useSelector } from "react-redux";
 import uiDifferentLanguageData from "../assets/json/uiDifferentLanguageData.json";
 
+function getDataModelOfMainPage(currentLocationWeatherDataFromAPI) {
+  const dataModelForMainPage = {
+    temperature: 20,
+    conditionText: "Partly Cloudy",
+    maxTemperature: 25,
+    minTemperature: 15,
+  };
+
+  if (currentLocationWeatherDataFromAPI) {
+    dataModelForMainPage.temperature = Math.floor(
+      currentLocationWeatherDataFromAPI.current.temp_c
+    );
+    dataModelForMainPage.conditionText =
+      currentLocationWeatherDataFromAPI.current.condition.text;
+    dataModelForMainPage.maxTemperature =
+      currentLocationWeatherDataFromAPI.forecast.forecastday[0].day.maxtemp_c;
+    dataModelForMainPage.minTemperature =
+      currentLocationWeatherDataFromAPI.forecast.forecastday[0].day.mintemp_c;
+  }
+
+  return dataModelForMainPage;
+}
+
 export default function Main() {
   const mainBottomNavigationRef = useRef(null);
 
@@ -14,12 +37,16 @@ export default function Main() {
     useState(false);
 
   const locationName = useSelector((state) => state.location.name);
-  const citiesWeatherData = useSelector(
-    (state) => state.citiesWeatherData.list
+  const weatherDataOfCities = useSelector(
+    (state) => state.app.weather.dataOfCities
   );
 
-  const currentCityWeatherData = citiesWeatherData.find(
+  const currentLocationWeatherData = weatherDataOfCities.find(
     (cityWeatherData) => cityWeatherData.location.name === locationName
+  );
+
+  const dateModelOfMainPage = getDataModelOfMainPage(
+    currentLocationWeatherData
   );
 
   return (
@@ -34,29 +61,23 @@ export default function Main() {
           (weatherDetailsIsFullScreen ? " main__important-info_fullscreen" : "")
         }
       >
-        <div className="main__place">
-          {currentCityWeatherData.location.name}
-        </div>
+        <div className="main__location-name">{locationName}</div>
         <div className="main__fullscreen-wrapper">
-          <div className="main__weather-temperature">
-            {Math.floor(currentCityWeatherData.current.temp_c) + "°"}
+          <div className="main__temperature">
+            {dateModelOfMainPage.temperature + "°"}
           </div>
-          <div className="main__weather-state">
-            {currentCityWeatherData.current.condition.text}
+          <div className="main__condition">
+            {dateModelOfMainPage.conditionText}
           </div>
         </div>
         <div className="main__temperature-limits">
           {uiDifferentLanguageData[language].pages.main.high_temperature +
             ":" +
-            Math.floor(
-              currentCityWeatherData.forecast.forecastday[0].day.maxtemp_c
-            ) +
+            dateModelOfMainPage.maxTemperature +
             "° " +
             uiDifferentLanguageData[language].pages.main.low_temperature +
             ":" +
-            Math.floor(
-              currentCityWeatherData.forecast.forecastday[0].day.mintemp_c
-            ) +
+            dateModelOfMainPage.minTemperature +
             "°"}
         </div>
       </section>

@@ -8,13 +8,16 @@ const AppCustomSelection = function (props) {
     props.selectedOptionIndex
   );
 
-  const cb = () => setDropActive(false);
+  const callBackForHandleClickSomwhereInWindow = () => setDropActive(false);
 
   useEffect(() => {
-    window.addEventListener("click", cb);
+    window.addEventListener("click", callBackForHandleClickSomwhereInWindow);
 
     return () => {
-      window.removeEventListener("click", cb);
+      window.removeEventListener(
+        "click",
+        callBackForHandleClickSomwhereInWindow
+      );
     };
   }, []);
 
