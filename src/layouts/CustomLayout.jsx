@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import uiDifferentLanguageData from "../assets/json/uiDifferentLanguageData.json";
 
 export default function CustomLayout(props) {
-  const language = useSelector((state) => state.app.settings.language);
+  const language = useSelector((state) => state.settings.language);
 
   return (
     <div className="custom-layout">

@@ -4,49 +4,19 @@ import MainBottomNavigation from "../components/MainBottomNavigation";
 import MainWeatherDetails from "../components/MainWeatherDetails";
 import { useSelector } from "react-redux";
 import uiDifferentLanguageData from "../assets/json/uiDifferentLanguageData.json";
-
-function getDataModelOfMainPage(currentLocationWeatherDataFromAPI) {
-  const dataModelForMainPage = {
-    temperature: 20,
-    conditionText: "Partly Cloudy",
-    maxTemperature: 25,
-    minTemperature: 15,
-  };
-
-  if (currentLocationWeatherDataFromAPI) {
-    dataModelForMainPage.temperature = Math.floor(
-      currentLocationWeatherDataFromAPI.current.temp_c
-    );
-    dataModelForMainPage.conditionText =
-      currentLocationWeatherDataFromAPI.current.condition.text;
-    dataModelForMainPage.maxTemperature =
-      currentLocationWeatherDataFromAPI.forecast.forecastday[0].day.maxtemp_c;
-    dataModelForMainPage.minTemperature =
-      currentLocationWeatherDataFromAPI.forecast.forecastday[0].day.mintemp_c;
-  }
-
-  return dataModelForMainPage;
-}
+import { searchPlaceBuyName } from "../features/forecast/forecastSlice";
 
 export default function Main() {
   const mainBottomNavigationRef = useRef(null);
 
-  const language = useSelector((state) => state.app.settings.language);
-
   const [weatherDetailsIsFullScreen, setWeatherDetailsIsFullScreen] =
     useState(false);
 
+  const apiDataIsLoaded = useSelector((state) => state.forecast.dataIsLoaded);
+  const language = useSelector((state) => state.settings.language);
   const locationName = useSelector((state) => state.location.name);
-  const weatherDataOfCities = useSelector(
-    (state) => state.app.weather.dataOfCities
-  );
-
-  const currentLocationWeatherData = weatherDataOfCities.find(
-    (cityWeatherData) => cityWeatherData.location.name === locationName
-  );
-
-  const dateModelOfMainPage = getDataModelOfMainPage(
-    currentLocationWeatherData
+  const currentPlace = useSelector((state) =>
+    searchPlaceBuyName(state, locationName)
   );
 
   return (
@@ -61,25 +31,33 @@ export default function Main() {
           (weatherDetailsIsFullScreen ? " main__important-info_fullscreen" : "")
         }
       >
-        <div className="main__location-name">{locationName}</div>
-        <div className="main__fullscreen-wrapper">
-          <div className="main__temperature">
-            {dateModelOfMainPage.temperature + "°"}
-          </div>
-          <div className="main__condition">
-            {dateModelOfMainPage.conditionText}
-          </div>
-        </div>
-        <div className="main__temperature-limits">
-          {uiDifferentLanguageData[language].pages.main.high_temperature +
-            ":" +
-            dateModelOfMainPage.maxTemperature +
-            "° " +
-            uiDifferentLanguageData[language].pages.main.low_temperature +
-            ":" +
-            dateModelOfMainPage.minTemperature +
-            "°"}
-        </div>
+        {apiDataIsLoaded ? (
+          <>
+            <div className="main__location-name">{locationName}</div>
+            <div className="main__fullscreen-wrapper">
+              <div className="main__temperature">
+                {currentPlace.temperature + "°"}
+              </div>
+              <div className="main__condition">
+                {currentPlace.conditionText}
+              </div>
+            </div>
+            <div className="main__temperature-limits">
+              {uiDifferentLanguageData[language].pages.main.high_temperature +
+                ":" +
+                currentPlace.maxTemperature +
+                "° " +
+                uiDifferentLanguageData[language].pages.main.low_temperature +
+                ":" +
+                currentPlace.minTemperature +
+                "°"}
+            </div>
+          </>
+        ) : (
+          <>
+            <div>Data is loading</div>
+          </>
+        )}
       </section>
 
       <section className="main__image">

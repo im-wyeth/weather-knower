@@ -1,17 +1,13 @@
-import { useSelector } from "react-redux";
 import "../assets/scss/components/city-weather.scss";
 import { useEffect, useState } from "react";
+import imagesOfWeatherConditions from "../assets/json/imagesOfWeatherConditions.json";
 
 export default function SearchCityWeather(props) {
-  const conditionIcons = useSelector(
-    (state) => state.imagesOfWeatherConditions.codes
-  );
+  let [newSrcOfConditionImage, setNewSrcOfConditionImage] = useState("");
 
   const imageSrcOfCondition = props.isDay
-    ? conditionIcons[props.conditionCode].day
-    : conditionIcons[props.conditionCode].night;
-
-  let [newSrcOfConditionImage, setNewSrcOfConditionImage] = useState("");
+    ? imagesOfWeatherConditions[props.conditionCode].day
+    : imagesOfWeatherConditions[props.conditionCode].night;
 
   useEffect(() => {
     async function fetchSvg() {

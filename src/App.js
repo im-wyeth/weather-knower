@@ -2,43 +2,18 @@ import { Route, Routes } from "react-router-dom";
 import Main from "./pages/Main";
 import Search from "./pages/Search";
 import Settings from "./pages/Settings";
-import { useEffect, useState } from "react";
 import RouteTransitionWrapper from "./components/RouteTransitionWrapper";
 import CustomLayout from "./layouts/CustomLayout";
-
-const LOCATIONS = ["London", "Japan", "Paris"];
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchPlacesData } from "./features/forecast/forecastSlice";
 
 export default function App() {
-  const [weatherDataOfCitiesFromApi, setweatherDataOfCitiesFromApi] = useState(
-    []
-  );
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const weatherDataOfCitiesTemp = [];
-
-    const fetchCities = async () => {
-      for (const location of LOCATIONS) {
-        const fetchRes = await fetch(
-          `http://api.weatherapi.com/v1/forecast.json?key=104b303882e44cb497094324231009&q=${location}&aqi=no`
-        );
-
-        const res = await fetchRes.json();
-
-        weatherDataOfCitiesTemp.push(res);
-      }
-
-      setweatherDataOfCitiesFromApi(weatherDataOfCitiesTemp);
-    };
-
-    fetchCities();
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem(
-      "weatherDataOfCities",
-      JSON.stringify(weatherDataOfCitiesFromApi)
-    );
-  }, [weatherDataOfCitiesFromApi]);
+    dispatch(fetchPlacesData());
+  });
 
   return (
     <div className="wrapper">

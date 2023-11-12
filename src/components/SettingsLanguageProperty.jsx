@@ -1,7 +1,7 @@
 import AppCustomSelection from "../components/AppCustomSelection";
 import SettingsPropertyItem from "../components/SettingsPropertyItem";
 import { useDispatch, useSelector } from "react-redux";
-import * as appSlice from "../features/app/appSlice";
+import * as settingsSlice from "../features/settings/settinsSlice";
 import uiDifferentLanguageData from "../assets/json/uiDifferentLanguageData.json";
 
 const PROPERTY_DATA = {
@@ -44,10 +44,10 @@ const PROPERTY_DATA = {
 export default function SettingsLanguageProperty() {
   const dispatch = useDispatch();
 
-  const language = useSelector((state) => state.app.settings.language);
+  const language = useSelector((state) => state.settings.language);
 
   function onSelect(event, option) {
-    dispatch(appSlice.setLanguage(option.value));
+    dispatch(settingsSlice.setLanguage(option.value));
   }
 
   return (

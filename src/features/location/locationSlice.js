@@ -17,9 +17,13 @@ export const locationSlice = createSlice({
       state.coordinates.longitude = coordinates.payload.longitude;
 
       state.coordinatesUpdatedTimeStamp = Date.now();
+
+      localStorage.setItem("coordinates", JSON.stringify(coordinates.payload));
     },
     setName: (state, name) => {
       state.name = name.payload;
+
+      localStorage.setItem("locationName", name.payload);
     },
   },
 });

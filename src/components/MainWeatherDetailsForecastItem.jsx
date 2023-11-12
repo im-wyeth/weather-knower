@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import "../assets/scss/components/forecast-item.scss";
 import { useSelector } from "react-redux";
 import uiDifferentLanguageData from "../assets/json/uiDifferentLanguageData.json";
+import { FORECAST_TYPES } from "../utils/types";
+import imagesOfWeatherConditions from "../assets/json/imagesOfWeatherConditions.json";
 
 const DATE_LOCALES = {
   ru: "ru-RU",
@@ -9,10 +11,14 @@ const DATE_LOCALES = {
 };
 
 export default function MainWeatherDetailsForecastItem(props) {
-  const language = useSelector((state) => state.app.settings.language);
+  const apiDataIsLoaded = useSelector((state) => state.forecast.dataIsLoaded);
+  const language = useSelector((state) => state.settings.language);
 
   const dateFromMilliseconds = new Date(props.timeInMilliseconds);
   const currentDate = new Date(Date.now());
+  const imageSrcOfCondition = props.isDay
+    ? imagesOfWeatherConditions[props.conditionCode].day
+    : imagesOfWeatherConditions[props.conditionCode].night;
 
   const splittedTimeInString = dateFromMilliseconds
     .toLocaleTimeString()
@@ -24,44 +30,45 @@ export default function MainWeatherDetailsForecastItem(props) {
   let [newSrcOfConditionImage, setNewSrcOfConditionImage] = useState("");
   const [isCurrentHour, setIsCurrentHour] = useState(false);
 
-  const conditionIcons = useSelector(
-    (state) => state.imagesOfWeatherConditions.codes
-  );
-  const imageSrcOfCondition = props.isDay
-    ? conditionIcons[props.conditionCode].day
-    : conditionIcons[props.conditionCode].night;
-
   useEffect(() => {
-    if (props.forecastType === "weekly") {
-      const dateName = dateFromMilliseconds.toLocaleDateString(
-        DATE_LOCALES[language],
-        {
-          weekday: "short",
-        }
-      );
-
-      setTimeForDisplay(dateName);
-    } else if (
-      currentDate.toLocaleTimeString().split(":")[0] === splittedTimeInString[0]
-    ) {
-      setIsCurrentHour(true);
-
-      setTimeForDisplay(
-        uiDifferentLanguageData[language].components
-          .main_weather_details_forecast_item.now
-      );
-    } else {
-      setTimeForDisplay(
-        splittedTimeInString[0] + ":" + splittedTimeInString[1]
-      );
-
-      if (timeForDisplay[0] === "0") {
-        setTimeForDisplay(timeForDisplay.slice(1, timeForDisplay.length));
-      }
+    if (!apiDataIsLoaded) {
+      return;
     }
-  }, [props.forecastType]);
 
-  useEffect(() => {
+    switch (props.forecastType) {
+      case FORECAST_TYPES.WEEKLY:
+        const dateName = dateFromMilliseconds.toLocaleDateString(
+          DATE_LOCALES[language],
+          { weekday: "short" }
+        );
+
+        setTimeForDisplay(dateName);
+        break;
+
+      case FORECAST_TYPES.HOURLY:
+        if (
+          currentDate.toLocaleTimeString().split(":")[0] ===
+          splittedTimeInString[0]
+        ) {
+          setIsCurrentHour(true);
+          setTimeForDisplay(
+            uiDifferentLanguageData[language].components
+              .main_weather_details_forecast_item.now
+          );
+          return;
+        }
+
+        setTimeForDisplay(
+          splittedTimeInString[0] + ":" + splittedTimeInString[1]
+        );
+
+        if (timeForDisplay[0] === "0") {
+          setTimeForDisplay(timeForDisplay.slice(1, timeForDisplay.length));
+        }
+
+        break;
+    }
+
     async function fetchSvg() {
       const svg = await import(
         "../assets/images/weather/" + imageSrcOfCondition.split("weather/")[1]
@@ -71,7 +78,7 @@ export default function MainWeatherDetailsForecastItem(props) {
     }
 
     fetchSvg();
-  }, []);
+  }, [props.forecastType]);
 
   return (
     <div
@@ -79,21 +86,29 @@ export default function MainWeatherDetailsForecastItem(props) {
         "forecast-item" + (isCurrentHour ? " forecast-item_current" : "")
       }
     >
-      {props.forecastType === "hourly" ? (
-        <div className="forecast-item__time">{timeForDisplay}</div>
+      {apiDataIsLoaded ? (
+        <>
+          {props.forecastType === "hourly" ? (
+            <div className="forecast-item__time">{timeForDisplay}</div>
+          ) : (
+            <div className="forecast-item__day-of-the-week">
+              {timeForDisplay}
+            </div>
+          )}
+          <img
+            className="forecast-item__weather-image"
+            src={newSrcOfConditionImage}
+            alt="condition"
+          />
+          <div className="forecast-item__temperature">
+            {props.temperature + "°"}
+          </div>
+        </>
       ) : (
-        <div className="forecast-item__day-of-the-week">{timeForDisplay}</div>
+        <>
+          <div className="forecast-item__preload"></div>
+        </>
       )}
-
-      <img
-        className="forecast-item__weather-image"
-        src={newSrcOfConditionImage}
-        alt="condition"
-      />
-
-      <div className="forecast-item__temperature">
-        {props.temperature + "°"}
-      </div>
     </div>
   );
 }
