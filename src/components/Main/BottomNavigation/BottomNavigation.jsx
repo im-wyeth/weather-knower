@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
-import "../assets/scss/components/bottom-navigation.scss";
-import MainBottomNavigationCentralShape from "./MainBottomNavigationCentralShape";
+import "../../../assets/scss/components/bottom-navigation.scss";
+import BottomNavigationCentralShape from "./CentralShape";
 import { useDispatch, useSelector } from "react-redux";
-import * as locationSlice from "../features/location/locationSlice";
-import * as forecastSlice from "../features/forecast/forecastSlice";
+import * as locationSlice from "../../../features/location/locationSlice";
+// import * as forecastSlice from "../features/forecast/forecastSlice";
 import { useEffect, useState } from "react";
 
 const COORDINATES_LIFE_TIME_IN_MS = 7200000;
 
-export default function MainBottomNavigation(props) {
+export default function BottomNavigation(props) {
   const dispatch = useDispatch();
 
   const language = useSelector((state) => state.settings.language);
@@ -50,8 +50,8 @@ export default function MainBottomNavigation(props) {
         if (fetchResult.status === 200) {
           const json = await fetchResult.json();
 
-          dispatch(locationSlice.setName(json.location.name));
-          dispatch(forecastSlice.setPlaces([...places, json]));
+          // dispatch(locationSlice.setName(json.location.name));
+          // dispatch(forecastSlice.setPlaces([...places, json]));
         }
       });
     }
@@ -99,7 +99,7 @@ export default function MainBottomNavigation(props) {
           </svg>
         </button>
         <div className="bottom-navigation__center">
-          <MainBottomNavigationCentralShape />
+          <BottomNavigationCentralShape />
 
           <div className="bottom-navigation__central-button-wrapper">
             <Link to="/search" className="bottom-navigation__central-button">

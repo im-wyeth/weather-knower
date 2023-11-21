@@ -1,6 +1,6 @@
-import "../assets/scss/components/weather-property-big.scss";
+import "../../../assets/scss/components/weather-property-big.scss";
 
-export default function MainWeatherPropertyBig(props) {
+export default function PropertyBig(props) {
   return (
     <div className="weather-property-big">
       <div className="weather-property-big__top">

@@ -1,29 +1,10 @@
-import "../assets/scss/components/city-weather.scss";
-import { useEffect, useState } from "react";
-import imagesOfWeatherConditions from "../assets/json/imagesOfWeatherConditions.json";
+import "../../assets/scss/components/city-weather.scss";
+import WeatherConiditionIcon from "../App/WeatherConditionImage";
 
-export default function SearchCityWeather(props) {
-  let [newSrcOfConditionImage, setNewSrcOfConditionImage] = useState("");
-
-  const imageSrcOfCondition = props.isDay
-    ? imagesOfWeatherConditions[props.conditionCode].day
-    : imagesOfWeatherConditions[props.conditionCode].night;
-
-  useEffect(() => {
-    async function fetchSvg() {
-      const svg = await import(
-        "../assets/images/weather/" + imageSrcOfCondition.split("weather/")[1]
-      );
-
-      setNewSrcOfConditionImage(svg.default);
-    }
-
-    fetchSvg();
-  }, []);
-
+export default function CityWeather(props) {
   return (
     <div
-      onClick={(event) => props.onClick(event, props.city)}
+      onClick={(event) => props.onClick(event, props.name)}
       className="city-weather"
     >
       <svg
@@ -54,22 +35,20 @@ export default function SearchCityWeather(props) {
           {/* ToDo: Заменить теги по семантике (не только здесь, везде) */}
           <div className="city-weather__temperature">{props.temperature}°</div>
           <div className="city-weather__temperature-limits">
-            <span>H:{props.highTemperature}°</span>{" "}
-            <span>L:{props.lowestTemperature}°</span>
+            <span>H:{props.maxTemperature}°</span>{" "}
+            <span>L:{props.minTemperature}°</span>
           </div>
           <div className="city-weather__place">
-            {props.city}, {props.country}
+            {props.name}, {props.country}
           </div>
         </div>
         <div className="city-weather__right-side">
-          <img
-            className="city-weather__image"
-            src={newSrcOfConditionImage}
-            alt="rain"
+          <WeatherConiditionIcon
+            className={"city-weather__image"}
+            conditionCode={props.conditionCode}
+            isDay={props.isDay}
           />
-          <div className="city-weather__condition">
-            {props.weatherCondition}
-          </div>
+          <div className="city-weather__condition">{props.conditionText}</div>
         </div>
       </div>
     </div>

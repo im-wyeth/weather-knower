@@ -1,3 +1,4 @@
+import "../../assets/scss/components/route-transition-wrapper.scss";
 import { useRef, useState } from "react";
 
 export default function RouteTransitionWrapper(props) {

@@ -1,24 +1,27 @@
-import "../assets/scss/components/weather-details.scss";
+import "../../../assets/scss/components/weather-details.scss";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import moveLineToTarget from "../utils/moveLineToTarget";
-import MainWeatherDetailsForecastItem from "./MainWeatherDetailsForecastItem";
-import MainWeatherDetailsUVIndex from "./MainWeatherDetailsUVIndex";
-import MainWeatherDetailsSunrise from "./MainWeatherDetailsSunrise";
-import MainWeatherDetailsWind from "./MainWeatherDetailsWind";
-import MainWeatherDetailsRainfall from "./MainWeatherDetailsRainfall";
-import MainWeatherDetailsFeelsLike from "./MainWeatherDetailsFeelsLike";
-import MainWeatherDetailsHumidity from "./MainWeatherDetailsHumidity";
-import MainWeatherDetailsPressure from "./MainWeatherDetailsPressure";
-import uiDifferentLanguageData from "../assets/json/uiDifferentLanguageData.json";
-import { FORECAST_TYPES } from "../utils/types";
-import { searchPlaceBuyName } from "../features/forecast/forecastSlice";
+import moveLineToTarget from "../../../utils/moveLineToTarget";
+import ForecastItem from "./ForecastItem";
+import UVIndex from "./UVIndex";
+import Sunrise from "./Sunrise";
+import Wind from "./Wind";
+import Rainfall from "./Rainfall";
+import FeelsLike from "./FeelsLike";
+import Humidity from "./Humidity";
+import Pressure from "./Pressure";
+import uiDifferentLanguageData from "../../../assets/json/uiDifferentLanguageData.json";
+import { FORECAST_TYPES } from "../../../utils/types";
+import { searchPlaceBuyName } from "../../../features/forecast/forecastSlice";
+import getCurrentDayFromPlace from "../../../utils/getCurrentDayFromPlace";
 
 const VERTICAL_POSITION_OF_THIS_ELEM_IN_FULLSCREEN = 147;
 const TOP_MARGIN = 230;
 const FULLSCREEN_ACTIVATE_POINT = 100;
 
-export default function MainWeatherDetails(props) {
+const EMPTY_FORECAST_ITEM_LIST = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+export default function ForecastDetails(props) {
   const thisRef = useRef(null);
   const forecastFirstButtonRef = useRef(null);
   const forecastSecondButtonRef = useRef(null);
@@ -44,14 +47,14 @@ export default function MainWeatherDetails(props) {
 
     moveLineToTarget(movableLineRef.current, forecastFirstButtonRef.current);
 
-    positionAtTheMainBottomNavigation();
+    positionAtTheBottomNavigation();
 
     return () => {
       window.removeEventListener("resize", onWindowResize);
     };
   }, []);
 
-  function positionAtTheMainBottomNavigation() {
+  function positionAtTheBottomNavigation() {
     const mainBottomNavigationRect =
       props.mainBottomNavigationRef.current.getBoundingClientRect();
 
@@ -61,7 +64,7 @@ export default function MainWeatherDetails(props) {
 
     props.mainBottomNavigationRef.current.removeEventListener(
       "transitionend",
-      positionAtTheMainBottomNavigation
+      positionAtTheBottomNavigation
     );
   }
 
@@ -143,7 +146,7 @@ export default function MainWeatherDetails(props) {
 
     props.mainBottomNavigationRef.current.addEventListener(
       "transitionend",
-      positionAtTheMainBottomNavigation
+      positionAtTheBottomNavigation
     );
 
     scrollWrapperRef.current.style.height = "auto";
@@ -197,21 +200,27 @@ export default function MainWeatherDetails(props) {
           {apiDataIsLoaded ? (
             <>
               {currentForecastType === FORECAST_TYPES.HOURLY
-                ? currentPlace.forecastOfHours.map((hour, idx) => (
-                    <MainWeatherDetailsForecastItem
-                      key={idx}
-                      forecastType={currentForecastType}
-                      timeInMilliseconds={hour.timeEpoch * 1000}
-                      conditionCode={hour.conditionCode}
-                      isDay={hour.isDay}
-                      temperature={Math.floor(hour.temperature)}
-                    />
-                  ))
+                ? getCurrentDayFromPlace(currentPlace).forecastOfHours.map(
+                    (hour, idx) => (
+                      <ForecastItem
+                        key={idx}
+                        apiDataIsLoaded={apiDataIsLoaded}
+                        language={language}
+                        date={hour.time}
+                        forecastType={currentForecastType}
+                        conditionCode={hour.conditionCode}
+                        isDay={hour.isDay}
+                        temperature={Math.floor(hour.temperature)}
+                      />
+                    )
+                  )
                 : currentPlace.forecastOfDays.map((day, idx) => (
-                    <MainWeatherDetailsForecastItem
+                    <ForecastItem
                       key={idx}
+                      apiDataIsLoaded={apiDataIsLoaded}
+                      language={language}
+                      date={day.date}
                       forecastType={currentForecastType}
-                      timeInMilliseconds={day.dateEpoch * 1000}
                       conditionCode={day.conditionCode}
                       isDay={true}
                       temperature={Math.floor(day.avgTemperature)}
@@ -224,21 +233,43 @@ export default function MainWeatherDetails(props) {
         </div>
 
         <div className="weather-details__container">
-          <MainWeatherDetailsUVIndex
+          <UVIndex
+            apiDataIsLoaded={apiDataIsLoaded}
             language={language}
             currentPlace={currentPlace}
           />
 
           <div className="weather-details__container-inner">
-            <MainWeatherDetailsSunrise
+            <Sunrise
+              apiDataIsLoaded={apiDataIsLoaded}
               language={language}
               currentPlace={currentPlace}
             />
-            <MainWeatherDetailsWind />
-            <MainWeatherDetailsRainfall />
-            <MainWeatherDetailsFeelsLike />
-            <MainWeatherDetailsHumidity />
-            <MainWeatherDetailsPressure />
+            <Wind
+              apiDataIsLoaded={apiDataIsLoaded}
+              language={language}
+              currentPlace={currentPlace}
+            />
+            <Rainfall
+              apiDataIsLoaded={apiDataIsLoaded}
+              language={language}
+              currentPlace={currentPlace}
+            />
+            <FeelsLike
+              apiDataIsLoaded={apiDataIsLoaded}
+              language={language}
+              currentPlace={currentPlace}
+            />
+            <Humidity
+              apiDataIsLoaded={apiDataIsLoaded}
+              language={language}
+              currentPlace={currentPlace}
+            />
+            <Pressure
+              apiDataIsLoaded={apiDataIsLoaded}
+              language={language}
+              currentPlace={currentPlace}
+            />
           </div>
         </div>
       </div>

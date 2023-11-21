@@ -1,6 +1,6 @@
-import "../assets/scss/components/weather-property-min.scss";
+import "../../../assets/scss/components/weather-property-min.scss";
 
-export default function MainWeatherDetailsPropertyMin(props) {
+export default function PropertyMin(props) {
   return (
     <div className="weather-property-min">
       <div className="weather-property-min__top">

@@ -1,15 +1,15 @@
-import "../assets/scss/components/uv-index.scss";
-import getUVLevelWord from "../utils/getUVLevelWord";
-import getPercentOfOneNumberFromAnother from "../utils/getPercentOfOneNumberFromAnother";
-import uiDifferentLanguageData from "../assets/json/uiDifferentLanguageData.json";
-import MainWeatherDetailsPropertyBig from "../components/MainWeatherDetailsPropertyBig";
-import getCurrentHourFromPlace from "../utils/getCurrentHourFromPlace";
+import "../../../assets/scss/components/uv-index.scss";
+import getUVLevelWord from "../../../utils/getUVLevelWord";
+import getPercentOfOneNumberFromAnother from "../../../utils/getPercentOfOneNumberFromAnother";
+import uiDifferentLanguageData from "../../../assets/json/uiDifferentLanguageData.json";
+import PropertyBig from "./PropertyBig";
+import getCurrentHourFromPlace from "../../../utils/getCurrentHourFromPlace";
 
 const MAX_UV_INDEX = 11;
 
-export default function MainWeatherDetailsUVIndex({ language, currentPlace }) {
+export default function UVIndex({ apiDataIsLoaded, language, currentPlace }) {
   return (
-    <MainWeatherDetailsPropertyBig
+    <PropertyBig
       icon={
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path d="M17 12C17 14.7614 14.7614 17 12 17C9.23858 17 7 14.7614 7 12C7 9.23858 9.23858 7 12 7C14.7614 7 17 9.23858 17 12Z" />
@@ -25,24 +25,31 @@ export default function MainWeatherDetailsUVIndex({ language, currentPlace }) {
           .uv_index
       }
     >
-      <div className="uv-index">
-        <span className="uv-index__quantity">
-          {getCurrentHourFromPlace(currentPlace).uv +
-            " " +
-            getUVLevelWord(uvIndex, language)}
-        </span>
-        <div className="uv-index__bar">
-          <div
-            className="uv-index__bar-point"
-            style={{
-              left: getPercentOfOneNumberFromAnother(
+      {apiDataIsLoaded ? (
+        <div className="uv-index">
+          <span className="uv-index__quantity">
+            {getCurrentHourFromPlace(currentPlace).uv +
+              " " +
+              getUVLevelWord(
                 getCurrentHourFromPlace(currentPlace).uv,
-                MAX_UV_INDEX
-              ),
-            }}
-          ></div>
+                language
+              )}
+          </span>
+          <div className="uv-index__bar">
+            <div
+              className="uv-index__bar-point"
+              style={{
+                left: getPercentOfOneNumberFromAnother(
+                  getCurrentHourFromPlace(currentPlace).uvIndex,
+                  MAX_UV_INDEX
+                ),
+              }}
+            ></div>
+          </div>
         </div>
-      </div>
-    </MainWeatherDetailsPropertyBig>
+      ) : (
+        <></>
+      )}
+    </PropertyBig>
   );
 }

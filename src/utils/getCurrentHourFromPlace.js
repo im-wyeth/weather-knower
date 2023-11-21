@@ -3,7 +3,7 @@ import getCurrentDayFromPlace from "./getCurrentDayFromPlace";
 export default function getCurrentHourFromPlace(place) {
   const currentDate = new Date(Date.now());
 
-  if (currentDay.forecastOfHours.length) {
+  if (getCurrentDayFromPlace(place).forecastOfHours.length) {
     const currentHour =
       getCurrentDayFromPlace(place).forecastOfHours[currentDate.getHours()];
 

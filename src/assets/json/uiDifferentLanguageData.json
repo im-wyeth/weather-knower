@@ -7,8 +7,8 @@
     },
     "pages": {
       "main": {
-        "high_temperature": "в",
-        "low_temperature": "н"
+        "min_temperature": "н",
+        "max_temperature": "в"
       },
       "search": {
         "search_input_text": "поиск города или аэропорта"
@@ -37,8 +37,8 @@
         "mm_expected_in_next_24": "мм ожидается в следующие 24 часа"
       },
       "search_city_weather": {
-        "low_temperature": "н",
-        "high_temperature": "в"
+        "min_temperature": "н",
+        "max_temperature": "в"
       },
       "settings_language_property": {
         "text": "язык",
@@ -58,8 +58,8 @@
     },
     "pages": {
       "main": {
-        "low_temperature": "l",
-        "high_temperature": "h"
+        "min_temperature": "l",
+        "max_temperature": "h"
       },
       "search": {
         "cancel_text": "weather",
@@ -89,8 +89,8 @@
         "mm_expected_in_next_24": "mm expected in next 24h"
       },
       "search_city_weather": {
-        "low_temperature": "н",
-        "high_temperature": "в"
+        "min_temperature": "н",
+        "max_temperature": "в"
       },
       "settings_language_property": {
         "text": "language",

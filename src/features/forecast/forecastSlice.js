@@ -1,5 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import Place from "../../models/Place";
+import getPlaceForecastModel from "../../models/getPlaceForecastModel";
+
+function setPlaces(state, action) {
+  state.places = action.payload;
+  state.dataIsLoaded = true;
+
+  localStorage.setItem("places", JSON.stringify(state.places));
+}
+
+export function searchPlaceBuyName(state, name) {
+  return state.forecast.places.find((place) => place.name === name);
+}
 
 const LIST_OF_PLACE_NAMES = ["London", "Japan", "Paris"];
 const WEATHERAPI_FULL_ADDRESS = "http://api.weatherapi.com/v1/forecast.json";
@@ -23,6 +34,14 @@ export const fetchPlacesData = createAsyncThunk(
       wholeDecodedResult.push(decodedResult);
     }
 
+    const a = new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 2000);
+    });
+
+    await a;
+
     return wholeDecodedResult;
   }
 );
@@ -30,39 +49,32 @@ export const fetchPlacesData = createAsyncThunk(
 const forecastSlice = createSlice({
   name: "forecast",
   initialState: {
-    dataIsLoaded: false,
     places: localStorage.getItem("places")
       ? JSON.parse(localStorage.getItem("places"))
       : [],
+    dataIsLoaded: false,
   },
   reducers: {
-    setPlaces: (state, places) => {
-      state.places = places.payload;
-
-      state.dataIsLoaded = true;
-
-      localStorage.setItem("places", JSON.stringify(state.places));
+    setPlaces,
+    setDataIsLoaded: (state, action) => {
+      state.dataIsLoaded = action.payload;
     },
   },
   extraReducers(builder) {
     builder.addCase(fetchPlacesData.fulfilled, (state, action) => {
+      const places = {
+        payload: [],
+      };
+
       for (const placeDataFromAPI of action.payload) {
-        const placeData = new Place(
-          placeDataFromAPI.location.country,
-          placeDataFromAPI.location.name
-        );
-
-        placeData.setForecastOfDays(placeDataFromAPI.forecast.forecastday);
-
-        state.places.push(placeData);
+        places.payload.push(getPlaceForecastModel(placeDataFromAPI));
       }
+
+      setPlaces(state, places);
     });
   },
 });
 
-export const { setPlaces } = forecastSlice.actions;
+export const { setDataIsLoaded } = forecastSlice.actions;
 
 export default forecastSlice.reducer;
-
-export const searchPlaceBuyName = (state, name) =>
-  state.forecast.places.find((place) => place.name === name);

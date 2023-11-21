@@ -1,32 +1,11 @@
-import "../assets/scss/components/pressure.scss";
-import uiDifferentLanguageData from "../assets/json/uiDifferentLanguageData.json";
-import { useSelector } from "react-redux";
-import MainWeatherDetailsPropertyMin from "../components/MainWeatherDetailsPropertyMin";
-import { useEffect, useState } from "react";
+import "../../../assets/scss/components/pressure.scss";
+import uiDifferentLanguageData from "../../../assets/json/uiDifferentLanguageData.json";
+import PropertyMin from "./PropertyMin";
+import getCurrentHourFromPlace from "../../../utils/getCurrentHourFromPlace";
 
-export default function MainWeatherDetailsPressure() {
-  const language = useSelector((state) => state.settings.language);
-  const places = useSelector((state) => state.forecast.places);
-  const locationName = useSelector((state) => state.location.name);
-
-  const [pressure, setPressure] = useState(0);
-
-  const currentLocationWeatherData = places.find(
-    (cityWeatherData) => cityWeatherData.location.name === locationName
-  );
-
-  useEffect(() => {
-    if (currentLocationWeatherData) {
-      setPressure(
-        currentLocationWeatherData.forecast.forecastday[0].hour[
-          new Date(Date.now()).getHours()
-        ].pressure_mb
-      );
-    }
-  }, []);
-
+export default function Pressure({ apiDataIsLoaded, language, currentPlace }) {
   return (
-    <MainWeatherDetailsPropertyMin
+    <PropertyMin
       icon={
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path d="M12 9C11.4477 9 11 9.44771 11 10V15.2676C10.4022 15.6134 10 16.2597 10 17C10 18.1046 10.8954 19 12 19C13.1046 19 14 18.1046 14 17C14 16.2597 13.5978 15.6134 13 15.2676V10C13 9.44771 12.5523 9 12 9Z" />
@@ -47,9 +26,15 @@ export default function MainWeatherDetailsPressure() {
           .pressure
       }
     >
-      <div className="pressure">
-        <div className="pressure__digits">{pressure}</div>
-      </div>
-    </MainWeatherDetailsPropertyMin>
+      {apiDataIsLoaded ? (
+        <div className="pressure">
+          <div className="pressure__digits">
+            {getCurrentHourFromPlace(currentPlace).pressureInMB}
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
+    </PropertyMin>
   );
 }

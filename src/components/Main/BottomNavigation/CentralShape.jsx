@@ -1,4 +1,4 @@
-export default function MainBottomNavigationCenterShapeSvg() {
+export default function BottomNavigationCenterShapeSvg() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

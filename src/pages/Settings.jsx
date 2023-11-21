@@ -1,11 +1,11 @@
 import "../assets/scss/pages/settings.scss";
-import SettingsLanguageProperty from "../components/SettingsLanguageProperty";
+import LanguageProperty from "../components/Settings/LanguageProperty";
 
 export default function Settings() {
   return (
     <main className="settings">
       <section className="settings__properties">
-        <SettingsLanguageProperty />
+        <LanguageProperty />
       </section>
     </main>
   );

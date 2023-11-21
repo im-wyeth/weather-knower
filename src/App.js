@@ -2,18 +2,27 @@ import { Route, Routes } from "react-router-dom";
 import Main from "./pages/Main";
 import Search from "./pages/Search";
 import Settings from "./pages/Settings";
-import RouteTransitionWrapper from "./components/RouteTransitionWrapper";
+import RouteTransitionWrapper from "./components/App/RouteTransitionWrapper";
 import CustomLayout from "./layouts/CustomLayout";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { fetchPlacesData } from "./features/forecast/forecastSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchPlacesData,
+  setDataIsLoaded,
+} from "./features/forecast/forecastSlice";
 
 export default function App() {
   const dispatch = useDispatch();
 
+  const places = useSelector((state) => state.forecast.places);
+
   useEffect(() => {
-    dispatch(fetchPlacesData());
-  });
+    if (!places.length) {
+      dispatch(fetchPlacesData());
+    } else {
+      dispatch(setDataIsLoaded(true));
+    }
+  }, []);
 
   return (
     <div className="wrapper">

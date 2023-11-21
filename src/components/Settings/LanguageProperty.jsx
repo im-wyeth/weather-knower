@@ -1,8 +1,8 @@
-import AppCustomSelection from "../components/AppCustomSelection";
-import SettingsPropertyItem from "../components/SettingsPropertyItem";
+import CustomSelection from "../App/CustomSelection";
+import PropertyItem from "../Settings/PropertyItem";
 import { useDispatch, useSelector } from "react-redux";
-import * as settingsSlice from "../features/settings/settinsSlice";
-import uiDifferentLanguageData from "../assets/json/uiDifferentLanguageData.json";
+import * as settingsSlice from "../../features/settings/settinsSlice";
+import uiDifferentLanguageData from "../../assets/json/uiDifferentLanguageData.json";
 
 const PROPERTY_DATA = {
   ru: {
@@ -41,7 +41,7 @@ const PROPERTY_DATA = {
   },
 };
 
-export default function SettingsLanguageProperty() {
+export default function LanguageProperty() {
   const dispatch = useDispatch();
 
   const language = useSelector((state) => state.settings.language);
@@ -51,13 +51,13 @@ export default function SettingsLanguageProperty() {
   }
 
   return (
-    <SettingsPropertyItem
+    <PropertyItem
       text={
         uiDifferentLanguageData[language].components.settings_language_property
           .text
       }
     >
-      <AppCustomSelection
+      <CustomSelection
         onSelect={onSelect}
         selectedOptionIndex={
           PROPERTY_DATA.ru.selection.options.findIndex(
@@ -66,6 +66,6 @@ export default function SettingsLanguageProperty() {
         }
         options={PROPERTY_DATA.ru.selection.options}
       />
-    </SettingsPropertyItem>
+    </PropertyItem>
   );
 }

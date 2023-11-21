@@ -1,15 +1,19 @@
 import { useState, useRef } from "react";
 import "../assets/scss/pages/main.scss";
-import MainBottomNavigation from "../components/MainBottomNavigation";
-import MainWeatherDetails from "../components/MainWeatherDetails";
+import BottomNavigation from "../components/Main/BottomNavigation/BottomNavigation";
+import ForecastDetails from "../components/Main/ForecastDetails/ForecastDetails";
 import { useSelector } from "react-redux";
 import uiDifferentLanguageData from "../assets/json/uiDifferentLanguageData.json";
 import { searchPlaceBuyName } from "../features/forecast/forecastSlice";
+import getCurrentDayFromPlace from "../utils/getCurrentDayFromPlace";
+import getCurrentHourFromPlace from "../utils/getCurrentHourFromPlace";
+import HouseImageSrc from "../assets/images/house.png";
+import MainGeneralInfo from "../components/Main/GeneralInfo";
 
 export default function Main() {
   const mainBottomNavigationRef = useRef(null);
 
-  const [weatherDetailsIsFullScreen, setWeatherDetailsIsFullScreen] =
+  const [weatherDetailsIsFullScreen, setForecastDetailsIsFullScreen] =
     useState(false);
 
   const apiDataIsLoaded = useSelector((state) => state.forecast.dataIsLoaded);
@@ -25,56 +29,24 @@ export default function Main() {
         "main" + (weatherDetailsIsFullScreen ? " main_fullscreen" : "")
       }
     >
-      <section
-        className={
-          "main__important-info" +
-          (weatherDetailsIsFullScreen ? " main__important-info_fullscreen" : "")
-        }
-      >
-        {apiDataIsLoaded ? (
-          <>
-            <div className="main__location-name">{locationName}</div>
-            <div className="main__fullscreen-wrapper">
-              <div className="main__temperature">
-                {currentPlace.temperature + "°"}
-              </div>
-              <div className="main__condition">
-                {currentPlace.conditionText}
-              </div>
-            </div>
-            <div className="main__temperature-limits">
-              {uiDifferentLanguageData[language].pages.main.high_temperature +
-                ":" +
-                currentPlace.maxTemperature +
-                "° " +
-                uiDifferentLanguageData[language].pages.main.low_temperature +
-                ":" +
-                currentPlace.minTemperature +
-                "°"}
-            </div>
-          </>
-        ) : (
-          <>
-            <div>Data is loading</div>
-          </>
-        )}
-      </section>
+      <MainGeneralInfo
+        weatherDetailsIsFullScreen={weatherDetailsIsFullScreen}
+        language={language}
+        apiDataIsLoaded={apiDataIsLoaded}
+        currentPlace={currentPlace}
+      />
 
       <section className="main__image">
-        <img
-          className="main__image-object"
-          src={require("../assets/images/house.png")}
-          alt="object"
-        />
+        <img className="main__image-object" src={HouseImageSrc} alt="object" />
       </section>
 
-      <MainWeatherDetails
+      <ForecastDetails
         isFullScreen={weatherDetailsIsFullScreen}
-        setFullScreen={setWeatherDetailsIsFullScreen}
+        setFullScreen={setForecastDetailsIsFullScreen}
         mainBottomNavigationRef={mainBottomNavigationRef}
       />
 
-      <MainBottomNavigation
+      <BottomNavigation
         mainBottomNavigationRef={mainBottomNavigationRef}
         isHidden={weatherDetailsIsFullScreen}
       />

@@ -1,32 +1,11 @@
-import "../assets/scss/components/humidity.scss";
-import uiDifferentLanguageData from "../assets/json/uiDifferentLanguageData.json";
-import { useSelector } from "react-redux";
-import MainWeatherDetailsPropertyMin from "../components/MainWeatherDetailsPropertyMin";
-import { useEffect, useState } from "react";
+import "../../../assets/scss/components/humidity.scss";
+import uiDifferentLanguageData from "../../../assets/json/uiDifferentLanguageData.json";
+import PropertyMin from "./PropertyMin";
+import getCurrentHourFromPlace from "../../../utils/getCurrentHourFromPlace";
 
-export default function MainWeatherDetailsHumidity() {
-  const language = useSelector((state) => state.settings.language);
-  const places = useSelector((state) => state.forecast.places);
-  const locationName = useSelector((state) => state.location.name);
-
-  const [humidity, setHumidity] = useState(0);
-
-  const currentLocationWeatherData = places.find(
-    (cityWeatherData) => cityWeatherData.location.name === locationName
-  );
-
-  useEffect(() => {
-    if (currentLocationWeatherData) {
-      setHumidity(
-        currentLocationWeatherData.forecast.forecastday[0].hour[
-          new Date(Date.now()).getHours()
-        ].humidity
-      );
-    }
-  }, []);
-
+export default function Humidity({ apiDataIsLoaded, language, currentPlace }) {
   return (
-    <MainWeatherDetailsPropertyMin
+    <PropertyMin
       icon={
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path d="M15.0066 3.25608C16.8483 2.85737 19.1331 2.8773 22.2423 3.65268C22.7781 3.78629 23.1038 4.32791 22.9699 4.86241C22.836 5.39691 22.2931 5.7219 21.7573 5.58829C18.8666 4.86742 16.9015 4.88747 15.4308 5.20587C13.9555 5.52524 12.895 6.15867 11.7715 6.84363L11.6874 6.89494C10.6044 7.55565 9.40515 8.28729 7.82073 8.55069C6.17734 8.82388 4.23602 8.58235 1.62883 7.54187C1.11607 7.33724 0.866674 6.75667 1.0718 6.24513C1.27692 5.73359 1.85889 5.48479 2.37165 5.68943C4.76435 6.6443 6.32295 6.77699 7.492 6.58265C8.67888 6.38535 9.58373 5.83916 10.7286 5.14119C11.855 4.45445 13.1694 3.6538 15.0066 3.25608Z" />
@@ -44,9 +23,15 @@ export default function MainWeatherDetailsHumidity() {
           .humidity
       }
     >
-      <div className="humidity">
-        <div className="humidity__percent">{humidity}%</div>
-      </div>
-    </MainWeatherDetailsPropertyMin>
+      {apiDataIsLoaded ? (
+        <div className="humidity">
+          <div className="humidity__percent">
+            {getCurrentHourFromPlace(currentPlace).humidity}%
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
+    </PropertyMin>
   );
 }

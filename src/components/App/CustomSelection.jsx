@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import "../assets/scss/components/custom-selection.scss";
+import "../../assets/scss/components/custom-selection.scss";
 import PropTypes from "prop-types";
 
-const AppCustomSelection = function (props) {
+const CustomSelection = function (props) {
   const [dropActive, setDropActive] = useState(false);
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(
     props.selectedOptionIndex
@@ -58,16 +58,16 @@ const AppCustomSelection = function (props) {
   );
 };
 
-AppCustomSelection.propTypes = {
+CustomSelection.propTypes = {
   onSelect: PropTypes.func,
   selectedOptionIndex: PropTypes.number,
   options: PropTypes.array,
 };
 
-AppCustomSelection.defaultProps = {
+CustomSelection.defaultProps = {
   onSelect: function () {},
   selectedOptionIndex: 0,
   options: [{ value: "option1", text: "option 1" }],
 };
 
-export default AppCustomSelection;
+export default CustomSelection;

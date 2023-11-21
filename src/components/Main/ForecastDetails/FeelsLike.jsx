@@ -1,32 +1,11 @@
-import "../assets/scss/components/feels-like.scss";
-import uiDifferentLanguageData from "../assets/json/uiDifferentLanguageData.json";
-import { useSelector } from "react-redux";
-import MainWeatherDetailsPropertyMin from "../components/MainWeatherDetailsPropertyMin";
-import { useEffect, useState } from "react";
+import "../../../assets/scss/components/feels-like.scss";
+import uiDifferentLanguageData from "../../../assets/json/uiDifferentLanguageData.json";
+import PropertyMin from "./PropertyMin";
+import getCurrentHourFromPlace from "../../../utils/getCurrentHourFromPlace";
 
-export default function MainWeatherDetailsFeelsLike() {
-  const language = useSelector((state) => state.settings.language);
-  const places = useSelector((state) => state.forecast.places);
-  const locationName = useSelector((state) => state.location.name);
-
-  const [temperature, setTemperature] = useState(0);
-
-  const currentLocationWeatherData = places.find(
-    (cityWeatherData) => cityWeatherData.location.name === locationName
-  );
-
-  useEffect(() => {
-    if (currentLocationWeatherData) {
-      setTemperature(
-        currentLocationWeatherData.forecast.forecastday[0].hour[
-          new Date(Date.now()).getHours()
-        ].feelslike_c
-      );
-    }
-  }, []);
-
+export default function FeelsLike({ apiDataIsLoaded, language, currentPlace }) {
   return (
-    <MainWeatherDetailsPropertyMin
+    <PropertyMin
       icon={
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -41,9 +20,15 @@ export default function MainWeatherDetailsFeelsLike() {
           .feels_like
       }
     >
-      <div className="feels-like">
-        <div className="feels-like__temperature">{temperature}°</div>
-      </div>
-    </MainWeatherDetailsPropertyMin>
+      {apiDataIsLoaded ? (
+        <div className="feels-like">
+          <div className="feels-like__temperature">
+            {getCurrentHourFromPlace(currentPlace).feelslikeTemperature}°
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
+    </PropertyMin>
   );
 }
