@@ -1,10 +1,14 @@
 import "../../../assets/scss/components/rainfall.scss";
 import uiDifferentLanguageData from "../../../assets/json/uiDifferentLanguageData.json";
-import PropertyMin from "./PropertyMin";
+import { PropertyMin, PropertyMinSceleton } from "./PropertyMin";
 import getCurrentHourFromPlace from "../../../utils/getCurrentHourFromPlace";
 import calculatePrecipitationFor24Hour from "../../../utils/calculatePrecipitationFor24Hour";
 
 export default function Rainfall({ apiDataIsLoaded, language, currentPlace }) {
+  if (!apiDataIsLoaded) {
+    return <PropertyMinSceleton />;
+  }
+
   return (
     <PropertyMin
       icon={
@@ -17,26 +21,22 @@ export default function Rainfall({ apiDataIsLoaded, language, currentPlace }) {
           .rainfall
       }
     >
-      {apiDataIsLoaded ? (
-        <div className="rainfall">
-          <div className="rainfall__last-hour">
-            {getCurrentHourFromPlace(currentPlace).precipitationInMM}{" "}
-            {
-              uiDifferentLanguageData[language].components
-                .main_weather_details_rainfall.mm_in_last_hour
-            }
-          </div>
-          <span className="rainfall__expect">
-            {calculatePrecipitationFor24Hour(currentPlace)}{" "}
-            {
-              uiDifferentLanguageData[language].components
-                .main_weather_details_rainfall.mm_expected_in_next_24
-            }
-          </span>
+      <div className="rainfall">
+        <div className="rainfall__last-hour">
+          {getCurrentHourFromPlace(currentPlace).precipitationInMM}{" "}
+          {
+            uiDifferentLanguageData[language].components
+              .main_weather_details_rainfall.mm_in_last_hour
+          }
         </div>
-      ) : (
-        <></>
-      )}
+        <span className="rainfall__expect">
+          {calculatePrecipitationFor24Hour(currentPlace)}{" "}
+          {
+            uiDifferentLanguageData[language].components
+              .main_weather_details_rainfall.mm_expected_in_next_24
+          }
+        </span>
+      </div>
     </PropertyMin>
   );
 }

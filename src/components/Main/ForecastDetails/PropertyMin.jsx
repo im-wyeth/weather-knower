@@ -1,13 +1,22 @@
-import "../../../assets/scss/components/weather-property-min.scss";
+import "../../../assets/scss/components/property-min.scss";
+import Sceleton from "../../App/Sceleton";
 
-export default function PropertyMin(props) {
+export function PropertyMin(props) {
   return (
-    <div className="weather-property-min">
-      <div className="weather-property-min__top">
-        <div className="weather-property-min__icon">{props.icon}</div>
-        <span className="weather-property-min__name">{props.name}</span>
+    <div className="property-min">
+      <div className="property-min__top">
+        <div className="property-min__icon">{props.icon}</div>
+        <span className="property-min__name">{props.name}</span>
       </div>
-      <div className="weather-property-min__bottom">{props.children}</div>
+      <div className="property-min__bottom">{props.children}</div>
+    </div>
+  );
+}
+
+export function PropertyMinSceleton() {
+  return (
+    <div className="property-min property-min_sceleton">
+      <Sceleton width={"100%"} height={"100%"} />
     </div>
   );
 }

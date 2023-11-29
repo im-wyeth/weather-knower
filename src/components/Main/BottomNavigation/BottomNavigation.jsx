@@ -3,12 +3,12 @@ import "../../../assets/scss/components/bottom-navigation.scss";
 import BottomNavigationCentralShape from "./CentralShape";
 import { useDispatch, useSelector } from "react-redux";
 import * as locationSlice from "../../../features/location/locationSlice";
-// import * as forecastSlice from "../features/forecast/forecastSlice";
-import { useEffect, useState } from "react";
+import * as forecastSlice from "../../../features/forecast/forecastSlice";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 const COORDINATES_LIFE_TIME_IN_MS = 7200000;
 
-export default function BottomNavigation(props) {
+export default function BottomNavigation({ mainFullscreenMode }) {
   const dispatch = useDispatch();
 
   const language = useSelector((state) => state.settings.language);
@@ -17,10 +17,11 @@ export default function BottomNavigation(props) {
     (state) => state.location.coordinatesUpdatedTimeStamp
   );
   const places = useSelector((state) => state.forecast.places);
+
   const [isGeolocationOn, setIsGeolocationOn] = useState(false);
 
   useEffect(() => {
-    if (coordinates.latitude) {
+    if (coordinates.latitude || coordinates.longitude) {
       if (
         Date.now() - coordinatesUpdatedTimeStamp <
         COORDINATES_LIFE_TIME_IN_MS
@@ -30,60 +31,45 @@ export default function BottomNavigation(props) {
     }
   }, []);
 
-  function onClick() {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(async (position) => {
-        dispatch(
-          locationSlice.setCoordinates({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          })
-        );
-
-        const fetchResult = await fetch(
-          `http://api.weatherapi.com/v1/forecast.json?key=104b303882e44cb497094324231009&q=${
-            position.coords.latitude + "," + position.coords.longitude
-          }&aqi=no&lang=` + language
-        );
-
-        // Add a check that the city are already exists
-        if (fetchResult.status === 200) {
-          const json = await fetchResult.json();
-
-          // dispatch(locationSlice.setName(json.location.name));
-          // dispatch(forecastSlice.setPlaces([...places, json]));
-        }
-      });
+  function onGeolocationButtonClick() {
+    if (!("geolocation" in navigator)) {
+      return;
     }
+
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      dispatch(
+        locationSlice.setCoordinates({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        })
+      );
+
+      const fetchResult = await fetch(
+        `http://api.weatherapi.com/v1/forecast.json?key=104b303882e44cb497094324231009&q=${
+          position.coords.latitude + "," + position.coords.longitude
+        }&aqi=no&lang=` + language
+      );
+
+      // Add a check that the city are already exists
+      if (fetchResult.status === 200) {
+        const json = await fetchResult.json();
+
+        // dispatch(locationSlice.setName(json.location.name));
+        // dispatch(forecastSlice.setPlaces([...places, json]));
+      }
+    });
   }
 
   return (
     <nav
-      ref={props.mainBottomNavigationRef}
       className={
         "bottom-navigation" +
-        (props.isHidden ? " bottom-navigation_hidden" : "")
+        (mainFullscreenMode ? " bottom-navigation_hidden" : "")
       }
     >
-      <svg
-        className="bottom-navigation__background-svg"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 390 89"
-      >
-        <path
-          d="M0 1C0 1 76.0769 16.9822 127 21C153.339 23.0782 168.554 24 195 24C221.446 24 235.661 23.0782 262 21C312.923 16.9822 390 1 390 1V89H0V1Z"
-          fillOpacity="0.26"
-        />
-        <path
-          d="M0 1L0.0513978 0.755341L-0.25 0.692023V1V89V89.25H0H390H390.25V89V1V0.692844L389.949 0.755207L390 1C389.949 0.755207 389.949 0.755266 389.948 0.755386L389.946 0.755929L389.935 0.758104L389.893 0.766774L389.727 0.801111C389.58 0.831451 389.36 0.876545 389.072 0.935541C388.495 1.05353 387.643 1.22713 386.539 1.44951C384.333 1.89427 381.124 2.53416 377.113 3.31459C369.093 4.87548 357.868 6.99851 345.053 9.24707C319.42 13.7446 287.43 18.7428 261.98 20.7508C235.644 22.8287 221.437 23.75 195 23.75C168.563 23.75 153.355 22.8286 127.02 20.7508C101.571 18.7428 69.8304 13.7446 44.4475 9.24714C31.757 6.99859 20.6577 4.87557 12.731 3.3147C8.76767 2.53427 5.59756 1.89439 3.41838 1.44963C2.32879 1.22725 1.48694 1.05366 0.917538 0.935668C0.632837 0.876674 0.416248 0.831581 0.270862 0.801242L0.10657 0.766906L0.0651988 0.758237L0.054834 0.756062L0.0522476 0.755519C0.0516779 0.755399 0.0513978 0.755341 0 1Z"
-          strokeOpacity="0.5"
-          strokeWidth="0.5"
-        />
-      </svg>
-
       <div className="bottom-navigation__content">
         <button
-          onClick={onClick}
+          onClick={onGeolocationButtonClick}
           className={
             "bottom-navigation__button" +
             (isGeolocationOn ? " bottom-navigation__button_active" : "")
@@ -133,6 +119,22 @@ export default function BottomNavigation(props) {
           </svg>
         </Link>
       </div>
+
+      <svg
+        className="bottom-navigation__background-svg"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 390 89"
+      >
+        <path
+          d="M0 1C0 1 76.0769 16.9822 127 21C153.339 23.0782 168.554 24 195 24C221.446 24 235.661 23.0782 262 21C312.923 16.9822 390 1 390 1V89H0V1Z"
+          fillOpacity="0.26"
+        />
+        <path
+          d="M0 1L0.0513978 0.755341L-0.25 0.692023V1V89V89.25H0H390H390.25V89V1V0.692844L389.949 0.755207L390 1C389.949 0.755207 389.949 0.755266 389.948 0.755386L389.946 0.755929L389.935 0.758104L389.893 0.766774L389.727 0.801111C389.58 0.831451 389.36 0.876545 389.072 0.935541C388.495 1.05353 387.643 1.22713 386.539 1.44951C384.333 1.89427 381.124 2.53416 377.113 3.31459C369.093 4.87548 357.868 6.99851 345.053 9.24707C319.42 13.7446 287.43 18.7428 261.98 20.7508C235.644 22.8287 221.437 23.75 195 23.75C168.563 23.75 153.355 22.8286 127.02 20.7508C101.571 18.7428 69.8304 13.7446 44.4475 9.24714C31.757 6.99859 20.6577 4.87557 12.731 3.3147C8.76767 2.53427 5.59756 1.89439 3.41838 1.44963C2.32879 1.22725 1.48694 1.05366 0.917538 0.935668C0.632837 0.876674 0.416248 0.831581 0.270862 0.801242L0.10657 0.766906L0.0651988 0.758237L0.054834 0.756062L0.0522476 0.755519C0.0516779 0.755399 0.0513978 0.755341 0 1Z"
+          strokeOpacity="0.5"
+          strokeWidth="0.5"
+        />
+      </svg>
     </nav>
   );
 }

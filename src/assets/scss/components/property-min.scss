@@ -1,6 +1,6 @@
 @import "../vars.scss";
 
-.weather-property-min {
+.property-min {
   width: 164px;
   height: 164px;
 
@@ -11,6 +11,10 @@
 
   border-radius: 22px;
   border: 1px solid $text-color-1-dark;
+
+  &_sceleton {
+    padding: 0;
+  }
 
   &:nth-child(even) {
     margin-left: 16px;

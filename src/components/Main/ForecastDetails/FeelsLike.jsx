@@ -1,9 +1,13 @@
 import "../../../assets/scss/components/feels-like.scss";
 import uiDifferentLanguageData from "../../../assets/json/uiDifferentLanguageData.json";
-import PropertyMin from "./PropertyMin";
+import { PropertyMin, PropertyMinSceleton } from "./PropertyMin";
 import getCurrentHourFromPlace from "../../../utils/getCurrentHourFromPlace";
 
 export default function FeelsLike({ apiDataIsLoaded, language, currentPlace }) {
+  if (!apiDataIsLoaded) {
+    return <PropertyMinSceleton />;
+  }
+
   return (
     <PropertyMin
       icon={
@@ -20,15 +24,14 @@ export default function FeelsLike({ apiDataIsLoaded, language, currentPlace }) {
           .feels_like
       }
     >
-      {apiDataIsLoaded ? (
-        <div className="feels-like">
-          <div className="feels-like__temperature">
-            {getCurrentHourFromPlace(currentPlace).feelslikeTemperature}°
-          </div>
+      <div className="feels-like">
+        <div className="feels-like__temperature">
+          {Math.floor(
+            getCurrentHourFromPlace(currentPlace).feelslikeTemperature
+          )}
+          °
         </div>
-      ) : (
-        <></>
-      )}
+      </div>
     </PropertyMin>
   );
 }

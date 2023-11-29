@@ -2,12 +2,16 @@ import "../../../assets/scss/components/uv-index.scss";
 import getUVLevelWord from "../../../utils/getUVLevelWord";
 import getPercentOfOneNumberFromAnother from "../../../utils/getPercentOfOneNumberFromAnother";
 import uiDifferentLanguageData from "../../../assets/json/uiDifferentLanguageData.json";
-import PropertyBig from "./PropertyBig";
+import { PropertyBig, PropertyBigSceleton } from "./PropertyBig";
 import getCurrentHourFromPlace from "../../../utils/getCurrentHourFromPlace";
 
 const MAX_UV_INDEX = 11;
 
 export default function UVIndex({ apiDataIsLoaded, language, currentPlace }) {
+  if (!apiDataIsLoaded) {
+    return <PropertyBigSceleton />;
+  }
+
   return (
     <PropertyBig
       icon={
@@ -25,31 +29,27 @@ export default function UVIndex({ apiDataIsLoaded, language, currentPlace }) {
           .uv_index
       }
     >
-      {apiDataIsLoaded ? (
-        <div className="uv-index">
-          <span className="uv-index__quantity">
-            {getCurrentHourFromPlace(currentPlace).uv +
-              " " +
-              getUVLevelWord(
-                getCurrentHourFromPlace(currentPlace).uv,
-                language
-              )}
-          </span>
-          <div className="uv-index__bar">
-            <div
-              className="uv-index__bar-point"
-              style={{
-                left: getPercentOfOneNumberFromAnother(
-                  getCurrentHourFromPlace(currentPlace).uvIndex,
-                  MAX_UV_INDEX
-                ),
-              }}
-            ></div>
-          </div>
+      <div className="uv-index">
+        <span className="uv-index__quantity">
+          {getCurrentHourFromPlace(currentPlace).uvIndex +
+            " " +
+            getUVLevelWord(
+              getCurrentHourFromPlace(currentPlace).uvIndex,
+              language
+            )}
+        </span>
+        <div className="uv-index__bar">
+          <div
+            className="uv-index__bar-point"
+            style={{
+              left: getPercentOfOneNumberFromAnother(
+                getCurrentHourFromPlace(currentPlace).uvIndex,
+                MAX_UV_INDEX
+              ),
+            }}
+          ></div>
         </div>
-      ) : (
-        <></>
-      )}
+      </div>
     </PropertyBig>
   );
 }

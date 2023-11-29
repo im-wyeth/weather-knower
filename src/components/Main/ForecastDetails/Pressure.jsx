@@ -1,9 +1,13 @@
 import "../../../assets/scss/components/pressure.scss";
 import uiDifferentLanguageData from "../../../assets/json/uiDifferentLanguageData.json";
-import PropertyMin from "./PropertyMin";
+import { PropertyMin, PropertyMinSceleton } from "./PropertyMin";
 import getCurrentHourFromPlace from "../../../utils/getCurrentHourFromPlace";
 
 export default function Pressure({ apiDataIsLoaded, language, currentPlace }) {
+  if (!apiDataIsLoaded) {
+    return <PropertyMinSceleton />;
+  }
+
   return (
     <PropertyMin
       icon={
@@ -26,15 +30,11 @@ export default function Pressure({ apiDataIsLoaded, language, currentPlace }) {
           .pressure
       }
     >
-      {apiDataIsLoaded ? (
-        <div className="pressure">
-          <div className="pressure__digits">
-            {getCurrentHourFromPlace(currentPlace).pressureInMB}
-          </div>
+      <div className="pressure">
+        <div className="pressure__digits">
+          {getCurrentHourFromPlace(currentPlace).pressureInMB}
         </div>
-      ) : (
-        <></>
-      )}
+      </div>
     </PropertyMin>
   );
 }

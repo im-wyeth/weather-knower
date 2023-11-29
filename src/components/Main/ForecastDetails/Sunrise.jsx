@@ -1,10 +1,14 @@
 import "../../../assets/scss/components/sunrise.scss";
 import uiDifferentLanguageData from "../../../assets/json/uiDifferentLanguageData.json";
 import convertTime12To24 from "../../../utils/convertTime12To24";
-import PropertyMin from "./PropertyMin";
+import { PropertyMin, PropertyMinSceleton } from "./PropertyMin";
 import getCurrentDayFromPlace from "../../../utils/getCurrentDayFromPlace";
 
 export default function Sunrise({ apiDataIsLoaded, language, currentPlace }) {
+  if (!apiDataIsLoaded) {
+    return <PropertyMinSceleton />;
+  }
+
   return (
     <PropertyMin
       icon={
@@ -22,29 +26,25 @@ export default function Sunrise({ apiDataIsLoaded, language, currentPlace }) {
           .sunrise
       }
     >
-      {apiDataIsLoaded ? (
-        <div className="sunrise">
-          <h2 className="sunrise__time">
-            {language === "en"
-              ? getCurrentDayFromPlace(currentPlace).sunriseTime
-              : convertTime12To24(
-                  getCurrentDayFromPlace(currentPlace).sunriseTime
-                )}
-          </h2>
-          <span className="sunrise__sunset-time">
-            {uiDifferentLanguageData[language].components
-              .main_weather_details_sunrise.sunset + " "}
+      <div className="sunrise">
+        <h2 className="sunrise__time">
+          {language === "en"
+            ? getCurrentDayFromPlace(currentPlace).sunriseTime
+            : convertTime12To24(
+                getCurrentDayFromPlace(currentPlace).sunriseTime
+              )}
+        </h2>
+        <span className="sunrise__sunset-time">
+          {uiDifferentLanguageData[language].components
+            .main_weather_details_sunrise.sunset + " "}
 
-            {language === "en"
-              ? getCurrentDayFromPlace(currentPlace).sunsetTime
-              : convertTime12To24(
-                  getCurrentDayFromPlace(currentPlace).sunsetTime
-                )}
-          </span>
-        </div>
-      ) : (
-        <></>
-      )}
+          {language === "en"
+            ? getCurrentDayFromPlace(currentPlace).sunsetTime
+            : convertTime12To24(
+                getCurrentDayFromPlace(currentPlace).sunsetTime
+              )}
+        </span>
+      </div>
     </PropertyMin>
   );
 }

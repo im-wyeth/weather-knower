@@ -1,6 +1,6 @@
 @import "../vars.scss";
 
-.weather-details {
+.forecast-details {
   width: 100%;
   max-width: 476px;
 
@@ -12,14 +12,18 @@
   position: absolute;
   left: 50%;
   top: 0;
-  z-index: $weather-details-z-index;
+  z-index: $forecast-details-z-index;
 
-  transform: translate3d(-50%, 0, 0);
+  overflow: hidden;
+
+  transform: translate3d(-50%, calc(100vh - 317px), 0);
 
   will-change: transform;
 
-  &_transition {
-    transition: transform cubic-bezier(0, 0.02, 0.28, 1.19) 0.6s;
+  transition: transform cubic-bezier(0, 0.02, 0.28, 1.19) 0.6s;
+
+  &_fullscreen {
+    transform: translate3d(-50%, 147px, 0);
   }
 
   &__top-bar {
@@ -32,7 +36,7 @@
     border-bottom: 1px solid $color-4-dark;
   }
 
-  &__main-button {
+  &__drag-button {
     width: 48px;
     height: 7px;
 
@@ -67,7 +71,7 @@
     cursor: pointer;
 
     position: relative;
-    z-index: $weather-details-forecast-button-z-index;
+    z-index: $forecast-details-forecast-button-z-index;
 
     background: none;
 
@@ -85,15 +89,15 @@
 
     background: linear-gradient(
       270deg,
-      $weather-details_movable-line_background_color-1_dark 10%,
-      $weather-details_movable-line_background_color-2_dark 50%,
-      $weather-details_movable-line_background_color-1_dark 90%
+      $forecast-details_movable-line_background_color-1_dark 10%,
+      $forecast-details_movable-line_background_color-2_dark 50%,
+      $forecast-details_movable-line_background_color-1_dark 90%
     );
 
     position: absolute;
     top: 0px;
     left: 0px;
-    z-index: $weather-details-movable-line-z-index;
+    z-index: $forecast-details-movable-line-z-index;
 
     transform: translate(0, 40px);
 
@@ -123,6 +127,11 @@
     }
   }
 
+  &__center {
+    display: flex;
+    justify-content: center;
+  }
+
   &__container {
     padding-left: 24px;
     padding-right: 24px;
@@ -141,7 +150,7 @@
     position: fixed;
     right: -15px;
     bottom: 70px;
-    z-index: $weather-details-1-ellipse-z-index;
+    z-index: $forecast-details-1-ellipse-z-index;
 
     background: conic-gradient(
       from 180deg at 50% 50%,
@@ -163,7 +172,7 @@
     position: fixed;
     top: 0;
     left: 50%;
-    z-index: $weather-details-2-ellipse-z-index;
+    z-index: $forecast-details-2-ellipse-z-index;
 
     transform: translate(-50%, 0);
 
@@ -183,7 +192,7 @@
     position: fixed;
     top: -4px;
     left: 50%;
-    z-index: $weather-details-3-ellipse-z-index;
+    z-index: $forecast-details-3-ellipse-z-index;
 
     background: $text-color-1-dark;
 

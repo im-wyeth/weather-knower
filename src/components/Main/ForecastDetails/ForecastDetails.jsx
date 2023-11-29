@@ -1,4 +1,4 @@
-import "../../../assets/scss/components/weather-details.scss";
+import "../../../assets/scss/components/forecast-details.scss";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import moveLineToTarget from "../../../utils/moveLineToTarget";
@@ -14,15 +14,14 @@ import uiDifferentLanguageData from "../../../assets/json/uiDifferentLanguageDat
 import { FORECAST_TYPES } from "../../../utils/types";
 import { searchPlaceBuyName } from "../../../features/forecast/forecastSlice";
 import getCurrentDayFromPlace from "../../../utils/getCurrentDayFromPlace";
+import Sceleton from "../../App/Sceleton";
 
-const VERTICAL_POSITION_OF_THIS_ELEM_IN_FULLSCREEN = 147;
-const TOP_MARGIN = 230;
-const FULLSCREEN_ACTIVATE_POINT = 100;
-
-const EMPTY_FORECAST_ITEM_LIST = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const FULLSCREEN_MODE_ACTIVATION_POSITION_Y = 100;
+// const POSITION_X = -50;
+// const DECREASABLE_VALUE_FOR_POSITON_Y_DEFAULT_MODE = 317;
+// const POSITION_Y_FULLSCREEN_MODE = 147;
 
 export default function ForecastDetails(props) {
-  const thisRef = useRef(null);
   const forecastFirstButtonRef = useRef(null);
   const forecastSecondButtonRef = useRef(null);
   const movableLineRef = useRef(null);
@@ -39,7 +38,7 @@ export default function ForecastDetails(props) {
   const [currentForecastType, setCurrentForecastType] = useState(
     FORECAST_TYPES.HOURLY
   );
-  const [mainButtonTouchStartPosition, setMainButtonTouchStartPosition] =
+  const [dragButtonTouchStartPosition, setDragButtonTouchStartPosition] =
     useState({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -47,25 +46,17 @@ export default function ForecastDetails(props) {
 
     moveLineToTarget(movableLineRef.current, forecastFirstButtonRef.current);
 
-    positionAtTheBottomNavigation();
-
     return () => {
       window.removeEventListener("resize", onWindowResize);
     };
   }, []);
 
-  function positionAtTheBottomNavigation() {
-    const mainBottomNavigationRect =
-      props.mainBottomNavigationRef.current.getBoundingClientRect();
-
-    moveThisElemVerticallyWithTranslate(
-      mainBottomNavigationRect.top - TOP_MARGIN
-    );
-
-    props.mainBottomNavigationRef.current.removeEventListener(
-      "transitionend",
-      positionAtTheBottomNavigation
-    );
+  function onWindowResize() {
+    if (currentForecastType === FORECAST_TYPES.HOURLY) {
+      moveLineToTarget(movableLineRef.current, forecastFirstButtonRef.current);
+    } else {
+      moveLineToTarget(movableLineRef.current, forecastSecondButtonRef.current);
+    }
   }
 
   function onForecastButtonClick(event, forecastType) {
@@ -74,99 +65,73 @@ export default function ForecastDetails(props) {
     setCurrentForecastType(forecastType);
   }
 
-  function onWindowResize() {
-    const mainBottomNavigationRect =
-      props.mainBottomNavigationRef.current.getBoundingClientRect();
-
-    moveThisElemVerticallyWithTranslate(
-      mainBottomNavigationRect.top - TOP_MARGIN
-    );
-
-    if (currentForecastType === FORECAST_TYPES.HOURLY) {
-      moveLineToTarget(movableLineRef.current, forecastFirstButtonRef.current);
-    } else {
-      moveLineToTarget(movableLineRef.current, forecastSecondButtonRef.current);
-    }
-  }
-
   function onForecastItemsWheel(event) {
     forecastItemsRef.current.scrollLeft += event.deltaY;
   }
 
-  function mainButtonOnTouchStart(event) {
-    setMainButtonTouchStartPosition({
+  function dragButtonOnTouchStart(event) {
+    setDragButtonTouchStartPosition({
       x: event.touches[0].pageX,
       y: event.touches[0].pageY,
     });
   }
 
-  function moveThisElemVerticallyWithTranslate(y) {
-    thisRef.current.style.transform = `translate3d(-50%, ${y}px, 0)`;
-  }
-
-  function mainButtonOnTouchMove(event) {
-    if (!props.isFullScreen) {
-      moveThisElemVerticallyWithTranslate(event.touches[0].pageY);
-    }
-
+  function dragButtonOnTouchMove(event) {
     if (
-      mainButtonTouchStartPosition.y - event.touches[0].pageY >=
-      FULLSCREEN_ACTIVATE_POINT
+      dragButtonTouchStartPosition.y - event.touches[0].pageY >=
+      FULLSCREEN_MODE_ACTIVATION_POSITION_Y
     ) {
-      if (props.isFullScreen) {
+      if (props.mainFullscreenMode) {
         return;
       }
 
-      props.setFullScreen(true);
-
-      moveThisElemVerticallyWithTranslate(
-        VERTICAL_POSITION_OF_THIS_ELEM_IN_FULLSCREEN
-      );
-
-      thisRef.current.addEventListener(
-        "transitionend",
-        activateScrollForScrollWrapper
-      );
+      activateFullscreenMode();
     }
   }
 
-  function activateScrollForScrollWrapper() {
-    const scrollWrapperRect = scrollWrapperRef.current.getBoundingClientRect();
-    scrollWrapperRef.current.style.height =
-      window.innerHeight - scrollWrapperRect.top + "px";
+  function activateFullscreenMode() {
+    props.setMainFullscreenMode(true);
 
-    thisRef.current.removeEventListener(
-      "transitionend",
-      activateScrollForScrollWrapper
-    );
+    activateScrollOfScrollWrapper();
   }
 
-  function onClick() {
-    props.setFullScreen(false);
-
-    props.mainBottomNavigationRef.current.addEventListener(
-      "transitionend",
-      positionAtTheBottomNavigation
-    );
+  function disableFullscreenMode() {
+    props.setMainFullscreenMode(false);
 
     scrollWrapperRef.current.style.height = "auto";
   }
 
+  function activateScrollOfScrollWrapper() {
+    if (!props.mainFullscreenMode) {
+      return;
+    }
+
+    const scrollWrapperRect = scrollWrapperRef.current.getBoundingClientRect();
+    scrollWrapperRef.current.style.height =
+      window.innerHeight - scrollWrapperRect.top + "px";
+  }
+
   return (
-    <div ref={thisRef} className="weather-details">
-      <div className="weather-details__top-bar">
+    <div
+      className={
+        "forecast-details" +
+        (props.mainFullscreenMode ? " forecast-details_fullscreen" : "")
+      }
+      onTransitionEnd={activateScrollOfScrollWrapper}
+    >
+      <div className="forecast-details__top-bar">
         <button
-          onTouchStart={mainButtonOnTouchStart}
-          onTouchMove={mainButtonOnTouchMove}
-          onClick={onClick}
-          className="weather-details__main-button"
+          onTouchStart={dragButtonOnTouchStart}
+          onTouchMove={dragButtonOnTouchMove}
+          onClick={disableFullscreenMode}
+          className="forecast-details__drag-button"
         ></button>
         <button
           ref={forecastFirstButtonRef}
           onClick={(event) =>
             onForecastButtonClick(event, FORECAST_TYPES.HOURLY)
           }
-          className="weather-details__forecast-button"
+          className="forecast-details__forecast-button"
         >
           {
             uiDifferentLanguageData[language].components.main_weather_details
@@ -178,7 +143,7 @@ export default function ForecastDetails(props) {
           onClick={(event) =>
             onForecastButtonClick(event, FORECAST_TYPES.WEEKLY)
           }
-          className="weather-details__forecast-button"
+          className="forecast-details__forecast-button"
         >
           {
             uiDifferentLanguageData[language].components.main_weather_details
@@ -187,15 +152,15 @@ export default function ForecastDetails(props) {
         </button>
         <div
           ref={movableLineRef}
-          className="weather-details__movable-line"
+          className="forecast-details__movable-line"
         ></div>
       </div>
 
-      <div ref={scrollWrapperRef} className="weather-details__scroll-wrapper">
+      <div ref={scrollWrapperRef} className="forecast-details__scroll-wrapper">
         <div
           ref={forecastItemsRef}
           onWheel={onForecastItemsWheel}
-          className="weather-details__forecast-items"
+          className="forecast-details__forecast-items"
         >
           {apiDataIsLoaded ? (
             <>
@@ -228,18 +193,20 @@ export default function ForecastDetails(props) {
                   ))}
             </>
           ) : (
-            <></>
+            <div className="forecast-details__center">
+              <Sceleton width={"90%"} height={"146px"} borderRadius={"20px"} />
+            </div>
           )}
         </div>
 
-        <div className="weather-details__container">
+        <div className="forecast-details__container">
           <UVIndex
             apiDataIsLoaded={apiDataIsLoaded}
             language={language}
             currentPlace={currentPlace}
           />
 
-          <div className="weather-details__container-inner">
+          <div className="forecast-details__container-inner">
             <Sunrise
               apiDataIsLoaded={apiDataIsLoaded}
               language={language}
@@ -274,9 +241,9 @@ export default function ForecastDetails(props) {
         </div>
       </div>
 
-      <div className="weather-details__ellipse-1"></div>
-      <div className="weather-details__ellipse-2"></div>
-      <div className="weather-details__ellipse-3"></div>
+      <div className="forecast-details__ellipse-1"></div>
+      <div className="forecast-details__ellipse-2"></div>
+      <div className="forecast-details__ellipse-3"></div>
     </div>
   );
 }

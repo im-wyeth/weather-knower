@@ -1,9 +1,13 @@
 import "../../../assets/scss/components/humidity.scss";
 import uiDifferentLanguageData from "../../../assets/json/uiDifferentLanguageData.json";
-import PropertyMin from "./PropertyMin";
+import { PropertyMin, PropertyMinSceleton } from "./PropertyMin";
 import getCurrentHourFromPlace from "../../../utils/getCurrentHourFromPlace";
 
 export default function Humidity({ apiDataIsLoaded, language, currentPlace }) {
+  if (!apiDataIsLoaded) {
+    return <PropertyMinSceleton />;
+  }
+
   return (
     <PropertyMin
       icon={
@@ -23,15 +27,11 @@ export default function Humidity({ apiDataIsLoaded, language, currentPlace }) {
           .humidity
       }
     >
-      {apiDataIsLoaded ? (
-        <div className="humidity">
-          <div className="humidity__percent">
-            {getCurrentHourFromPlace(currentPlace).humidity}%
-          </div>
+      <div className="humidity">
+        <div className="humidity__percent">
+          {getCurrentHourFromPlace(currentPlace).humidity}%
         </div>
-      ) : (
-        <></>
-      )}
+      </div>
     </PropertyMin>
   );
 }
