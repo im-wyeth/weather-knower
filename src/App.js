@@ -14,7 +14,7 @@ import {
 export default function App() {
   const dispatch = useDispatch();
 
-  const places = useSelector((state) => state.forecast.places);
+  const { places } = useSelector((state) => state.forecast);
 
   useEffect(() => {
     if (!places.length) {

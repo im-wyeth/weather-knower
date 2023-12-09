@@ -1,27 +1,43 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import getPlaceForecastModel from "../../models/getPlaceForecastModel";
 
+const LIST_OF_PLACE_NAMES = ["London", "Japan", "Paris"];
+const WEATHERAPI_FULL_ADDRESS = "http://api.weatherapi.com/v1/forecast.json";
+const WEATHERAPI_API_KEY = "104b303882e44cb497094324231009";
+
+function updatePlacesFromLocalStorage(state) {
+  localStorage.setItem("places", JSON.stringify(state.places));
+}
+
 function setPlaces(state, action) {
   state.places = action.payload;
   state.dataIsLoaded = true;
 
-  localStorage.setItem("places", JSON.stringify(state.places));
+  updatePlacesFromLocalStorage(state);
+}
+
+function addPlace(state, action) {
+  state.places.push(action.payload);
+
+  updatePlacesFromLocalStorage(state);
+}
+
+function replacePlace(state, action) {
+  state.places[action.payload.index] = action.payload.place;
+
+  updatePlacesFromLocalStorage(state);
 }
 
 export function searchPlaceBuyName(state, name) {
   return state.forecast.places.find((place) => place.name === name);
 }
 
-const LIST_OF_PLACE_NAMES = ["London", "Japan", "Paris"];
-const WEATHERAPI_FULL_ADDRESS = "http://api.weatherapi.com/v1/forecast.json";
-const WEATHERAPI_API_KEY = "104b303882e44cb497094324231009";
-
 const apiAddress = new URL(WEATHERAPI_FULL_ADDRESS);
 apiAddress.searchParams.set("key", WEATHERAPI_API_KEY);
 apiAddress.searchParams.set("aqi", "no");
 
 export const fetchPlacesData = createAsyncThunk(
-  "forecast/fetchPlaceData",
+  "forecast/fetchPlacesData",
   async () => {
     const wholeDecodedResult = [];
 
@@ -34,15 +50,19 @@ export const fetchPlacesData = createAsyncThunk(
       wholeDecodedResult.push(decodedResult);
     }
 
-    const a = new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, 2000);
-    });
-
-    await a;
-
     return wholeDecodedResult;
+  }
+);
+
+export const fetchPlaceData = createAsyncThunk(
+  "forecast/fetchPlaceData",
+  async (placeDataInStringType) => {
+    apiAddress.searchParams.set("q", placeDataInStringType);
+
+    const resultOfFetch = await fetch(apiAddress.toString());
+    const decodedResult = await resultOfFetch.json();
+
+    return decodedResult;
   }
 );
 
@@ -62,15 +82,40 @@ const forecastSlice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(fetchPlacesData.fulfilled, (state, action) => {
-      const places = {
+      const actionForSetPlaces = {
         payload: [],
       };
 
       for (const placeDataFromAPI of action.payload) {
-        places.payload.push(getPlaceForecastModel(placeDataFromAPI));
+        actionForSetPlaces.payload.push(
+          getPlaceForecastModel(placeDataFromAPI)
+        );
       }
 
-      setPlaces(state, places);
+      setPlaces(state, actionForSetPlaces);
+    });
+
+    builder.addCase(fetchPlaceData.fulfilled, (state, action) => {
+      const actionForAddPlace = {
+        payload: getPlaceForecastModel(action.payload),
+      };
+
+      const samePlaceIndex = state.places.findIndex(
+        (place) => place.name === actionForAddPlace.payload.name
+      );
+
+      if (samePlaceIndex >= 0) {
+        const actionForReplacePlace = {
+          payload: {
+            place: actionForAddPlace.payload,
+            index: samePlaceIndex,
+          },
+        };
+
+        replacePlace(state, actionForReplacePlace);
+      } else {
+        addPlace(state, actionForAddPlace);
+      }
     });
   },
 });

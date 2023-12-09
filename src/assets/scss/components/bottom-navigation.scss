@@ -5,19 +5,16 @@
   height: $bottom-navigation-height;
   max-width: 476px;
 
-  position: absolute;
+  position: fixed;
   bottom: 0;
-  left: 50%;
   z-index: $bottom-navigation-z-index;
-
-  transform: translate3d(-50%, 0, 0);
 
   will-change: transform;
 
   transition: transform linear 0.3s;
 
   &_hidden {
-    transform: translate3d(-50%, $bottom-navigation-center-height, 0);
+    transform: translate3d(0, $bottom-navigation-center-height, 0);
   }
 
   &__background-svg {

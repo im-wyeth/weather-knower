@@ -2,61 +2,69 @@ import { Link } from "react-router-dom";
 import "../../../assets/scss/components/bottom-navigation.scss";
 import BottomNavigationCentralShape from "./CentralShape";
 import { useDispatch, useSelector } from "react-redux";
-import * as locationSlice from "../../../features/location/locationSlice";
-import * as forecastSlice from "../../../features/forecast/forecastSlice";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  setCoordinates,
+  setGeolocationIsForciblyDisabled,
+  setGeolocationIsOn,
+  setName,
+} from "../../../features/location/locationSlice";
+import { fetchPlaceData } from "../../../features/forecast/forecastSlice";
+import { useEffect, useState } from "react";
+import getPlaceForecastModel from "../../../models/getPlaceForecastModel";
 
-const COORDINATES_LIFE_TIME_IN_MS = 7200000;
+const COORDINATES_LIFETIME_IN_MS = 7200000;
 
 export default function BottomNavigation({ mainFullscreenMode }) {
   const dispatch = useDispatch();
 
-  const language = useSelector((state) => state.settings.language);
-  const coordinates = useSelector((state) => state.location.coordinates);
-  const coordinatesUpdatedTimeStamp = useSelector(
-    (state) => state.location.coordinatesUpdatedTimeStamp
+  const { lastCoordinatesUpdatedTimeStamp } = useSelector(
+    (state) => state.location
   );
-  const places = useSelector((state) => state.forecast.places);
 
-  const [isGeolocationOn, setIsGeolocationOn] = useState(false);
+  const geolocationIsOn = useSelector(
+    (state) => state.location.geolocationIsOn
+  );
 
   useEffect(() => {
-    if (coordinates.latitude || coordinates.longitude) {
-      if (
-        Date.now() - coordinatesUpdatedTimeStamp <
-        COORDINATES_LIFE_TIME_IN_MS
-      ) {
-        setIsGeolocationOn(true);
+    if (geolocationIsOn) {
+      const coordinatesLifetimeIsExpired =
+        Date.now() - lastCoordinatesUpdatedTimeStamp >
+        COORDINATES_LIFETIME_IN_MS;
+
+      if (coordinatesLifetimeIsExpired) {
+        dispatch(setGeolocationIsOn(false));
       }
     }
   }, []);
 
   function onGeolocationButtonClick() {
+    if (geolocationIsOn) {
+      dispatch(setGeolocationIsOn(false));
+
+      return;
+    }
+
     if (!("geolocation" in navigator)) {
       return;
     }
 
     navigator.geolocation.getCurrentPosition(async (position) => {
       dispatch(
-        locationSlice.setCoordinates({
+        setCoordinates({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
         })
       );
 
-      const fetchResult = await fetch(
-        `http://api.weatherapi.com/v1/forecast.json?key=104b303882e44cb497094324231009&q=${
-          position.coords.latitude + "," + position.coords.longitude
-        }&aqi=no&lang=` + language
+      dispatch(setGeolocationIsOn(true));
+
+      const placeData = await dispatch(
+        fetchPlaceData(
+          `${position.coords.latitude + "," + position.coords.longitude}`
+        )
       );
 
-      // Add a check that the city are already exists
-      if (fetchResult.status === 200) {
-        const json = await fetchResult.json();
-
-        // dispatch(locationSlice.setName(json.location.name));
-        // dispatch(forecastSlice.setPlaces([...places, json]));
-      }
+      dispatch(setName(getPlaceForecastModel(placeData.payload).name));
     });
   }
 
@@ -72,7 +80,7 @@ export default function BottomNavigation({ mainFullscreenMode }) {
           onClick={onGeolocationButtonClick}
           className={
             "bottom-navigation__button" +
-            (isGeolocationOn ? " bottom-navigation__button_active" : "")
+            (geolocationIsOn ? " bottom-navigation__button_active" : "")
           }
         >
           <svg

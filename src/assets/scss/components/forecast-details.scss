@@ -9,21 +9,18 @@
   border-top: 2px solid $color-4-dark;
   border-radius: 44px 44px 0 0;
 
-  position: absolute;
-  left: 50%;
-  top: 0;
+  position: fixed;
+  top: 100%;
   z-index: $forecast-details-z-index;
 
-  overflow: hidden;
-
-  transform: translate3d(-50%, calc(100vh - 317px), 0);
+  transform: translate3d(0, -317px, 0);
 
   will-change: transform;
 
   transition: transform cubic-bezier(0, 0.02, 0.28, 1.19) 0.6s;
 
   &_fullscreen {
-    transform: translate3d(-50%, 147px, 0);
+    transform: translate3d(0, calc(-100svh + 140px), 0);
   }
 
   &__top-bar {
@@ -87,6 +84,8 @@
     width: 25%;
     height: 3px;
 
+    margin-top: 4px;
+
     background: linear-gradient(
       270deg,
       $forecast-details_movable-line_background_color-1_dark 10%,
@@ -127,7 +126,7 @@
     }
   }
 
-  &__center {
+  &__forecast-items-sceleton {
     display: flex;
     justify-content: center;
   }

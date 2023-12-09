@@ -15,8 +15,6 @@
   border-radius: 30px;
 
   margin-left: 12px;
-  // padding-top: 16px;
-  // padding-bottom: 16px;
 
   box-shadow: 5px 4px 10px 0px #00000040, inset 1px 1px 0px 0px #ffffff40;
 
@@ -29,7 +27,6 @@
   z-index: $forecast-item-z-index;
 
   &_current {
-    border: none;
     background-color: $color-6-dark;
   }
 
@@ -45,17 +42,6 @@
     font-size: 15px;
     font-weight: 600;
     line-height: 20px;
-    letter-spacing: -0.5px;
-    text-transform: capitalize;
-
-    padding-top: 16px;
-  }
-
-  &__day-of-the-week {
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 20px;
-    letter-spacing: -0.5px;
     text-transform: uppercase;
 
     padding-top: 16px;

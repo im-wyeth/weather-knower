@@ -8,7 +8,8 @@ export function PropertyMin(props) {
         <div className="property-min__icon">{props.icon}</div>
         <span className="property-min__name">{props.name}</span>
       </div>
-      <div className="property-min__bottom">{props.children}</div>
+
+      {props.children}
     </div>
   );
 }

@@ -1,6 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "../../../assets/scss/components/forecast-item.scss";
 import WeatherConditionImage from "../../App/WeatherConditionImage";
+import getHourWithMinutesfromDateInstance from "../../../utils/getHourWithMinutesfromDateInstance";
+import { FORECAST_TYPES } from "../../../utils/types";
 
 const DATE_LOCALES = {
   ru: "ru-RU",
@@ -8,7 +10,6 @@ const DATE_LOCALES = {
 };
 
 export default function ForecastItem({
-  apiDataIsLoaded,
   language,
   forecastType,
   date,
@@ -17,52 +18,48 @@ export default function ForecastItem({
   conditionCode,
 }) {
   const dateInstance = new Date(date);
+  const currentDateInstance = new Date(Date.now());
+
+  const [isCurrentHour, setIsCurrentHour] = useState(false);
+  const [isCurrentDay, setIsCurrentDay] = useState(false);
 
   useEffect(() => {
-    // switch (props.forecastType) {
-    //   case FORECAST_TYPES.WEEKLY:
-    //     const dateName = dateFromMilliseconds.toLocaleDateString(
-    //       DATE_LOCALES[language],
-    //       { weekday: "short" }
-    //     );
-    //     setTimeForDisplay(dateName);
-    //     break;
-    //   case FORECAST_TYPES.HOURLY:
-    //     if (
-    //       currentDate.toLocaleTimeString().split(":")[0] ===
-    //       splittedTimeInString[0]
-    //     ) {
-    //       setIsCurrentHour(true);
-    //       setTimeForDisplay(
-    //         uiDifferentLanguageData[language].components
-    //           .main_weather_details_forecast_item.now
-    //       );
-    //       return;
-    //     }
-    //     setTimeForDisplay(
-    //       splittedTimeInString[0] + ":" + splittedTimeInString[1]
-    //     );
-    //     if (timeForDisplay[0] === "0") {
-    //       setTimeForDisplay(timeForDisplay.slice(1, timeForDisplay.length));
-    //     }
-    //     break;
-    // }
-  }, []);
+    switch (forecastType) {
+      case FORECAST_TYPES.HOURLY:
+        setIsCurrentDay(false);
+
+        if (dateInstance.getHours() === currentDateInstance.getHours()) {
+          setIsCurrentHour(true);
+        }
+        break;
+      case FORECAST_TYPES.WEEKLY:
+        setIsCurrentHour(false);
+
+        if (dateInstance.getDay() === currentDateInstance.getDay()) {
+          setIsCurrentDay(true);
+        }
+        break;
+    }
+  }, [forecastType]);
 
   return (
-    <div className="forecast-item">
-      {/*  + (isCurrentHour ? " forecast-item_current" : "") */}
-      {forecastType === "hourly" ? (
-        <div className="forecast-item__time">
-          {dateInstance.getHours() + ":" + dateInstance.getMinutes()}
-        </div>
-      ) : (
-        <div className="forecast-item__day-of-the-week">
-          {dateInstance.toLocaleDateString(DATE_LOCALES[language], {
-            weekday: "short",
-          })}
-        </div>
-      )}
+    <div
+      className={
+        "forecast-item" +
+        (isCurrentHour || isCurrentDay ? " forecast-item_current" : "")
+      }
+    >
+      <div className="forecast-item__time">
+        {forecastType === "hourly" ? (
+          <>{getHourWithMinutesfromDateInstance(dateInstance)}</>
+        ) : (
+          <>
+            {dateInstance.toLocaleDateString(DATE_LOCALES[language], {
+              weekday: "short",
+            })}
+          </>
+        )}
+      </div>
       <WeatherConditionImage
         className="forecast-item__weather-image"
         conditionCode={conditionCode}

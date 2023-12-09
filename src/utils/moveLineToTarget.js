@@ -1,9 +1,8 @@
-const OFFSET_TOP = 4;
-
 export default function moveLineToTarget(movableLineElement, targetElement) {
-  movableLineElement.style.transform = `translate(${
-    targetElement.offsetLeft
-  }px, ${targetElement.offsetTop + targetElement.clientHeight + OFFSET_TOP}px)`;
+  const x = targetElement.offsetLeft;
+  const y = targetElement.offsetTop + targetElement.clientHeight;
+
+  movableLineElement.style.transform = `translate(${x}px, ${y}px)`;
 
   movableLineElement.style.width = `${targetElement.clientWidth}px`;
 }

@@ -16,10 +16,15 @@ import { searchPlaceBuyName } from "../../../features/forecast/forecastSlice";
 import getCurrentDayFromPlace from "../../../utils/getCurrentDayFromPlace";
 import Sceleton from "../../App/Sceleton";
 
-const FULLSCREEN_MODE_ACTIVATION_POSITION_Y = 100;
-// const POSITION_X = -50;
-// const DECREASABLE_VALUE_FOR_POSITON_Y_DEFAULT_MODE = 317;
-// const POSITION_Y_FULLSCREEN_MODE = 147;
+const PROPERTY_COMPONENTS = [
+  Sunrise,
+  Wind,
+  Rainfall,
+  FeelsLike,
+  Humidity,
+  Pressure,
+];
+const FULLSCREEN_MODE_ACTIVATION_POINT = 100;
 
 export default function ForecastDetails(props) {
   const forecastFirstButtonRef = useRef(null);
@@ -38,8 +43,7 @@ export default function ForecastDetails(props) {
   const [currentForecastType, setCurrentForecastType] = useState(
     FORECAST_TYPES.HOURLY
   );
-  const [dragButtonTouchStartPosition, setDragButtonTouchStartPosition] =
-    useState({ x: 0, y: 0 });
+  const [draggingStartPoint, setDraggingStartPoint] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     window.addEventListener("resize", onWindowResize);
@@ -70,29 +74,25 @@ export default function ForecastDetails(props) {
   }
 
   function dragButtonOnTouchStart(event) {
-    setDragButtonTouchStartPosition({
+    setDraggingStartPoint({
       x: event.touches[0].pageX,
       y: event.touches[0].pageY,
     });
   }
 
   function dragButtonOnTouchMove(event) {
-    if (
-      dragButtonTouchStartPosition.y - event.touches[0].pageY >=
-      FULLSCREEN_MODE_ACTIVATION_POSITION_Y
-    ) {
-      if (props.mainFullscreenMode) {
-        return;
-      }
+    const lastPositionAfterDragging = event.touches[0];
 
+    const draggingHeightDifference =
+      draggingStartPoint.y - lastPositionAfterDragging.pageY;
+
+    if (draggingHeightDifference >= FULLSCREEN_MODE_ACTIVATION_POINT) {
       activateFullscreenMode();
     }
   }
 
   function activateFullscreenMode() {
     props.setMainFullscreenMode(true);
-
-    activateScrollOfScrollWrapper();
   }
 
   function disableFullscreenMode() {
@@ -101,14 +101,17 @@ export default function ForecastDetails(props) {
     scrollWrapperRef.current.style.height = "auto";
   }
 
-  function activateScrollOfScrollWrapper() {
+  function activateScrollingForScrollWrapper() {
     if (!props.mainFullscreenMode) {
       return;
     }
 
     const scrollWrapperRect = scrollWrapperRef.current.getBoundingClientRect();
-    scrollWrapperRef.current.style.height =
-      window.innerHeight - scrollWrapperRect.top + "px";
+
+    const remainingHeightToTheBottom =
+      window.innerHeight - scrollWrapperRect.top;
+
+    scrollWrapperRef.current.style.height = remainingHeightToTheBottom + "px";
   }
 
   return (
@@ -117,7 +120,7 @@ export default function ForecastDetails(props) {
         "forecast-details" +
         (props.mainFullscreenMode ? " forecast-details_fullscreen" : "")
       }
-      onTransitionEnd={activateScrollOfScrollWrapper}
+      onTransitionEnd={activateScrollingForScrollWrapper}
     >
       <div className="forecast-details__top-bar">
         <button
@@ -193,7 +196,7 @@ export default function ForecastDetails(props) {
                   ))}
             </>
           ) : (
-            <div className="forecast-details__center">
+            <div className="forecast-details__forecast-items-sceleton">
               <Sceleton width={"90%"} height={"146px"} borderRadius={"20px"} />
             </div>
           )}
@@ -207,36 +210,14 @@ export default function ForecastDetails(props) {
           />
 
           <div className="forecast-details__container-inner">
-            <Sunrise
-              apiDataIsLoaded={apiDataIsLoaded}
-              language={language}
-              currentPlace={currentPlace}
-            />
-            <Wind
-              apiDataIsLoaded={apiDataIsLoaded}
-              language={language}
-              currentPlace={currentPlace}
-            />
-            <Rainfall
-              apiDataIsLoaded={apiDataIsLoaded}
-              language={language}
-              currentPlace={currentPlace}
-            />
-            <FeelsLike
-              apiDataIsLoaded={apiDataIsLoaded}
-              language={language}
-              currentPlace={currentPlace}
-            />
-            <Humidity
-              apiDataIsLoaded={apiDataIsLoaded}
-              language={language}
-              currentPlace={currentPlace}
-            />
-            <Pressure
-              apiDataIsLoaded={apiDataIsLoaded}
-              language={language}
-              currentPlace={currentPlace}
-            />
+            {PROPERTY_COMPONENTS.map((Component, idx) => (
+              <Component
+                key={idx}
+                apiDataIsLoaded={apiDataIsLoaded}
+                language={language}
+                currentPlace={currentPlace}
+              />
+            ))}
           </div>
         </div>
       </div>

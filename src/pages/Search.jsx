@@ -7,6 +7,11 @@ import * as locationSlice from "../features/location/locationSlice";
 import uiDifferentLanguageData from "../assets/json/uiDifferentLanguageData.json";
 import getCurrentHourFromPlace from "../utils/getCurrentHourFromPlace";
 import getCurrentDayFromPlace from "../utils/getCurrentDayFromPlace";
+import { fetchPlaceData } from "../features/forecast/forecastSlice";
+import Sceleton from "../components/App/Sceleton";
+import getPlaceForecastModel from "../models/getPlaceForecastModel";
+
+const PLACE_FETCH_MS = 2000;
 
 export default function Search() {
   const dispatch = useDispatch();
@@ -18,45 +23,39 @@ export default function Search() {
   const language = useSelector((state) => state.settings.language);
 
   const [placesList, setPlacesList] = useState(places.concat());
+  let setTimeoutId = null;
 
   useEffect(() => {
     const citiesRect = citiesRef.current.getBoundingClientRect();
     const height = document.documentElement.clientHeight - citiesRect.top;
+
     citiesRef.current.style.height = height + "px";
   }, []);
 
-  // let setTimeoutId = undefined;
+  useEffect(() => {
+    if (dataIsLoaded) {
+      setPlacesList(places.concat());
+    }
+  }, [dataIsLoaded]);
 
   function onInputChange(event) {
-    // if (setTimeoutId) {
-    //   clearTimeout(setTimeoutId);
-    // }
-    // if (event.target.value.length >= 2) {
-    //   setTimeoutId = setTimeout(async () => {
-    //     const fetchResult = await fetch(
-    //       `http://api.weatherapi.com/v1/forecast.json?key=104b303882e44cb497094324231009&q=${event.target.value}&aqi=no`
-    //     );
-    //     if (fetchResult.status === 200) {
-    //       const json = await fetchResult.json();
-    //       setCitiesList([json]);
-    //       const indexOfExistCity = places.findIndex(
-    //         (cityWeatherData) =>
-    //           cityWeatherData.location.name === json.location.name &&
-    //           cityWeatherData.location.country === json.location.country
-    //       );
-    //       // if (indexOfExistCity >= 0) {
-    //       //   dispatch(
-    //       //     forecastSlice.setPlaces([
-    //       //       ...places.filter((a, i) => indexOfExistCity !== i),
-    //       //       json,
-    //       //     ])
-    //       //   );
-    //       // } else {
-    //       //   dispatch(forecastSlice.setPlaces([...places, json]));
-    //       // }
-    //     }
-    //   }, 2000);
-    // }
+    if (setTimeoutId) {
+      clearTimeout(setTimeoutId);
+    }
+
+    if (event.target.value.length < 2) {
+      return;
+    }
+
+    setTimeoutId = setTimeout(async () => {
+      try {
+        const newPlaceData = await dispatch(fetchPlaceData(event.target.value));
+
+        setPlacesList([getPlaceForecastModel(newPlaceData.payload)]);
+      } catch (e) {
+        console.warn(e);
+      }
+    }, PLACE_FETCH_MS);
   }
 
   function onClick(event, name) {
@@ -115,7 +114,24 @@ export default function Search() {
           </>
         ) : (
           <>
-            <span>Loading...</span>
+            <Sceleton
+              width={"86%"}
+              height={"180px"}
+              borderRadius={"8px"}
+              margin={"14px"}
+            />
+            <Sceleton
+              width={"86%"}
+              height={"180px"}
+              borderRadius={"8px"}
+              margin={"14px"}
+            />
+            <Sceleton
+              width={"86%"}
+              height={"180px"}
+              borderRadius={"8px"}
+              margin={"14px"}
+            />
           </>
         )}
       </section>

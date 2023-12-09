@@ -32,7 +32,6 @@ export default function CityWeather(props) {
       </svg>
       <div className="city-weather__wrapper">
         <div className="city-weather__left-side">
-          {/* ToDo: Заменить теги по семантике (не только здесь, везде) */}
           <div className="city-weather__temperature">{props.temperature}°</div>
           <div className="city-weather__temperature-limits">
             <span>H:{props.maxTemperature}°</span>{" "}

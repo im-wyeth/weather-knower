@@ -10,8 +10,9 @@ export default function getPlaceForecastModel(dataFromAPI) {
   return {
     country: dataFromAPI.location.country,
     name: dataFromAPI.location.name,
-    lat: 0,
-    lon: 0,
+    lat: dataFromAPI.location.lat,
+    lon: dataFromAPI.location.lon,
     forecastOfDays: days,
+    lastUpdatedTime: dataFromAPI.current.last_updated_epoch,
   };
 }

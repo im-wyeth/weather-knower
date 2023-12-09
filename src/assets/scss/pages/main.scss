@@ -1,11 +1,7 @@
 @import "../vars.scss";
 
 .main {
-  min-height: 100vh;
-
   background: url("../../images/night-mountain.png") top/cover;
-
-  overflow: hidden;
 
   &_fullscreen {
     background: none;

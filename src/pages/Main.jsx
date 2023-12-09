@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import "../assets/scss/pages/main.scss";
 import BottomNavigation from "../components/Main/BottomNavigation/BottomNavigation";
 import ForecastDetails from "../components/Main/ForecastDetails/ForecastDetails";

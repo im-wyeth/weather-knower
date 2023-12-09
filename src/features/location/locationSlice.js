@@ -7,27 +7,38 @@ export const locationSlice = createSlice({
       longitude: null,
       latitude: null,
     },
-    coordinatesUpdatedTimeStamp:
-      localStorage.getItem("coordinatesUpdatedTimeStamp") || Date.now(),
-    name: localStorage.getItem("locationName") || "Tokyo",
+    geolocationIsOn: localStorage.getItem("geolocationIsOn") || false,
+    lastCoordinatesUpdatedTimeStamp:
+      localStorage.getItem("lastCoordinatesUpdatedTimeStamp") || 0,
+    name: localStorage.getItem("locationName") || "London",
   },
   reducers: {
-    setCoordinates: (state, coordinates) => {
-      state.coordinates.latitude = coordinates.payload.latitude;
-      state.coordinates.longitude = coordinates.payload.longitude;
+    setCoordinates: (state, action) => {
+      state.coordinates.latitude = action.payload.latitude;
+      state.coordinates.longitude = action.payload.longitude;
 
-      state.coordinatesUpdatedTimeStamp = Date.now();
+      state.lastCoordinatesUpdatedTimeStamp = Date.now();
 
-      localStorage.setItem("coordinates", JSON.stringify(coordinates.payload));
+      localStorage.setItem(
+        "lastCoordinatesUpdatedTimeStamp",
+        state.lastCoordinatesUpdatedTimeStamp
+      );
+      localStorage.setItem("coordinates", JSON.stringify(action.payload));
     },
-    setName: (state, name) => {
-      state.name = name.payload;
+    setGeolocationIsOn: (state, action) => {
+      state.geolocationIsOn = action.payload;
 
-      localStorage.setItem("locationName", name.payload);
+      localStorage.setItem("geolocationIsOn", action.payload);
+    },
+    setName: (state, action) => {
+      state.name = action.payload;
+
+      localStorage.setItem("locationName", action.payload);
     },
   },
 });
 
-export const { setCoordinates, setName } = locationSlice.actions;
+export const { setCoordinates, setGeolocationIsOn, setName } =
+  locationSlice.actions;
 
 export default locationSlice.reducer;
