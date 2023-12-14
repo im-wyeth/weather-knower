@@ -8,6 +8,8 @@ const settingsSlice = createSlice({
   reducers: {
     setLanguage: (state, language) => {
       state.language = language.payload;
+
+      localStorage.setItem("language", language.payload);
     },
   },
 });

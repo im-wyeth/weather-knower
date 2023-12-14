@@ -4,12 +4,11 @@ import BottomNavigationCentralShape from "./CentralShape";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setCoordinates,
-  setGeolocationIsForciblyDisabled,
   setGeolocationIsOn,
   setName,
 } from "../../../features/location/locationSlice";
 import { fetchPlaceData } from "../../../features/forecast/forecastSlice";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import getPlaceForecastModel from "../../../models/getPlaceForecastModel";
 
 const COORDINATES_LIFETIME_IN_MS = 7200000;

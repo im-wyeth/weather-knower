@@ -7,7 +7,8 @@ export const locationSlice = createSlice({
       longitude: null,
       latitude: null,
     },
-    geolocationIsOn: localStorage.getItem("geolocationIsOn") || false,
+    geolocationIsOn:
+      JSON.parse(localStorage.getItem("geolocationIsOn")) || false,
     lastCoordinatesUpdatedTimeStamp:
       localStorage.getItem("lastCoordinatesUpdatedTimeStamp") || 0,
     name: localStorage.getItem("locationName") || "London",

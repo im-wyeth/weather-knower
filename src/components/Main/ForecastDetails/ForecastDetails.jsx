@@ -1,7 +1,6 @@
 import "../../../assets/scss/components/forecast-details.scss";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import moveLineToTarget from "../../../utils/moveLineToTarget";
 import ForecastItem from "./ForecastItem";
 import UVIndex from "./UVIndex";
 import Sunrise from "./Sunrise";
@@ -15,6 +14,7 @@ import { FORECAST_TYPES } from "../../../utils/types";
 import { searchPlaceBuyName } from "../../../features/forecast/forecastSlice";
 import getCurrentDayFromPlace from "../../../utils/getCurrentDayFromPlace";
 import Sceleton from "../../App/Sceleton";
+import HorizontalSelection from "../../App/HorizontalSelection/HorizontalSelection";
 
 const PROPERTY_COMPONENTS = [
   Sunrise,
@@ -27,9 +27,6 @@ const PROPERTY_COMPONENTS = [
 const FULLSCREEN_MODE_ACTIVATION_POINT = 100;
 
 export default function ForecastDetails(props) {
-  const forecastFirstButtonRef = useRef(null);
-  const forecastSecondButtonRef = useRef(null);
-  const movableLineRef = useRef(null);
   const scrollWrapperRef = useRef(null);
   const forecastItemsRef = useRef(null);
 
@@ -44,30 +41,6 @@ export default function ForecastDetails(props) {
     FORECAST_TYPES.HOURLY
   );
   const [draggingStartPoint, setDraggingStartPoint] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    window.addEventListener("resize", onWindowResize);
-
-    moveLineToTarget(movableLineRef.current, forecastFirstButtonRef.current);
-
-    return () => {
-      window.removeEventListener("resize", onWindowResize);
-    };
-  }, []);
-
-  function onWindowResize() {
-    if (currentForecastType === FORECAST_TYPES.HOURLY) {
-      moveLineToTarget(movableLineRef.current, forecastFirstButtonRef.current);
-    } else {
-      moveLineToTarget(movableLineRef.current, forecastSecondButtonRef.current);
-    }
-  }
-
-  function onForecastButtonClick(event, forecastType) {
-    moveLineToTarget(movableLineRef.current, event.target);
-
-    setCurrentForecastType(forecastType);
-  }
 
   function onForecastItemsWheel(event) {
     forecastItemsRef.current.scrollLeft += event.deltaY;
@@ -129,34 +102,25 @@ export default function ForecastDetails(props) {
           onClick={disableFullscreenMode}
           className="forecast-details__drag-button"
         ></button>
-        <button
-          ref={forecastFirstButtonRef}
-          onClick={(event) =>
-            onForecastButtonClick(event, FORECAST_TYPES.HOURLY)
-          }
-          className="forecast-details__forecast-button"
-        >
-          {
-            uiDifferentLanguageData[language].components.main_weather_details
-              .hourly_forecast
-          }
-        </button>
-        <button
-          ref={forecastSecondButtonRef}
-          onClick={(event) =>
-            onForecastButtonClick(event, FORECAST_TYPES.WEEKLY)
-          }
-          className="forecast-details__forecast-button"
-        >
-          {
-            uiDifferentLanguageData[language].components.main_weather_details
-              .weekly_forecast
-          }
-        </button>
-        <div
-          ref={movableLineRef}
-          className="forecast-details__movable-line"
-        ></div>
+
+        <HorizontalSelection
+          selectionClassName={"forecast-details__selection"}
+          lineClassName={"forecast-details__line"}
+          value={currentForecastType}
+          setValue={setCurrentForecastType}
+          selections={[
+            {
+              text: uiDifferentLanguageData[language].components
+                .main_weather_details.hourly_forecast,
+              value: FORECAST_TYPES.HOURLY,
+            },
+            {
+              text: uiDifferentLanguageData[language].components
+                .main_weather_details.weekly_forecast,
+              value: FORECAST_TYPES.WEEKLY,
+            },
+          ]}
+        />
       </div>
 
       <div ref={scrollWrapperRef} className="forecast-details__scroll-wrapper">

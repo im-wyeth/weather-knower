@@ -16,8 +16,8 @@
     },
     "components": {
       "main_weather_details": {
-        "hourly_forecast": "почасовой прогноз",
-        "weekly_forecast": "еженедельный прогноз",
+        "hourly_forecast": "почасовой",
+        "weekly_forecast": "еженедельный",
         "uv_index": "уф индекс",
         "sunrise": "восход",
         "wind": "ветер",
