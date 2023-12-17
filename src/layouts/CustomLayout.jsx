@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "../assets/scss/layouts/custom-layout.scss";
 import { useSelector } from "react-redux";
-import uiDifferentLanguageData from "../assets/json/uiDifferentLanguageData.json";
+import uiLanguageData from "../assets/json/uiLanguageData.json";
 
 export default function CustomLayout(props) {
   const language = useSelector((state) => state.settings.language);
@@ -24,10 +24,7 @@ export default function CustomLayout(props) {
               />
             </svg>
             <span className="custom-layout__cancel-text">
-              {
-                uiDifferentLanguageData[language].layouts.custom_layout
-                  .cancel_text
-              }
+              {uiLanguageData[language].layouts.custom_layout.cancel_text}
             </span>
           </div>
         </Link>

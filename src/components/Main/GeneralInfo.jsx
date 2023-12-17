@@ -1,5 +1,5 @@
 import "../../assets/scss/components/general-info.scss";
-import uiDifferentLanguageData from "../../assets/json/uiDifferentLanguageData.json";
+import uiLanguageData from "../../assets/json/uiLanguageData.json";
 import Sceleton from "../App/Sceleton";
 
 export function GeneralInfo({
@@ -23,11 +23,11 @@ export function GeneralInfo({
         <div className="general-info__condition">{conditionText}</div>
       </div>
       <div className="general-info__temperature-limits">
-        {uiDifferentLanguageData[language].pages.main.max_temperature +
+        {uiLanguageData[language].pages.main.max_temperature +
           ":" +
           maxTemperature +
           "° " +
-          uiDifferentLanguageData[language].pages.main.min_temperature +
+          uiLanguageData[language].pages.main.min_temperature +
           ":" +
           minTemperature +
           "°"}

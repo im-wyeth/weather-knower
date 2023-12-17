@@ -61,3 +61,19 @@
     padding-bottom: 16px;
   }
 }
+
+@media screen and (max-height: 630px) {
+  .forecast-item {
+    height: 100px;
+
+    justify-content: flex-start;
+
+    &__weather-image {
+      margin-top: 8px;
+    }
+
+    &__temperature {
+      display: none;
+    }
+  }
+}

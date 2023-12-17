@@ -9,7 +9,7 @@ import Rainfall from "./Rainfall";
 import FeelsLike from "./FeelsLike";
 import Humidity from "./Humidity";
 import Pressure from "./Pressure";
-import uiDifferentLanguageData from "../../../assets/json/uiDifferentLanguageData.json";
+import uiLanguageData from "../../../assets/json/uiLanguageData.json";
 import { FORECAST_TYPES } from "../../../utils/types";
 import { searchPlaceBuyName } from "../../../features/forecast/forecastSlice";
 import getCurrentDayFromPlace from "../../../utils/getCurrentDayFromPlace";
@@ -61,10 +61,16 @@ export default function ForecastDetails(props) {
 
     if (draggingHeightDifference >= FULLSCREEN_MODE_ACTIVATION_POINT) {
       activateFullscreenMode();
+    } else if (draggingHeightDifference < -62) {
+      disableFullscreenMode();
     }
   }
 
   function activateFullscreenMode() {
+    if (!apiDataIsLoaded) {
+      return;
+    }
+
     props.setMainFullscreenMode(true);
   }
 
@@ -99,7 +105,6 @@ export default function ForecastDetails(props) {
         <button
           onTouchStart={dragButtonOnTouchStart}
           onTouchMove={dragButtonOnTouchMove}
-          onClick={disableFullscreenMode}
           className="forecast-details__drag-button"
         ></button>
 
@@ -110,13 +115,13 @@ export default function ForecastDetails(props) {
           setValue={setCurrentForecastType}
           selections={[
             {
-              text: uiDifferentLanguageData[language].components
-                .main_weather_details.hourly_forecast,
+              text: uiLanguageData[language].components.main_weather_details
+                .hourly_forecast,
               value: FORECAST_TYPES.HOURLY,
             },
             {
-              text: uiDifferentLanguageData[language].components
-                .main_weather_details.weekly_forecast,
+              text: uiLanguageData[language].components.main_weather_details
+                .weekly_forecast,
               value: FORECAST_TYPES.WEEKLY,
             },
           ]}
@@ -161,7 +166,7 @@ export default function ForecastDetails(props) {
             </>
           ) : (
             <div className="forecast-details__forecast-items-sceleton">
-              <Sceleton width={"90%"} height={"146px"} borderRadius={"20px"} />
+              <Sceleton width={"90%"} height={"146px"} borderRadius={"8px"} />
             </div>
           )}
         </div>

@@ -1,5 +1,5 @@
 import "../../../assets/scss/components/pressure.scss";
-import uiDifferentLanguageData from "../../../assets/json/uiDifferentLanguageData.json";
+import uiLanguageData from "../../../assets/json/uiLanguageData.json";
 import { PropertyMin, PropertyMinSceleton } from "./PropertyMin";
 import getCurrentHourFromPlace from "../../../utils/getCurrentHourFromPlace";
 
@@ -25,10 +25,7 @@ export default function Pressure({ apiDataIsLoaded, language, currentPlace }) {
           />
         </svg>
       }
-      name={
-        uiDifferentLanguageData[language].components.main_weather_details
-          .pressure
-      }
+      name={uiLanguageData[language].components.main_weather_details.pressure}
     >
       <div className="pressure">
         <div className="pressure__digits">

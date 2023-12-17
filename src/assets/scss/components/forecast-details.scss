@@ -1,19 +1,19 @@
 @import "../vars.scss";
 
 .forecast-details {
-  width: 100%;
+  width: 100vw;
   max-width: 476px;
 
   background: $color-3-dark;
 
   border-top: 2px solid $color-4-dark;
-  border-radius: 44px 44px 0 0;
+  border-radius: 22px 22px 0 0;
 
   position: fixed;
   top: 100%;
   z-index: $forecast-details-z-index;
 
-  transform: translate3d(0, -317px, 0);
+  transform: translate3d(0, -330px, 0);
 
   will-change: transform;
 
@@ -184,5 +184,23 @@
     filter: blur(10px);
 
     pointer-events: none;
+  }
+}
+
+@media screen and (max-width: 387px) {
+  .forecast-details {
+    &__top-bar {
+      height: 54px;
+    }
+
+    &__selection {
+      font-size: 16px;
+    }
+  }
+}
+
+@media screen and (max-height: 630px) {
+  .forecast-details {
+    transform: translate3d(0, -280px, 0);
   }
 }

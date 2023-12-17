@@ -1,5 +1,5 @@
 import "../../../assets/scss/components/wind.scss";
-import uiDifferentLanguageData from "../../../assets/json/uiDifferentLanguageData.json";
+import uiLanguageData from "../../../assets/json/uiLanguageData.json";
 import { PropertyMin, PropertyMinSceleton } from "./PropertyMin";
 import getCurrentHourFromPlace from "../../../utils/getCurrentHourFromPlace";
 
@@ -39,9 +39,7 @@ export default function Wind({ apiDataIsLoaded, language, currentPlace }) {
           />
         </svg>
       }
-      name={
-        uiDifferentLanguageData[language].components.main_weather_details.wind
-      }
+      name={uiLanguageData[language].components.main_weather_details.wind}
     >
       <div className="wind">
         <div className="wind__compass">

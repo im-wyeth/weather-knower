@@ -49,3 +49,13 @@
     margin-left: 4px;
   }
 }
+
+@media screen and (max-width: 387px) {
+  .property-min {
+    width: 100%;
+
+    &:nth-child(even) {
+      margin-left: auto;
+    }
+  }
+}

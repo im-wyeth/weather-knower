@@ -1,5 +1,5 @@
 import "../../../assets/scss/components/sunrise.scss";
-import uiDifferentLanguageData from "../../../assets/json/uiDifferentLanguageData.json";
+import uiLanguageData from "../../../assets/json/uiLanguageData.json";
 import convertTime12To24 from "../../../utils/convertTime12To24";
 import { PropertyMin, PropertyMinSceleton } from "./PropertyMin";
 import getCurrentDayFromPlace from "../../../utils/getCurrentDayFromPlace";
@@ -21,10 +21,7 @@ export default function Sunrise({ apiDataIsLoaded, language, currentPlace }) {
           />
         </svg>
       }
-      name={
-        uiDifferentLanguageData[language].components.main_weather_details
-          .sunrise
-      }
+      name={uiLanguageData[language].components.main_weather_details.sunrise}
     >
       <div className="sunrise">
         <h2 className="sunrise__time">
@@ -35,8 +32,8 @@ export default function Sunrise({ apiDataIsLoaded, language, currentPlace }) {
               )}
         </h2>
         <span className="sunrise__sunset-time">
-          {uiDifferentLanguageData[language].components
-            .main_weather_details_sunrise.sunset + " "}
+          {uiLanguageData[language].components.main_weather_details_sunrise
+            .sunset + " "}
 
           {language === "en"
             ? getCurrentDayFromPlace(currentPlace).sunsetTime

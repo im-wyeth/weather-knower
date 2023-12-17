@@ -4,7 +4,7 @@ import CityWeather from "../components/Search/CityWeather";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as locationSlice from "../features/location/locationSlice";
-import uiDifferentLanguageData from "../assets/json/uiDifferentLanguageData.json";
+import uiLanguageData from "../assets/json/uiLanguageData.json";
 import getCurrentHourFromPlace from "../utils/getCurrentHourFromPlace";
 import getCurrentDayFromPlace from "../utils/getCurrentDayFromPlace";
 import { fetchPlaceData } from "../features/forecast/forecastSlice";
@@ -81,7 +81,7 @@ export default function Search() {
             onChange={onInputChange}
             type="text"
             placeholder={
-              uiDifferentLanguageData[language].pages.search.search_input_text
+              uiLanguageData[language].pages.search.search_input_text
             }
           />
         </div>
@@ -118,19 +118,19 @@ export default function Search() {
               width={"86%"}
               height={"180px"}
               borderRadius={"8px"}
-              margin={"14px"}
+              margin={"14px auto"}
             />
             <Sceleton
               width={"86%"}
               height={"180px"}
               borderRadius={"8px"}
-              margin={"14px"}
+              margin={"14px auto"}
             />
             <Sceleton
               width={"86%"}
               height={"180px"}
               borderRadius={"8px"}
-              margin={"14px"}
+              margin={"14px auto"}
             />
           </>
         )}

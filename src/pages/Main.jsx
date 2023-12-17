@@ -7,13 +7,11 @@ import { searchPlaceBuyName } from "../features/forecast/forecastSlice";
 import getCurrentDayFromPlace from "../utils/getCurrentDayFromPlace";
 import getCurrentHourFromPlace from "../utils/getCurrentHourFromPlace";
 import HouseImageSrc from "../assets/images/house.png";
-import {
-  GeneralInfo,
-  GeneralInfoSceleton,
-} from "../components/Main/GeneralInfo";
+import uiLanguageData from "../assets/json/uiLanguageData.json";
+import Sceleton from "../components/App/Sceleton";
 
 export default function Main() {
-  const [mainFullscreenMode, setMainFullScreenMode] = useState(false);
+  const [fullscreenMode, setFullscreenMode] = useState(false);
 
   const apiDataIsLoaded = useSelector((state) => state.forecast.dataIsLoaded);
   const language = useSelector((state) => state.settings.language);
@@ -23,25 +21,44 @@ export default function Main() {
   );
 
   return (
-    <main className={"main" + (mainFullscreenMode ? " main_fullscreen" : "")}>
+    <main className={"main" + (fullscreenMode ? " main_fullscreen" : "")}>
       {apiDataIsLoaded ? (
-        <GeneralInfo
-          mainFullscreenMode={mainFullscreenMode}
-          language={language}
-          name={currentPlace.name}
-          conditionText={getCurrentHourFromPlace(currentPlace).conditionText}
-          temperature={Math.floor(
-            getCurrentHourFromPlace(currentPlace).temperature
-          )}
-          maxTemperature={Math.floor(
-            getCurrentDayFromPlace(currentPlace).maxTemperature
-          )}
-          minTemperature={Math.floor(
-            getCurrentDayFromPlace(currentPlace).minTemperature
-          )}
-        />
+        <section className="main__general-info">
+          <div className="main__location-name">{currentPlace.name}</div>
+          <div className="main__fullscreen-wrapper">
+            <div className="main__temperature">
+              {Math.floor(getCurrentHourFromPlace(currentPlace).temperature) +
+                "°"}
+            </div>
+            <div className="main__condition">
+              {getCurrentHourFromPlace(currentPlace).conditionText}
+            </div>
+          </div>
+          <div className="main__temperature-limits">
+            {uiLanguageData[language].pages.main.max_temperature +
+              ":" +
+              Math.floor(getCurrentDayFromPlace(currentPlace).maxTemperature) +
+              "° " +
+              uiLanguageData[language].pages.main.min_temperature +
+              ":" +
+              Math.floor(getCurrentDayFromPlace(currentPlace).minTemperature) +
+              "°"}
+          </div>
+        </section>
       ) : (
-        <GeneralInfoSceleton mainFullscreenMode={mainFullscreenMode} />
+        <section className="main__general-info main__general-info_sceleton">
+          <div className="main__location-name">
+            <Sceleton width={"129px"} height={"41px"} borderRadius={"8px"} />
+          </div>
+          <div className="main__fullscreen-wrapper">
+            <div className="main__temperature">
+              <Sceleton width={"170px"} height={"70px"} borderRadius={"8px"} />
+            </div>
+            <div className="main__condition">
+              <Sceleton width={"115px"} height={"48px"} borderRadius={"8px"} />
+            </div>
+          </div>
+        </section>
       )}
 
       <section className="main__image">
@@ -49,11 +66,11 @@ export default function Main() {
       </section>
 
       <ForecastDetails
-        mainFullscreenMode={mainFullscreenMode}
-        setMainFullscreenMode={setMainFullScreenMode}
+        mainFullscreenMode={fullscreenMode}
+        setMainFullscreenMode={setFullscreenMode}
       />
 
-      <BottomNavigation mainFullscreenMode={mainFullscreenMode} />
+      <BottomNavigation mainFullscreenMode={fullscreenMode} />
     </main>
   );
 }

@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import "../../../assets/scss/components/bottom-navigation.scss";
-import BottomNavigationCentralShape from "./CentralShape";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setCoordinates,
@@ -91,17 +90,15 @@ export default function BottomNavigation({ mainFullscreenMode }) {
             <path d="M17.9609 14.499C17.9609 16.3896 19.2393 17.9688 20.9902 18.4092V25.209C20.9902 28.3779 21.5596 30.1074 21.9893 30.1074C22.4297 30.1074 22.9883 28.3887 22.9883 25.209V18.4092C24.7393 17.9795 26.0283 16.3896 26.0283 14.499C26.0283 12.2754 24.2344 10.4492 21.9893 10.4492C19.7549 10.4492 17.9609 12.2754 17.9609 14.499ZM20.8398 14.7246C20.1094 14.7246 19.4648 14.0801 19.4648 13.3281C19.4648 12.5869 20.1094 11.9531 20.8398 11.9531C21.6025 11.9531 22.2256 12.5869 22.2256 13.3281C22.2256 14.0801 21.6025 14.7246 20.8398 14.7246ZM22 34.0391C28.4775 34.0391 32.1943 31.8047 32.1943 29.4414C32.1943 26.6055 27.6934 24.876 24.7393 24.8438V26.4121C26.8125 26.4443 30.0244 27.5723 30.0244 29.1836C30.0244 31.0312 26.6191 32.3418 22 32.3418C17.3594 32.3418 13.9756 31.0527 13.9756 29.1836C13.9756 27.5723 17.1768 26.4443 19.25 26.4121V24.8438C16.2959 24.876 11.7949 26.6055 11.7949 29.4414C11.7949 31.8047 15.5225 34.0391 22 34.0391Z" />
           </svg>
         </button>
-        <div className="bottom-navigation__center">
-          <BottomNavigationCentralShape />
 
-          <div className="bottom-navigation__central-button-wrapper">
+        <div className="bottom-navigation__central-circle">
+          <div className="bottom-navigation__central-inner">
             <Link to="/search" className="bottom-navigation__central-button">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
                 width="24px"
                 height="24px"
-                fill="none"
+                viewBox="0 0 24 24"
               >
                 <path
                   d="M0.269226 12.1289C0.269226 13.2773 1.19891 14.207 2.34735 14.207H9.93524V21.7949C9.93524 22.9297 10.8513 23.873 11.9997 23.873C13.1481 23.873 14.0778 22.9297 14.0778 21.7949V14.207H21.6657C22.8005 14.207 23.7302 13.2773 23.7302 12.1289C23.7302 10.9941 22.8005 10.0645 21.6657 10.0645H14.0778V2.47656C14.0778 1.3418 13.1481 0.398438 11.9997 0.398438C10.8513 0.398438 9.93524 1.3418 9.93524 2.47656V10.0645H2.34735C1.19891 10.0645 0.269226 10.9941 0.269226 12.1289Z"
@@ -111,6 +108,7 @@ export default function BottomNavigation({ mainFullscreenMode }) {
             </Link>
           </div>
         </div>
+
         <Link to="/settings" className="bottom-navigation__button">
           <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -1,7 +1,7 @@
 import "../../../assets/scss/components/uv-index.scss";
 import getUVLevelWord from "../../../utils/getUVLevelWord";
 import getPercentOfOneNumberFromAnother from "../../../utils/getPercentOfOneNumberFromAnother";
-import uiDifferentLanguageData from "../../../assets/json/uiDifferentLanguageData.json";
+import uiLanguageData from "../../../assets/json/uiLanguageData.json";
 import { PropertyBig, PropertyBigSceleton } from "./PropertyBig";
 import getCurrentHourFromPlace from "../../../utils/getCurrentHourFromPlace";
 
@@ -24,10 +24,7 @@ export default function UVIndex({ apiDataIsLoaded, language, currentPlace }) {
           />
         </svg>
       }
-      name={
-        uiDifferentLanguageData[language].components.main_weather_details
-          .uv_index
-      }
+      name={uiLanguageData[language].components.main_weather_details.uv_index}
     >
       <div className="uv-index">
         <span className="uv-index__quantity">

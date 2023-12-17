@@ -5,6 +5,103 @@
 
   &_fullscreen {
     background: none;
+
+    .main__general-info {
+      padding-top: 70px;
+    }
+
+    .main__temperature-limits {
+      display: none;
+    }
+
+    .main__fullscreen-wrapper {
+      display: flex;
+      justify-content: center;
+
+      transform: translate3d(0, -12px, 0);
+
+      transition: transform ease-out 0.6s;
+    }
+
+    .main__temperature {
+      color: $text-color-1-dark;
+
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 24px;
+      letter-spacing: 0.38px;
+
+      &::after {
+        content: "|";
+
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 24px;
+        letter-spacing: 0.38px;
+
+        margin-left: 2px;
+      }
+    }
+
+    .main__condition {
+      margin-left: 4px;
+    }
+  }
+
+  &__general-info {
+    padding-top: 110px;
+
+    letter-spacing: 0.37px;
+    text-align: center;
+
+    transition: margin-top linear 0.3s;
+
+    &_sceleton {
+      .main__location-name,
+      .main__temperature,
+      .main__condition,
+      .main__temperature-limits {
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+
+  &__location-name {
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 41px;
+  }
+
+  &__fullscreen-wrapper {
+    transform: translate3d(0, 0, 0);
+  }
+
+  &__temperature {
+    font-size: 96px;
+    font-weight: 200;
+    line-height: 70px;
+
+    margin-top: 12px;
+  }
+
+  &__condition {
+    color: $text-color-1-dark;
+
+    margin-top: 12px;
+
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 24px;
+  }
+
+  &__temperature-limits {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 24px;
+    text-transform: capitalize;
   }
 
   &__image {

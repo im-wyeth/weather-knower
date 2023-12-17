@@ -47,6 +47,14 @@ export const fetchPlacesData = createAsyncThunk(
       const resultOfFetch = await fetch(apiAddress.toString());
       const decodedResult = await resultOfFetch.json();
 
+      // const a = new Promise((resolve) => {
+      //   setTimeout(() => {
+      //     resolve();
+      //   }, 100000000);
+      // });
+
+      // await a;
+
       wholeDecodedResult.push(decodedResult);
     }
 

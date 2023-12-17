@@ -1,10 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-export default function Line({
-  className,
-  bottomLineSelectionRef,
-  targetElement,
-}) {
+export default function Line({ className, containerRef, targetElement }) {
   const thisRef = useRef(null);
 
   const [width, setWidth] = useState(0);
@@ -22,17 +18,16 @@ export default function Line({
   });
 
   useEffect(() => {
-    if (!(targetElement instanceof HTMLDivElement)) {
-      return;
-    }
-
     moveThisLineToSelectedElem();
   }, [targetElement]);
 
   function moveThisLineToSelectedElem() {
+    if (!(targetElement instanceof HTMLDivElement)) {
+      return;
+    }
+
     const rectOfTargetElement = targetElement.getBoundingClientRect();
-    const rectOfContainer =
-      bottomLineSelectionRef.current.getBoundingClientRect();
+    const rectOfContainer = containerRef.current.getBoundingClientRect();
 
     const x = rectOfTargetElement.x - rectOfContainer.x;
     const y =

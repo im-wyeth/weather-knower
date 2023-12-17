@@ -47,7 +47,7 @@ export default function HorizontalSelection({
 
       <Line
         className={lineClassName}
-        bottomLineSelectionRef={thisRef}
+        containerRef={thisRef}
         targetElement={selectedElement}
       />
     </div>
