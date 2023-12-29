@@ -116,3 +116,35 @@
     }
   }
 }
+
+@media screen and (max-height: 576px) {
+  .main {
+    &__general-info {
+      padding-top: 50px;
+    }
+  }
+}
+
+@media screen and (max-height: 516px) {
+  .main {
+    &__general-info {
+      padding-top: 30px;
+    }
+  }
+}
+
+@media screen and (max-height: 494px) {
+  .main {
+    &__general-info {
+      padding-top: 10px;
+    }
+  }
+}
+
+@media screen and (max-height: 472px) {
+  .main {
+    &__general-info {
+      padding-top: 0;
+    }
+  }
+}

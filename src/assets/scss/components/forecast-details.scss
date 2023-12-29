@@ -20,7 +20,7 @@
   transition: transform cubic-bezier(0, 0.02, 0.28, 1.19) 0.6s;
 
   &_fullscreen {
-    transform: translate3d(0, calc(-100svh + 140px), 0);
+    transform: translate3d(0, calc(-100svh + 140px), 0) !important;
   }
 
   &__top-bar {
@@ -187,7 +187,7 @@
   }
 }
 
-@media screen and (max-width: 387px) {
+@media screen and (max-width: 392px) {
   .forecast-details {
     &__top-bar {
       height: 54px;

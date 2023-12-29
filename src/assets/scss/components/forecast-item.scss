@@ -30,6 +30,20 @@
     background-color: $color-6-dark;
   }
 
+  &_minimized {
+    height: 100px;
+
+    justify-content: flex-start;
+
+    .forecast-item__weather-image {
+      margin-top: 8px;
+    }
+
+    .forecast-item__temperature {
+      display: none;
+    }
+  }
+
   &:first-child {
     margin-left: 24px;
   }
@@ -59,21 +73,5 @@
     letter-spacing: 0.37px;
 
     padding-bottom: 16px;
-  }
-}
-
-@media screen and (max-height: 630px) {
-  .forecast-item {
-    height: 100px;
-
-    justify-content: flex-start;
-
-    &__weather-image {
-      margin-top: 8px;
-    }
-
-    &__temperature {
-      display: none;
-    }
   }
 }

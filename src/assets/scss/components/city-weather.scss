@@ -7,6 +7,7 @@
   margin: 14px auto;
 
   position: relative;
+  z-index: 1100;
 
   &:hover {
     cursor: pointer;
@@ -106,5 +107,25 @@
     right: -10px;
 
     transition: transform linear 0.3s;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .city-weather {
+    transform: scale(0.94, 0.94);
+
+    &__image {
+      width: 124px;
+      height: 124px;
+    }
+  }
+}
+
+@media screen and (max-width: 330px) {
+  .city-weather {
+    &__image {
+      width: 104px;
+      height: 104px;
+    }
   }
 }

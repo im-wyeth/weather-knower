@@ -25,6 +25,7 @@ const PROPERTY_COMPONENTS = [
   Pressure,
 ];
 const FULLSCREEN_MODE_ACTIVATION_POINT = 100;
+const FULLSCREEN_MODE_DEACTIVATION_POINT = -62;
 
 export default function ForecastDetails(props) {
   const scrollWrapperRef = useRef(null);
@@ -61,7 +62,7 @@ export default function ForecastDetails(props) {
 
     if (draggingHeightDifference >= FULLSCREEN_MODE_ACTIVATION_POINT) {
       activateFullscreenMode();
-    } else if (draggingHeightDifference < -62) {
+    } else if (draggingHeightDifference < -FULLSCREEN_MODE_DEACTIVATION_POINT) {
       disableFullscreenMode();
     }
   }
@@ -141,8 +142,8 @@ export default function ForecastDetails(props) {
                     (hour, idx) => (
                       <ForecastItem
                         key={idx}
-                        apiDataIsLoaded={apiDataIsLoaded}
                         language={language}
+                        mainFullscreenMode={props.mainFullscreenMode}
                         date={hour.time}
                         forecastType={currentForecastType}
                         conditionCode={hour.conditionCode}
@@ -154,8 +155,8 @@ export default function ForecastDetails(props) {
                 : currentPlace.forecastOfDays.map((day, idx) => (
                     <ForecastItem
                       key={idx}
-                      apiDataIsLoaded={apiDataIsLoaded}
                       language={language}
+                      mainFullscreenMode={props.mainFullscreenMode}
                       date={day.date}
                       forecastType={currentForecastType}
                       conditionCode={day.conditionCode}

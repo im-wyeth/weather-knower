@@ -46,24 +46,29 @@ export default function BottomNavigation({ mainFullscreenMode }) {
       return;
     }
 
-    navigator.geolocation.getCurrentPosition(async (position) => {
-      dispatch(
-        setCoordinates({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        })
-      );
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        dispatch(
+          setCoordinates({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          })
+        );
 
-      dispatch(setGeolocationIsOn(true));
+        dispatch(setGeolocationIsOn(true));
 
-      const placeData = await dispatch(
-        fetchPlaceData(
-          `${position.coords.latitude + "," + position.coords.longitude}`
-        )
-      );
+        const placeData = await dispatch(
+          fetchPlaceData(
+            `${position.coords.latitude + "," + position.coords.longitude}`
+          )
+        );
 
-      dispatch(setName(getPlaceForecastModel(placeData.payload).name));
-    });
+        dispatch(setName(getPlaceForecastModel(placeData.payload).name));
+      },
+      (error) => {
+        alert(error.message);
+      }
+    );
   }
 
   return (
