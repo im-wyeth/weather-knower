@@ -11,36 +11,21 @@ $color-7-dark: #5232a8;
 $color-8-dark: #12112b;
 $color-9-dark: #e64396;
 
-$search_input_background_color-1_dark: #2e335a42;
-$search_input_background_color-2_dark: #1c1b3342;
+$radial-gradient-1-dark: radial-gradient(#612fab, #612fab00);
 
-$custom-layout_ellipse-1_background_color-1_dark: #612fab;
-$custom-layout_ellipse-1_background_color-2_dark: #612fab00;
+$linear-gradient-1-dark: linear-gradient(
+  270deg,
+  #ffffff00 10%,
+  #ffffff99 50%,
+  #ffffff00 90%
+);
+$linear-gradient-2-dark: linear-gradient(140deg, #00000066 19%, #ffffff4d 86%);
+$linear-gradient-3-dark: linear-gradient(153deg, #a8adb9 0%, #ffffff 80%);
 
-$forecast-details_movable-line_background_color-1_dark: #ffffff00;
-$forecast-details_movable-line_background_color-2_dark: #ffffff99;
+$box-shadow-1-dark: -4px -4px 16px #828ef7c1, 4px 4px 12px #212549;
 
-// $bottom-navigation_background_color-1_dark: #3a3a6a42;
-// $bottom-navigation_background_color-2_dark: #25244c42;
-$bottom-navigation_central-button-wrapper_background_color-1_dark: #00000066;
-$bottom-navigation_central-button-wrapper_background_color-2_dark: #ffffff4d;
-$bottom-navigation_central-button-wrapper_box-shadow_color-1_dark: #828ef7c1;
-$bottom-navigation_central-button-wrapper_box-shadow_color-2_dark: #212549;
-$bottom-navigation_central-button_background_color-1_dark: #a8adb9;
-$bottom-navigation_central-button_background_color-2_dark: #ffffff;
-
-$bottom-navigation-z-index: 1050;
-
-$forecast-details-z-index: 1000;
-$forecast-details-1-ellipse-z-index: 1010;
-$forecast-details-2-ellipse-z-index: $forecast-details-1-ellipse-z-index;
-$forecast-details-3-ellipse-z-index: $forecast-details-1-ellipse-z-index;
-$forecast-details-forecast-button-z-index: 1060;
-$forecast-details-movable-line-z-index: 1060;
-
-$forecast-item-z-index: 1020;
-
-$forecast-details-default-height: 100%;
-
-$bottom-navigation-height: 88px;
-$bottom-navigation-center-height: 100px;
+$z-index-1: 1000;
+$z-index-2: 1010;
+$z-index-3: 1020;
+$z-index-4: 1050;
+$z-index-5: 1100;

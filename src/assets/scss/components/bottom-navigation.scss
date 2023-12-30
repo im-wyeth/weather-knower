@@ -2,12 +2,12 @@
 
 .bottom-navigation {
   width: 100%;
-  height: $bottom-navigation-height;
+  height: 88px;
   max-width: 476px;
 
   position: fixed;
   bottom: 0;
-  z-index: $bottom-navigation-z-index;
+  z-index: $z-index-4;
 
   will-change: transform;
 
@@ -98,11 +98,7 @@
 
     border-radius: 100%;
 
-    background: linear-gradient(
-      140deg,
-      $bottom-navigation_central-button-wrapper_background_color-1_dark 19%,
-      $bottom-navigation_central-button-wrapper_background_color-2_dark 86%
-    );
+    background: $linear-gradient-2-dark;
 
     position: absolute;
     left: 50%;
@@ -114,9 +110,7 @@
     justify-content: center;
     align-items: center;
 
-    box-shadow: -4px -4px 16px $bottom-navigation_central-button-wrapper_box-shadow_color-1_dark,
-      4px 4px 12px
-        $bottom-navigation_central-button-wrapper_box-shadow_color-2_dark;
+    box-shadow: $box-shadow-1-dark;
   }
 
   &__central-button {
@@ -137,11 +131,7 @@
     &:active {
       border: 3px solid $text-color-2-dark;
 
-      background: linear-gradient(
-        153deg,
-        $bottom-navigation_central-button_background_color-1_dark 0%,
-        $bottom-navigation_central-button_background_color-2_dark 80%
-      );
+      background: $linear-gradient-3-dark;
     }
   }
 }

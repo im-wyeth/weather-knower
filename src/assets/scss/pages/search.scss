@@ -8,18 +8,14 @@
 
   &__top {
     position: relative;
-    z-index: 1050;
+    z-index: $z-index-4;
   }
 
   &__input {
     margin-top: 8px;
 
     color: $text-color-1-dark;
-    background: linear-gradient(
-      168.44deg,
-      $search-input_background_color-1_dark 1%,
-      $search-input_background_color-2_dark 95%
-    );
+    background: linear-gradient(168.44deg, #2e335a42 1%, #1c1b3342 95%);
 
     box-shadow: 0px 4px 4px 0px #00000040 inset;
 

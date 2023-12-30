@@ -11,7 +11,7 @@
 
   position: fixed;
   top: 100%;
-  z-index: $forecast-details-z-index;
+  z-index: $z-index-1;
 
   transform: translate3d(0, -330px, 0);
 
@@ -64,7 +64,7 @@
     cursor: pointer;
 
     position: relative;
-    z-index: $forecast-details-forecast-button-z-index;
+    z-index: $z-index-5;
 
     background: none;
 
@@ -77,19 +77,14 @@
   }
 
   &__line {
-    background: linear-gradient(
-      270deg,
-      $forecast-details_movable-line_background_color-1_dark 10%,
-      $forecast-details_movable-line_background_color-2_dark 50%,
-      $forecast-details_movable-line_background_color-1_dark 90%
-    ) !important;
+    background: $linear-gradient-1-dark !important;
   }
 
   &__scroll-wrapper {
     overflow-y: auto;
 
     position: relative;
-    z-index: 1050;
+    z-index: $z-index-4;
 
     padding-bottom: 18px;
   }
@@ -131,15 +126,9 @@
     position: fixed;
     right: -15px;
     bottom: 70px;
-    z-index: $forecast-details-1-ellipse-z-index;
+    z-index: $z-index-2;
 
-    background: conic-gradient(
-      from 180deg at 50% 50%,
-      $custom-layout_ellipse-1_background_color-2_dark 50deg,
-      $custom-layout_ellipse-1_background_color-1_dark 129deg,
-      $custom-layout_ellipse-1_background_color-2_dark 226deg,
-      $custom-layout_ellipse-1_background_color-1_dark 312deg
-    );
+    background: $radial-gradient-1-dark;
 
     filter: blur(70px);
 
@@ -153,7 +142,7 @@
     position: fixed;
     top: 0;
     left: 50%;
-    z-index: $forecast-details-2-ellipse-z-index;
+    z-index: $z-index-2;
 
     transform: translate(-50%, 0);
 
@@ -173,7 +162,7 @@
     position: fixed;
     top: -4px;
     left: 50%;
-    z-index: $forecast-details-3-ellipse-z-index;
+    z-index: $z-index-2;
 
     background: $text-color-1-dark;
 
