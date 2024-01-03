@@ -20,7 +20,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "gh-pages -d build"
   },
   "jest": {
     "transform": {
@@ -53,7 +54,9 @@
   "devDependencies": {
     "@babel/preset-env": "^7.23.3",
     "babel-jest": "^27.5.1",
+    "gh-pages": "^6.1.1",
     "jest": "^27.5.1",
     "sass": "^1.64.2"
-  }
+  },
+  "homepage": "https://wyeth228.github.io/weather-knower"
 }
