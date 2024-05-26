@@ -15,6 +15,9 @@
 
   padding: 20px;
 
+	position: relative;
+	z-index: $z-index-5;
+	
   &__text {
     font-size: 20px;
     font-weight: 600;

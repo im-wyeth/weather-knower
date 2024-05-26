@@ -50,6 +50,8 @@
     left: -3px;
     z-index: $z-index-1;
 
+		opacity: 0.6;	
+
     pointer-events: none;
 
     border-radius: 352px;
@@ -68,6 +70,8 @@
     left: 122px;
     z-index: $z-index-1;
 
+		opacity: 0.6;	
+	
     pointer-events: none;
 
     border-radius: 365px;
@@ -76,4 +80,18 @@
 
     filter: blur(101px);
   }
+}
+
+@media screen and (min-width: 675px) {
+	.custom-layout {
+		&__ellipse-1 {
+			position: absolute;
+			left: 35%;
+		}
+	
+		&__ellipse-2 {
+			position: absolute;
+			left: 45%;
+		}
+	}	
 }
