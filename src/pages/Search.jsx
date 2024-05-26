@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "../assets/scss/pages/search.scss";
 import CityWeather from "../components/Search/CityWeather";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as locationSlice from "../features/location/locationSlice";
 import uiLanguageData from "../assets/json/uiLanguageData.json";
@@ -17,20 +17,11 @@ export default function Search() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const citiesRef = useRef(null);
-
   const { dataIsLoaded, places } = useSelector((state) => state.forecast);
   const language = useSelector((state) => state.settings.language);
 
   const [placesList, setPlacesList] = useState(places.concat());
   let setTimeoutId = null;
-
-  useEffect(() => {
-    const citiesRect = citiesRef.current.getBoundingClientRect();
-    const height = document.documentElement.clientHeight - citiesRect.top;
-
-    citiesRef.current.style.height = height + "px";
-  }, []);
 
   useEffect(() => {
     if (dataIsLoaded) {
@@ -86,7 +77,7 @@ export default function Search() {
           />
         </div>
       </section>
-      <section ref={citiesRef} className="search__cities">
+      <section className="search__cities">
         {dataIsLoaded ? (
           <>
             {placesList.map((place, idx) => {

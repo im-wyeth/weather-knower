@@ -7,6 +7,8 @@ export default function RouteTransitionWrapper(props) {
   const [transitionStage, setTransitionStage] = useState("fadeIn");
 
   function onAnimationEnd() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
     if (transitionStage === "fadeOut") {
       setTransitionStage("fadeIn");
 

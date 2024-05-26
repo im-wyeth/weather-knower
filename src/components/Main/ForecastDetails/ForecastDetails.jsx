@@ -24,11 +24,8 @@ const PROPERTY_COMPONENTS = [
   Humidity,
   Pressure,
 ];
-const FULLSCREEN_MODE_ACTIVATION_POINT = 100;
-const FULLSCREEN_MODE_DEACTIVATION_POINT = -62;
 
-export default function ForecastDetails(props) {
-  const scrollWrapperRef = useRef(null);
+export default function ForecastDetails() {
   const forecastItemsRef = useRef(null);
 
   const apiDataIsLoaded = useSelector((state) => state.forecast.dataIsLoaded);
@@ -41,74 +38,14 @@ export default function ForecastDetails(props) {
   const [currentForecastType, setCurrentForecastType] = useState(
     FORECAST_TYPES.HOURLY
   );
-  const [draggingStartPoint, setDraggingStartPoint] = useState({ x: 0, y: 0 });
 
   function onForecastItemsWheel(event) {
     forecastItemsRef.current.scrollLeft += event.deltaY;
   }
 
-  function dragButtonOnTouchStart(event) {
-    setDraggingStartPoint({
-      x: event.touches[0].pageX,
-      y: event.touches[0].pageY,
-    });
-  }
-
-  function dragButtonOnTouchMove(event) {
-    const lastPositionAfterDragging = event.touches[0];
-
-    const draggingHeightDifference =
-      draggingStartPoint.y - lastPositionAfterDragging.pageY;
-
-    if (draggingHeightDifference >= FULLSCREEN_MODE_ACTIVATION_POINT) {
-      activateFullscreenMode();
-    } else if (draggingHeightDifference < -FULLSCREEN_MODE_DEACTIVATION_POINT) {
-      disableFullscreenMode();
-    }
-  }
-
-  function activateFullscreenMode() {
-    if (!apiDataIsLoaded) {
-      return;
-    }
-
-    props.setMainFullscreenMode(true);
-  }
-
-  function disableFullscreenMode() {
-    props.setMainFullscreenMode(false);
-
-    scrollWrapperRef.current.style.height = "auto";
-  }
-
-  function activateScrollingForScrollWrapper() {
-    if (!props.mainFullscreenMode) {
-      return;
-    }
-
-    const scrollWrapperRect = scrollWrapperRef.current.getBoundingClientRect();
-
-    const remainingHeightToTheBottom =
-      window.innerHeight - scrollWrapperRect.top;
-
-    scrollWrapperRef.current.style.height = remainingHeightToTheBottom + "px";
-  }
-
   return (
-    <div
-      className={
-        "forecast-details" +
-        (props.mainFullscreenMode ? " forecast-details_fullscreen" : "")
-      }
-      onTransitionEnd={activateScrollingForScrollWrapper}
-    >
+    <div className="forecast-details">
       <div className="forecast-details__top-bar">
-        <button
-          onTouchStart={dragButtonOnTouchStart}
-          onTouchMove={dragButtonOnTouchMove}
-          className="forecast-details__drag-button"
-        ></button>
-
         <HorizontalSelection
           selectionClassName={"forecast-details__selection"}
           lineClassName={"forecast-details__line"}
@@ -129,72 +66,64 @@ export default function ForecastDetails(props) {
         />
       </div>
 
-      <div ref={scrollWrapperRef} className="forecast-details__scroll-wrapper">
-        <div
-          ref={forecastItemsRef}
-          onWheel={onForecastItemsWheel}
-          className="forecast-details__forecast-items"
-        >
-          {apiDataIsLoaded ? (
-            <>
-              {currentForecastType === FORECAST_TYPES.HOURLY
-                ? getCurrentDayFromPlace(currentPlace).forecastOfHours.map(
-                    (hour, idx) => (
-                      <ForecastItem
-                        key={idx}
-                        language={language}
-                        mainFullscreenMode={props.mainFullscreenMode}
-                        date={hour.time}
-                        forecastType={currentForecastType}
-                        conditionCode={hour.conditionCode}
-                        isDay={hour.isDay}
-                        temperature={Math.floor(hour.temperature)}
-                      />
-                    )
-                  )
-                : currentPlace.forecastOfDays.map((day, idx) => (
+      <div
+        ref={forecastItemsRef}
+        onWheel={onForecastItemsWheel}
+        className="forecast-details__forecast-items"
+      >
+        {apiDataIsLoaded ? (
+          <>
+            {currentForecastType === FORECAST_TYPES.HOURLY
+              ? getCurrentDayFromPlace(currentPlace).forecastOfHours.map(
+                  (hour, idx) => (
                     <ForecastItem
                       key={idx}
                       language={language}
-                      mainFullscreenMode={props.mainFullscreenMode}
-                      date={day.date}
+                      date={hour.time}
                       forecastType={currentForecastType}
-                      conditionCode={day.conditionCode}
-                      isDay={true}
-                      temperature={Math.floor(day.avgTemperature)}
+                      conditionCode={hour.conditionCode}
+                      isDay={hour.isDay}
+                      temperature={Math.floor(hour.temperature)}
                     />
-                  ))}
-            </>
-          ) : (
-            <div className="forecast-details__forecast-items-sceleton">
-              <Sceleton width={"90%"} height={"146px"} borderRadius={"8px"} />
-            </div>
-          )}
-        </div>
-
-        <div className="forecast-details__container">
-          <UVIndex
-            apiDataIsLoaded={apiDataIsLoaded}
-            language={language}
-            currentPlace={currentPlace}
-          />
-
-          <div className="forecast-details__container-inner">
-            {PROPERTY_COMPONENTS.map((Component, idx) => (
-              <Component
-                key={idx}
-                apiDataIsLoaded={apiDataIsLoaded}
-                language={language}
-                currentPlace={currentPlace}
-              />
-            ))}
+                  )
+                )
+              : currentPlace.forecastOfDays.map((day, idx) => (
+                  <ForecastItem
+                    key={idx}
+                    language={language}
+                    date={day.date}
+                    forecastType={currentForecastType}
+                    conditionCode={day.conditionCode}
+                    isDay={true}
+                    temperature={Math.floor(day.avgTemperature)}
+                  />
+                ))}
+          </>
+        ) : (
+          <div className="forecast-details__forecast-items-sceleton">
+            <Sceleton width={"90%"} height={"146px"} borderRadius={"8px"} />
           </div>
-        </div>
+        )}
       </div>
 
-      <div className="forecast-details__ellipse-1"></div>
-      <div className="forecast-details__ellipse-2"></div>
-      <div className="forecast-details__ellipse-3"></div>
+      <div className="forecast-details__container">
+        <UVIndex
+          apiDataIsLoaded={apiDataIsLoaded}
+          language={language}
+          currentPlace={currentPlace}
+        />
+
+        <div className="forecast-details__container-inner">
+          {PROPERTY_COMPONENTS.map((Component, idx) => (
+            <Component
+              key={idx}
+              apiDataIsLoaded={apiDataIsLoaded}
+              language={language}
+              currentPlace={currentPlace}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

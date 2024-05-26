@@ -11,7 +11,6 @@ const DATE_LOCALES = {
 
 export default function ForecastItem({
   language,
-  mainFullscreenMode,
   forecastType,
   date,
   temperature,
@@ -23,15 +22,6 @@ export default function ForecastItem({
 
   const [isCurrentHour, setIsCurrentHour] = useState(false);
   const [isCurrentDay, setIsCurrentDay] = useState(false);
-  const [isMinimized, setIsMinimized] = useState(false);
-
-  useEffect(() => {
-    minimizeHandle();
-  }, []);
-
-  useEffect(() => {
-    minimizeHandle();
-  }, [mainFullscreenMode]);
 
   useEffect(() => {
     switch (forecastType) {
@@ -52,24 +42,11 @@ export default function ForecastItem({
     }
   }, [forecastType]);
 
-  function minimizeHandle() {
-    if (mainFullscreenMode) {
-      setIsMinimized(false);
-
-      return;
-    }
-
-    if (document.documentElement.clientHeight < 630) {
-      setIsMinimized(true);
-    }
-  }
-
   return (
     <div
       className={
         "forecast-item" +
-        (isCurrentHour || isCurrentDay ? " forecast-item_current" : "") +
-        (isMinimized ? " forecast-item_minimized" : "")
+        (isCurrentHour || isCurrentDay ? " forecast-item_current" : "")
       }
     >
       <div className="forecast-item__time">

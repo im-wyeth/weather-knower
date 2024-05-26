@@ -23,11 +23,11 @@ body {
   color: $text-color-2-dark;
   background-color: $color-1-dark;
 
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .wrapper {
-  max-width: 476px;
+  max-width: 760px;
 
   margin: 0 auto;
 }

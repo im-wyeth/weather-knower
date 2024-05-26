@@ -2,52 +2,21 @@
 
 .forecast-details {
   width: 100vw;
-  max-width: 476px;
+  max-width: 760px;
+
+  margin-top: 110px;
 
   background: $color-3-dark;
 
   border-top: 2px solid $color-4-dark;
-  border-radius: 22px 22px 0 0;
+  border-radius: 4px 4px 0 0;
 
-  position: fixed;
-  top: 100%;
-  z-index: $z-index-1;
-
-  transform: translate3d(0, -330px, 0);
-
-  will-change: transform;
-
-  transition: transform cubic-bezier(0, 0.02, 0.28, 1.19) 0.6s;
-
-  &_fullscreen {
-    transform: translate3d(0, calc(-100svh + 140px), 0) !important;
-  }
+  padding-bottom: 20px;
 
   &__top-bar {
     height: 47px;
 
     border-bottom: 1px solid $color-4-dark;
-  }
-
-  &__drag-button {
-    width: 48px;
-    height: 7px;
-
-    border-radius: 30px;
-
-    position: absolute;
-    top: 6px;
-    left: 50%;
-
-    transform: translate(-50%, 0);
-
-    background: none;
-    background-color: $color-8-dark;
-
-    border: none;
-    outline: none;
-
-    cursor: pointer;
   }
 
   &__selection {
@@ -80,15 +49,6 @@
     background: $linear-gradient-1-dark !important;
   }
 
-  &__scroll-wrapper {
-    overflow-y: auto;
-
-    position: relative;
-    z-index: $z-index-4;
-
-    padding-bottom: 18px;
-  }
-
   &__forecast-items {
     padding-bottom: 10px;
 
@@ -97,6 +57,7 @@
     white-space: nowrap;
 
     overflow: scroll;
+    overscroll-behavior: contain;
 
     &::-webkit-scrollbar {
       display: none;
@@ -117,62 +78,10 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-  }
 
-  &__ellipse-1 {
-    width: 220px;
-    height: 220px;
+    max-width: 600px;
 
-    position: fixed;
-    right: -15px;
-    bottom: 70px;
-    z-index: $z-index-2;
-
-    background: $radial-gradient-1-dark;
-
-    filter: blur(70px);
-
-    pointer-events: none;
-  }
-
-  &__ellipse-2 {
-    width: 286px;
-    height: 32px;
-
-    position: fixed;
-    top: 0;
-    left: 50%;
-    z-index: $z-index-2;
-
-    transform: translate(-50%, 0);
-
-    border-radius: 286px;
-
-    background: $color-5-dark;
-
-    filter: blur(30px);
-
-    pointer-events: none;
-  }
-
-  &__ellipse-3 {
-    width: 80%;
-    height: 3px;
-
-    position: fixed;
-    top: -4px;
-    left: 50%;
-    z-index: $z-index-2;
-
-    background: $text-color-1-dark;
-
-    transform: translate(-50%, 0);
-
-    border-radius: 286px;
-
-    filter: blur(10px);
-
-    pointer-events: none;
+    margin: 0 auto;
   }
 }
 
@@ -185,11 +94,5 @@
     &__selection {
       font-size: 16px;
     }
-  }
-}
-
-@media screen and (max-height: 630px) {
-  .forecast-details {
-    transform: translate3d(0, -280px, 0);
   }
 }
