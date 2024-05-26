@@ -1,8 +1,7 @@
 {
   "files": {
-    "main.css": "/weather-knower/static/css/main.5289d4d8.css",
-    "main.js": "/weather-knower/static/js/main.79c925b2.js",
-    "static/media/night-mountain.png": "/weather-knower/static/media/night-mountain.cdd62b60dcbdb56870e1.png",
+    "main.css": "/weather-knower/static/css/main.e2c12a89.css",
+    "main.js": "/weather-knower/static/js/main.fb16ca14.js",
     "static/media/SF-Pro-Display-Semibold.otf": "/weather-knower/static/media/SF-Pro-Display-Semibold.037dc63930459813f575.otf",
     "static/media/SF-Pro-Display-Heavy.otf": "/weather-knower/static/media/SF-Pro-Display-Heavy.cfa3bd7b4cd82b11760b.otf",
     "static/media/SF-Pro-Display-Medium.otf": "/weather-knower/static/media/SF-Pro-Display-Medium.b85d841dacb040b84951.otf",
@@ -12,7 +11,7 @@
     "static/media/SF-Pro-Display-Thin.otf": "/weather-knower/static/media/SF-Pro-Display-Thin.118dea390f52cf393735.otf",
     "static/media/SF-Pro-Display-Ultralight.otf": "/weather-knower/static/media/SF-Pro-Display-Ultralight.08684652aee5807a63d9.otf",
     "static/media/SF-Pro-Display-Regular.otf": "/weather-knower/static/media/SF-Pro-Display-Regular.d1f5e6e16dd4f75c3950.otf",
-    "static/media/house.png": "/weather-knower/static/media/house.137ed18c0d2f01b824b1.png",
+    "static/media/night_mountain.jpg": "/weather-knower/static/media/night_mountain.3855c5b2e1de1e044908.jpg",
     "static/media/scattered-showers.svg": "/weather-knower/static/media/scattered-showers.2e1034086eb85547ac0658c271f4d876.svg",
     "static/media/sleet.svg": "/weather-knower/static/media/sleet.6aa35c33bba182abacd9b5f2aaabdba1.svg",
     "static/media/drizzle-moon.svg": "/weather-knower/static/media/drizzle-moon.0e74b1d0ed200a1f3728e6822e64491a.svg",
@@ -33,11 +32,11 @@
     "static/media/sunny.svg": "/weather-knower/static/media/sunny.4ff7de3a10b5efcaa94e5f2dca806cbe.svg",
     "static/media/fog.svg": "/weather-knower/static/media/fog.7affc370448aa2863f5c7888d4702159.svg",
     "index.html": "/weather-knower/index.html",
-    "main.5289d4d8.css.map": "/weather-knower/static/css/main.5289d4d8.css.map",
-    "main.79c925b2.js.map": "/weather-knower/static/js/main.79c925b2.js.map"
+    "main.e2c12a89.css.map": "/weather-knower/static/css/main.e2c12a89.css.map",
+    "main.fb16ca14.js.map": "/weather-knower/static/js/main.fb16ca14.js.map"
   },
   "entrypoints": [
-    "static/css/main.5289d4d8.css",
-    "static/js/main.79c925b2.js"
+    "static/css/main.e2c12a89.css",
+    "static/js/main.fb16ca14.js"
   ]
 }
