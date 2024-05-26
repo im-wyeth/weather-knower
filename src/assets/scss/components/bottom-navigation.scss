@@ -10,7 +10,8 @@
 
   overflow: hidden;
 
-  background-color: $color-4-dark;
+  border-top: 2px solid $color-4-dark;
+  background: linear-gradient(10deg, $color-1-dark, $color-3-dark);
 
   display: flex;
   justify-content: space-between;
